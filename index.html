@@ -4,483 +4,894 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#0f5132">
-<title>REPROGEN SAL COCHO V2.1 — Campo</title>
+<title>REPROGEN CAMPO</title>
 <style>
-:root{--bg:#f4f7f2;--card:#fff;--ink:#1d2b22;--muted:#647067;--green:#0f5132;--green2:#198754;--amber:#ffc107;--red:#dc3545;--blue:#0d6efd;--purple:#6f42c1;--line:#dfe8dd;--shadow:0 8px 22px rgba(22,50,30,.11);--radius:18px}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#eef6ed,#f8faf7);font-family:Arial,Helvetica,sans-serif;color:var(--ink);font-size:16px}
-header{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#0f5132,#16724a);color:#fff;padding:12px 14px;box-shadow:0 4px 16px rgba(0,0,0,.18)}
-header h1{margin:0;font-size:18px}header p{margin:3px 0 0;font-size:11px;opacity:.9}
-.wrap{max-width:980px;margin:0 auto;padding:10px 10px 80px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin-bottom:12px}
-.card h2{font-size:17px;margin:0 0 10px;color:var(--green)}.card h3{font-size:14px;margin:12px 0 6px}
-label{font-weight:700;font-size:12px;color:#26362b;display:block;margin:6px 0 4px}
-input,select,textarea{width:100%;padding:11px;border:1px solid #cfdacf;border-radius:12px;background:#fff;font-size:15px;outline:none;margin-bottom:6px}
-textarea{min-height:60px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:var(--green2);box-shadow:0 0 0 3px rgba(25,135,84,.14)}
-button{border:0;border-radius:12px;padding:12px;font-weight:800;font-size:14px;cursor:pointer;background:#e9f2eb;color:#0d3d27;min-height:46px;margin:3px;display:inline-block}
-button.primary{background:linear-gradient(135deg,#0f5132,#198754);color:#fff}button.blue{background:#cfe2ff;color:#084298}button.warn{background:#fff3cd;color:#664d03}button.danger{background:#f8d7da;color:#842029}
-.btnrow{display:flex;gap:6px;flex-wrap:wrap}.btnrow button{flex:1;min-width:130px}
-/* ✅ FIX V2.1: Tabs sticky sempre visíveis */
-.nav-tabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;position:sticky;top:60px;background:#f4f7f2;z-index:20;padding:6px 0;border-bottom:2px solid var(--line)}
-.nav-tab{padding:8px 12px;cursor:pointer;border:0;background:#e9f2eb;color:#174a31;font-weight:700;font-size:12px;white-space:nowrap;border-radius:999px;min-height:auto}
-.nav-tab.active{background:#0f5132;color:#fff}
-.back-bar{display:flex;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:10px;align-items:center;justify-content:space-between}
-.section-title{font-weight:800;color:var(--green);font-size:13px}
-.btn-back{background:#e9f2eb;color:var(--green);border:0;padding:6px 10px;border-radius:8px;font-weight:700;cursor:pointer;font-size:11px;min-height:auto;margin:0}
-.pill{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:700;margin-right:5px;background:#eef3ef}
-.ok{background:#d1e7dd;color:#0f5132}.pending{background:#fff3cd;color:#664d03}.err{background:#f8d7da;color:#842029}.offline{background:#cfe2ff;color:#084298}.conflict{background:#e2d9f3;color:#3d246b}
-.muted{color:var(--muted);font-size:12px}.big{font-size:24px;font-weight:900}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}@media(max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}}
-.kpi{border:1px solid var(--line);border-radius:12px;padding:8px;background:#fbfdfb;text-align:center}.kpi small{display:block;color:var(--muted);font-weight:700;font-size:10px;margin-bottom:3px}
-.list{display:flex;flex-direction:column;gap:6px}.item{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff;font-size:13px}.item b{display:block;margin-bottom:2px}
-.hide{display:none!important}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0}@media(max-width:560px){.row{grid-template-columns:1fr}}
-.toast{position:fixed;left:10px;right:10px;bottom:76px;background:#173f2b;color:#fff;padding:11px 13px;border-radius:12px;z-index:60;display:none;font-size:13px}.toast.show{display:block}
-.footerbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:6px;z-index:40}.footerbar .btnrow{max-width:980px;margin:0 auto}
-.sep{height:1px;background:var(--line);margin:10px 0}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#999;margin-right:5px}.dot-on{background:var(--green2)}.dot-off{background:var(--blue)}
+/* ── VARIAVEIS ── */
+:root{
+  --g:  #0f5132;
+  --g2: #198754;
+  --g3: #d1e7dd;
+  --r:  #dc3545;
+  --am: #ffc107;
+  --bl: #0d6efd;
+  --ln: #c8dcc9;
+  --bg: #e8f2e9;
+  --card: #ffffff;
+  --ink: #0d1f12;
+  --muted: #4e6b52;
+}
+
+/* ── RESET ── */
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; margin:0; padding:0; }
+html,body{ height:100%; overflow-x:hidden; }
+body{
+  background:var(--bg);
+  font-family: 'Arial', Helvetica, sans-serif;
+  color: var(--ink);
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER ── */
+.header{
+  background: linear-gradient(135deg, #0a3d24, #0f5132);
+  color: #fff;
+  padding: 14px 16px 10px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 3px 10px rgba(0,0,0,.25);
+}
+.header-top{ display:flex; align-items:center; justify-content:space-between; }
+.header h1{ font-size:20px; font-weight:900; letter-spacing:.3px; }
+.header p{ font-size:12px; opacity:.8; margin-top:2px; }
+.header-pills{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+.hpill{
+  display:inline-flex; align-items:center; gap:5px;
+  padding:5px 10px; border-radius:999px;
+  font-size:12px; font-weight:700; background:rgba(255,255,255,.15);
+}
+.hpill.on{ background:rgba(255,255,255,.25); }
+.dot{ width:9px; height:9px; border-radius:50%; background:#999; }
+.dot.on{ background:#4ade80; }
+.dot.off{ background:#60a5fa; }
+
+/* ── CONTEUDO ── */
+.conteudo{
+  padding: 14px 12px 90px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ── CARD ── */
+.card{
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(10,50,20,.12);
+  padding: 18px 16px;
+  margin-bottom: 14px;
+  border: 1.5px solid var(--ln);
+}
+.card-titulo{
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--g);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-titulo .ico{ font-size:22px; }
+
+/* ── LABEL + INPUT ── */
+.campo{ margin-bottom: 14px; }
+.campo label{
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.campo input,
+.campo select,
+.campo textarea{
+  width: 100%;
+  padding: 16px 14px;
+  border: 2px solid var(--ln);
+  border-radius: 14px;
+  background: #f7fbf7;
+  font-size: 17px;
+  color: var(--ink);
+  outline: none;
+  font-weight: 600;
+  /* Altura minima para toque facil */
+  min-height: 58px;
+}
+.campo input:focus,
+.campo select:focus{
+  border-color: var(--g2);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(25,135,84,.15);
+}
+.campo select{ -webkit-appearance:none; appearance:none; }
+.campo textarea{ min-height: 80px; resize:none; line-height:1.5; }
+
+/* ── GRID 2 COLUNAS ── */
+.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+@media(max-width:360px){ .grid2{ grid-template-columns:1fr; } }
+
+/* ── BOTOES ── */
+.btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 64px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  margin-bottom: 10px;
+  letter-spacing: .2px;
+  transition: transform .1s, box-shadow .1s;
+  -webkit-appearance: none;
+}
+.btn:active{ transform:scale(.97); }
+.btn .bico{ font-size:22px; }
+
+.btn-verde{
+  background: linear-gradient(135deg, #0f5132, #198754);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(15,81,50,.3);
+}
+.btn-verde:active{ box-shadow: 0 2px 8px rgba(15,81,50,.2); }
+
+.btn-azul{ background:#dbeafe; color:#1e3a8a; }
+.btn-laranja{ background:#fef3c7; color:#78350f; }
+.btn-cinza{ background:#f0f5f0; color:#2d4a32; }
+.btn-vermelho{ background:#fee2e2; color:#7f1d1d; }
+
+.btn-sm{
+  min-height: 48px;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+/* ── KPIs ── */
+.kpis{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.kpi{
+  background: #fff;
+  border: 2px solid var(--ln);
+  border-radius: 16px;
+  padding: 14px 12px;
+  text-align: center;
+}
+.kpi .num{
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--g);
+  line-height: 1;
+}
+.kpi .label{
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+/* ── STATUS PILLS ── */
+.pill{
+  display:inline-flex; align-items:center; gap:5px;
+  padding:6px 12px; border-radius:999px;
+  font-size:13px; font-weight:800;
+}
+.pill-ok{ background:#d1e7dd; color:#0f5132; }
+.pill-pend{ background:#fef3c7; color:#78350f; }
+.pill-err{ background:#fee2e2; color:#7f1d1d; }
+.pill-sync{ background:#dbeafe; color:#1e3a8a; }
+
+/* ── LISTA DE ITENS ── */
+.lista{ display:flex; flex-direction:column; gap:10px; }
+.item-fila{
+  background:#fff;
+  border:2px solid var(--ln);
+  border-radius:16px;
+  padding:14px;
+}
+.item-fila .itop{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:4px;
+}
+.item-fila .inome{ font-size:16px; font-weight:800; }
+.item-fila .isub{ font-size:12px; color:var(--muted); }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  position:fixed; bottom:0; left:0; right:0; z-index:50;
+  background:#fff;
+  border-top:2px solid var(--ln);
+  display:flex;
+  box-shadow: 0 -3px 14px rgba(0,0,0,.12);
+}
+.bnav-btn{
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:10px 4px 12px;
+  border:0; background:none; cursor:pointer;
+  gap:3px; min-height:64px;
+}
+.bnav-btn .bnico{ font-size:22px; line-height:1; }
+.bnav-btn .bnome{ font-size:11px; font-weight:700; color:#647067; }
+.bnav-btn.active .bnome{ color:var(--g); }
+.bnav-btn.active .bnico{ filter:drop-shadow(0 0 4px rgba(15,81,50,.4)); }
+.bnav-btn.active-bar{ position:relative; }
+.bnav-btn.active-bar::before{
+  content:''; position:absolute; top:0; left:25%; right:25%;
+  height:3px; background:var(--g); border-radius:0 0 3px 3px;
+}
+
+/* ── TOAST ── */
+.toast-box{
+  position:fixed; left:12px; right:12px; bottom:76px; z-index:100;
+  background:#0a3d24; color:#fff;
+  padding:14px 16px; border-radius:16px;
+  font-size:15px; font-weight:700;
+  box-shadow:0 6px 20px rgba(0,0,0,.3);
+  display:none; text-align:center;
+}
+.toast-box.show{ display:block; animation: slideup .25s ease; }
+@keyframes slideup{ from{ transform:translateY(20px); opacity:0; } to{ transform:translateY(0); opacity:1; } }
+
+/* ── CONFIRMACAO SALVO ── */
+.salvo-overlay{
+  position:fixed; inset:0; z-index:200;
+  background:rgba(15,81,50,.92);
+  display:none; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:16px;
+}
+.salvo-overlay.show{ display:flex; animation:fadein .2s ease; }
+@keyframes fadein{ from{opacity:0}to{opacity:1} }
+.salvo-ico{ font-size:70px; }
+.salvo-txt{ color:#fff; font-size:26px; font-weight:900; text-align:center; }
+.salvo-sub{ color:rgba(255,255,255,.8); font-size:15px; text-align:center; }
+
+.sep{ height:1px; background:var(--ln); margin:14px 0; }
+.hide{ display:none!important; }
+.muted{ color:var(--muted); font-size:13px; }
 </style>
 </head>
 <body>
-<header>
-  <h1>REPROGEN SAL COCHO V2.1</h1>
-  <p>Campo • Lote • Categorias • Movimentação</p>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-top">
+    <div>
+      <h1>REPROGEN CAMPO</h1>
+      <p>Registro de Abastecimento</p>
+    </div>
+    <div id="hdSync" style="background:rgba(255,255,255,.15);border-radius:10px;padding:6px 10px;font-size:12px;font-weight:700;color:#fff"></div>
+  </div>
+  <div class="header-pills" id="headerPills"></div>
 </header>
 
-<div class="wrap">
-  
-  <!-- ✅ NAV STICKY -->
-  <nav class="nav-tabs">
-    <button class="nav-tab active" data-tab="home">📊 Painel</button>
-    <button class="nav-tab" data-tab="registrar">📝 Registrar</button>
-    <button class="nav-tab" data-tab="movimentacao">🔄 Movimentação</button>
-    <button class="nav-tab" data-tab="lotes">📋 Lotes</button>
-    <button class="nav-tab" data-tab="pend">⏳ Fila</button>
-    <button class="nav-tab" data-tab="sync">⚙️ Config</button>
-    <button class="nav-tab" data-tab="backup">💾 Backup</button>
-  </nav>
+<!-- CONTEUDO -->
+<div class="conteudo">
 
-  <div class="back-bar">
-    <span class="section-title" id="sectionTitle">📊 Painel</span>
-    <button class="btn-back" onclick="trocarAba('home')">⬅️ Início</button>
-  </div>
+  <!-- PAINEL -->
+  <div id="pgPainel" class="pg">
 
-  <!-- HOME -->
-  <section id="viewHome" class="view card">
-    <h2>Painel Operacional</h2>
-    <div id="netStatus"></div>
-    <div class="kpis" style="margin-top:8px">
-      <div class="kpi"><small>Lotes</small><div class="big" id="kLotes">0</div></div>
-      <div class="kpi"><small>Registros hoje</small><div class="big" id="kHoje">0</div></div>
-      <div class="kpi"><small>Pendentes</small><div class="big" id="kPend">0</div></div>
-      <div class="kpi"><small>Erros</small><div class="big" id="kErr">0</div></div>
+    <div class="kpis">
+      <div class="kpi"><div class="num" id="kHoje">0</div><div class="label">Hoje</div></div>
+      <div class="kpi"><div class="num" id="kPend" style="color:#c45200">0</div><div class="label">Pendentes</div></div>
     </div>
+
+    <button class="btn btn-verde" onclick="ir('registrar')">
+      <span class="bico">📝</span> Registrar Abastecimento
+    </button>
+
+    <button class="btn btn-laranja" onclick="ir('movimentacao')">
+      <span class="bico">🔄</span> Movimentacao de Lote
+    </button>
+
+    <button class="btn btn-azul btn-sm" onclick="sincronizar()">
+      <span class="bico">🔁</span> Sincronizar Agora
+    </button>
+
     <div class="sep"></div>
-    <div class="btnrow">
-      <button class="primary" onclick="trocarAba('registrar')">📝 Registrar</button>
-      <button class="warn" onclick="trocarAba('movimentacao')">🔄 Movimentação</button>
-      <button class="blue" onclick="sincronizarV2()">🔄 Sincronizar</button>
+
+    <div class="card">
+      <div class="card-titulo"><span class="ico">🕐</span>Ultimos Registros</div>
+      <div id="ultimasList" class="lista"></div>
     </div>
-    <p class="muted">Regra: registra primeiro localmente. Sync depois.</p>
-  </section>
+
+  </div>
 
   <!-- REGISTRAR -->
-  <section id="viewRegistrar" class="view card hide">
-    <h2>Registrar Abastecimento</h2>
-    <div class="row">
-      <div><label>Operador</label><input id="regOperador" placeholder="Marcelo"></div>
-      <div><label>Lote</label><select id="regLote"></select></div>
-    </div>
-    <div class="row">
-      <div><label>Produto</label><select id="regProduto"><option value="">Carregando...</option></select></div>
-      <div><label>Quantidade (kg)</label><input id="regQtd" type="number" step="0.1" placeholder="25"></div>
-    </div>
-    <div><label>Observação</label><textarea id="regObs" placeholder="Ex: cocho vazio..."></textarea></div>
-    <div class="btnrow">
-      <button class="blue" onclick="capturarGPS()">📍 GPS</button>
-      <button class="primary" onclick="salvarRegistro()">💾 Salvar Offline</button>
-    </div>
-    <p id="gpsInfo" class="muted">GPS: não capturado</p>
-  </section>
+  <div id="pgRegistrar" class="pg hide">
+    <div class="card">
+      <div class="card-titulo"><span class="ico">📝</span>Novo Abastecimento</div>
 
-  <!-- 🔄 MOVIMENTAÇÃO -->
-  <section id="viewMovimentacao" class="view card hide">
-    <h2>🔄 Movimentação de Lote</h2>
-    <div class="row">
-      <div><label>Lote</label><select id="movLote"></select></div>
-      <div><label>Evento</label><select id="movEvento">
-        <option value="ENTRADA">🟢 ENTRADA (chegada)</option>
-        <option value="TRANSFERENCIA">🟡 TRANSFERÊNCIA (pasto)</option>
-        <option value="SAIDA">🔴 SAÍDA (venda/morte)</option>
-      </select></div>
-    </div>
-    <div><label>Quantidade Total Atual</label><input id="movQtd" type="number" placeholder="100"></div>
-    <h3>Distribuição por Categoria</h3>
-    <p class="muted">A soma deve bater com Quantidade Total</p>
-    <div class="row">
-      <div><label>🐂 Bezerros</label><input id="movBezerro" type="number" placeholder="0"></div>
-      <div><label>🐄 Bezerras</label><input id="movBezerra" type="number" placeholder="0"></div>
-    </div>
-    <div class="row">
-      <div><label>🐃 Novilhos</label><input id="movNovilho" type="number" placeholder="0"></div>
-      <div><label>🐄 Novilhas</label><input id="movNovilha" type="number" placeholder="0"></div>
-    </div>
-    <div class="row">
-      <div><label>Solteiras</label><input id="movSolteira" type="number" placeholder="0"></div>
-      <div><label>Nulíparas</label><input id="movNulipara" type="number" placeholder="0"></div>
-    </div>
-    <div class="row">
-      <div><label>Primíparas</label><input id="movPrimipara" type="number" placeholder="0"></div>
-      <div><label>Multíparas</label><input id="movMultipara" type="number" placeholder="0"></div>
-    </div>
-    <div><label>Observação</label><textarea id="movObs" placeholder="Ex: 5 vendidos, 2 mortes..."></textarea></div>
-    <div class="btnrow">
-      <button class="blue" onclick="capturarGPS()">📍 GPS</button>
-      <button class="primary" onclick="salvarMovimentacao()">💾 Salvar Movimentação</button>
-    </div>
-    <p class="muted" id="movInfo"></p>
-  </section>
+      <div class="campo">
+        <label>Fazenda / Propriedade</label>
+        <input id="rProp" list="lstProps" placeholder="Ex: Fazenda Sao Joao" autocomplete="off" inputmode="text">
+        <datalist id="lstProps"></datalist>
+      </div>
 
-  <!-- LOTES -->
-  <section id="viewLotes" class="view card hide">
-    <h2>📋 Lotes</h2>
-    <div class="btnrow"><button class="blue" onclick="baixarLotes()">⬇️ Baixar da Central</button></div>
-    <div id="listaLotes" class="list" style="margin-top:8px"></div>
-  </section>
+      <div class="campo">
+        <label>Cocho / Ponto</label>
+        <input id="rCocho" list="lstCochos" placeholder="Ex: Cocho Norte" autocomplete="off" inputmode="text">
+        <datalist id="lstCochos"></datalist>
+      </div>
+
+      <div class="campo">
+        <label>Operador (seu nome)</label>
+        <input id="rOper" list="lstOpers" placeholder="Ex: Marcelo" autocomplete="off" inputmode="text">
+        <datalist id="lstOpers"></datalist>
+      </div>
+
+      <div class="grid2">
+        <div class="campo">
+          <label>Produto</label>
+          <input id="rProd" list="lstProds" placeholder="Concentrado..." autocomplete="off">
+          <datalist id="lstProds"></datalist>
+        </div>
+        <div class="campo">
+          <label>Quantidade (kg)</label>
+          <input id="rQtd" type="number" step="0.5" placeholder="25" inputmode="decimal">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Observacao <span class="muted">(opcional)</span></label>
+        <textarea id="rObs" placeholder="Ex: cocho estava vazio, sal fino..."></textarea>
+      </div>
+
+      <button class="btn btn-azul btn-sm" onclick="capturarGPS()" style="margin-bottom:14px">
+        <span class="bico">📍</span> <span id="gpsLabel">Capturar GPS</span>
+      </button>
+
+      <button class="btn btn-verde" onclick="salvarRegistro()">
+        <span class="bico">💾</span> SALVAR OFFLINE
+      </button>
+
+    </div>
+  </div>
+
+  <!-- MOVIMENTACAO -->
+  <div id="pgMovimentacao" class="pg hide">
+    <div class="card">
+      <div class="card-titulo"><span class="ico">🔄</span>Movimentacao de Lote</div>
+
+      <div class="campo">
+        <label>Fazenda / Propriedade</label>
+        <input id="mProp" list="lstProps" placeholder="Ex: Fazenda Sao Joao" autocomplete="off">
+      </div>
+
+      <div class="campo">
+        <label>Identificacao do Lote</label>
+        <input id="mLote" list="lstLotes" placeholder="Ex: LOTE_A" autocomplete="off">
+        <datalist id="lstLotes"></datalist>
+      </div>
+
+      <div class="campo">
+        <label>Tipo de Movimentacao</label>
+        <select id="mEvento">
+          <option value="ENTRADA">🟢 ENTRADA — lote chegou</option>
+          <option value="TRANSFERENCIA">🟡 TRANSFERENCIA — mudou de pasto</option>
+          <option value="SAIDA">🔴 SAIDA — venda ou morte</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Quantidade Total de Animais</label>
+        <input id="mQtd" type="number" placeholder="Ex: 100" inputmode="numeric">
+      </div>
+
+      <div class="sep"></div>
+
+      <div style="background:#f7fbf7;border-radius:14px;padding:14px;border:1.5px solid var(--ln);margin-bottom:14px">
+        <div class="card-titulo" style="font-size:15px;margin-bottom:12px"><span class="ico">🐄</span>Distribuicao por Categoria</div>
+        <p class="muted" style="margin-bottom:12px">A soma deve ser igual ao total de animais</p>
+
+        <div class="grid2">
+          <div class="campo"><label>Bezerros (macho)</label><input id="mBzm" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Bezerras (femea)</label><input id="mBzf" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Novilhos</label><input id="mNvm" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Novilhas</label><input id="mNvf" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Solteiras</label><input id="mSol" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Nulíparas</label><input id="mNul" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Primíparas</label><input id="mPri" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Multíparas</label><input id="mMul" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+        </div>
+
+        <div id="somaCategs" style="background:#e8f2e9;border-radius:10px;padding:10px;text-align:center;font-weight:800;font-size:15px;color:#0f5132">
+          Soma: 0 / Total: 0
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Observacao <span class="muted">(opcional)</span></label>
+        <textarea id="mObs" placeholder="Ex: 5 animais vendidos..."></textarea>
+      </div>
+
+      <button class="btn btn-verde" onclick="salvarMovimentacao()">
+        <span class="bico">💾</span> SALVAR MOVIMENTACAO
+      </button>
+    </div>
+  </div>
 
   <!-- FILA -->
-  <section id="viewPend" class="view card hide">
-    <h2>⏳ Fila de Sincronização</h2>
-    <div class="btnrow">
-      <button class="blue" onclick="sincronizarV2()">🔄 Sincronizar</button>
-      <button class="warn" onclick="limparSincronizados()">🗑️ Ocultar Sincronizados</button>
+  <div id="pgFila" class="pg hide">
+    <div class="card">
+      <div class="card-titulo"><span class="ico">⏳</span>Fila de Envio</div>
+
+      <button class="btn btn-verde btn-sm" onclick="sincronizar()">
+        <span class="bico">🔁</span> Sincronizar Agora
+      </button>
+      <button class="btn btn-cinza btn-sm" onclick="limparSync()">
+        Ocultar Ja Enviados
+      </button>
+
     </div>
-    <div id="listaFila" class="list" style="margin-top:8px"></div>
-  </section>
+    <div id="listaFila" class="lista"></div>
+  </div>
 
   <!-- CONFIG -->
-  <section id="viewSync" class="view card hide">
-    <h2>⚙️ Configuração</h2>
-    <label>URL do Apps Script</label>
-    <input id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec">
-    <div class="btnrow">
-      <button class="primary" onclick="salvarConfig()">💾 Salvar</button>
-      <button class="blue" onclick="testarAPI()">✅ Testar</button>
-    </div>
-    <div class="sep"></div>
-    <h3>Logs</h3>
-    <div id="logSync" class="list"></div>
-  </section>
+  <div id="pgConfig" class="pg hide">
+    <div class="card">
+      <div class="card-titulo"><span class="ico">⚙️</span>Configuracao</div>
 
-  <!-- BACKUP -->
-  <section id="viewBackup" class="view card hide">
-    <h2>💾 Backup</h2>
-    <div class="btnrow">
-      <button class="primary" onclick="exportarJSON()">📤 Exportar JSON</button>
-      <button class="blue" onclick="exportarCSV()">📤 Exportar CSV</button>
-    </div>
-    <div class="sep"></div>
-    <label>Importar Backup JSON</label>
-    <input type="file" id="impFile" accept=".json">
-    <div class="btnrow"><button class="warn" onclick="importarBackup()">🔄 Restaurar</button></div>
-  </section>
-</div>
+      <div class="campo">
+        <label>Endereco do Sistema (URL)</label>
+        <input id="cfgUrl" placeholder="https://script.google.com/..." type="url" autocomplete="off" autocorrect="off" autocapitalize="none">
+      </div>
 
-<div class="footerbar">
-  <div class="btnrow">
-    <button onclick="trocarAba('home')">📊</button>
-    <button class="primary" onclick="trocarAba('registrar')">📝 Registrar</button>
-    <button class="warn" onclick="trocarAba('movimentacao')">🔄 Movim.</button>
-    <button onclick="trocarAba('pend')">⏳ Fila</button>
+      <button class="btn btn-verde btn-sm" onclick="salvarCfg()">
+        <span class="bico">💾</span> Salvar
+      </button>
+      <button class="btn btn-azul btn-sm" onclick="testarCfg()">
+        <span class="bico">🔗</span> Testar Conexao
+      </button>
+      <div id="cfgResult" style="margin-top:8px"></div>
+
+      <div class="sep"></div>
+      <div class="card-titulo" style="font-size:15px"><span class="ico">💾</span>Backup</div>
+      <button class="btn btn-cinza btn-sm" onclick="exportar()">Exportar JSON</button>
+      <div class="campo" style="margin-top:10px">
+        <label>Importar Backup</label>
+        <input type="file" id="impFile" accept=".json" style="padding:10px;font-size:14px">
+      </div>
+      <button class="btn btn-laranja btn-sm" onclick="importar()">Restaurar Backup</button>
+    </div>
   </div>
+
+</div><!-- /conteudo -->
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="bnav-btn active-bar active" data-pg="pgPainel" onclick="ir('painel')">
+    <span class="bnico">🏠</span><span class="bnome">Inicio</span>
+  </button>
+  <button class="bnav-btn" data-pg="pgRegistrar" onclick="ir('registrar')">
+    <span class="bnico">📝</span><span class="bnome">Registrar</span>
+  </button>
+  <button class="bnav-btn" data-pg="pgMovimentacao" onclick="ir('movimentacao')">
+    <span class="bnico">🔄</span><span class="bnome">Movim.</span>
+  </button>
+  <button class="bnav-btn" data-pg="pgFila" onclick="ir('fila')">
+    <span class="bnico">⏳</span><span class="bnome">Fila</span>
+  </button>
+  <button class="bnav-btn" data-pg="pgConfig" onclick="ir('config')">
+    <span class="bnico">⚙️</span><span class="bnome">Config</span>
+  </button>
+</nav>
+
+<!-- OVERLAY SALVO -->
+<div class="salvo-overlay" id="salvoOverlay">
+  <div class="salvo-ico">✅</div>
+  <div class="salvo-txt" id="salvoTxt">SALVO!</div>
+  <div class="salvo-sub" id="salvoSub">Registro salvo offline</div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- TOAST -->
+<div class="toast-box" id="toast"></div>
 
 <script>
 (function(){
 'use strict';
-var DB='reprogen_sal_cocho_v2';
-var state={gps:null};
-var abaAtual='home';
-var TITULOS={home:'📊 Painel',registrar:'📝 Registrar Abastecimento',movimentacao:'🔄 Movimentação de Lote',lotes:'📋 Lotes Ativos',pend:'⏳ Fila de Sincronização',sync:'⚙️ Configuração',backup:'💾 Backup'};
-var CATEGORIAS=['BEZERRO','BEZERRA','NOVILHO','NOVILHA','SOLTEIRA','NULIPARA','PRIMIPARA','MULTIPARA'];
 
-function $(id){return document.getElementById(id)}
-function load(k,d){try{var v=localStorage.getItem(DB+'_'+k);return v?JSON.parse(v):d}catch(e){return d}}
-function save(k,v){localStorage.setItem(DB+'_'+k,JSON.stringify(v))}
-function uuid(){return 'RGSC-'+Date.now()+'-'+Math.random().toString(16).slice(2)}
-function now(){return new Date().toISOString()}
-function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function toast(msg){var t=$('toast');t.innerHTML=msg;t.className='toast show';setTimeout(function(){t.className='toast'},3500)}
-function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+var DB  = 'rg_campo_v31';
+var GPS = null;
 
-function getQueue(){return load('queue',[])}
-function setQueue(q){save('queue',q)}
-function getLotes(){return load('lotes',[])}
-function setLotes(l){save('lotes',l)}
-function getProdutos(){return load('produtos',[])}
-function setProdutos(p){save('produtos',p)}
-function getLogs(){return load('logs',[])}
-function addLog(acao,status,det){var l=load('logs',[]);l.unshift({data:now(),acao:acao,status:status,detalhes:det||''});save('logs',l.slice(0,100))}
+// ── UTILS ─────────────────────────────────────────────────────────────────────
 
-// ✅ FIX V2.1: TROCAR ABA CORRIGIDO
-window.trocarAba=function(nome){
-  var allViews=document.querySelectorAll('.view');
-  for(var i=0;i<allViews.length;i++)allViews[i].classList.add('hide');
-  var target=$('view'+cap(nome));
-  if(target)target.classList.remove('hide');
-  var btns=document.querySelectorAll('.nav-tab');
-  for(var i=0;i<btns.length;i++){
-    btns[i].classList.remove('active');
-    if(btns[i].getAttribute('data-tab')===nome)btns[i].classList.add('active');
+function $(i){ return document.getElementById(i); }
+function load(k,d){ try{ var v=localStorage.getItem(DB+'_'+k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function save(k,v){ localStorage.setItem(DB+'_'+k,JSON.stringify(v)); }
+function uid(){ return 'RGSC-'+Date.now()+'-'+Math.random().toString(16).slice(2,8); }
+function agora(){ return new Date().toISOString(); }
+function hoje(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+function toast(msg){
+  var t=$('toast'); t.textContent=msg; t.className='toast-box show';
+  setTimeout(function(){ t.className='toast-box'; },3000);
+}
+
+function mostrarSalvo(titulo,sub){
+  $('salvoTxt').textContent = titulo||'SALVO!';
+  $('salvoSub').textContent = sub||'Registro salvo offline';
+  $('salvoOverlay').className = 'salvo-overlay show';
+  setTimeout(function(){ $('salvoOverlay').className='salvo-overlay'; ir('painel'); },1800);
+}
+
+// ── STORAGE ───────────────────────────────────────────────────────────────────
+
+function getQueue(){ return load('q',[]); }
+function setQueue(q){ save('q',q); }
+
+function getSug(){ return load('sug',{p:[],c:[],o:[],pr:[],l:[]}); }
+function addSug(tipo,val){
+  if(!val||!val.trim()) return;
+  var s=getSug(), v=val.trim();
+  if(!s[tipo]) s[tipo]=[];
+  if(s[tipo].indexOf(v)===-1){ s[tipo].unshift(v); s[tipo]=s[tipo].slice(0,20); }
+  save('sug',s);
+}
+
+// ── CALCULA SOMA CATEGORIAS ───────────────────────────────────────────────────
+
+function calcularSoma(){
+  var ids=['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul'];
+  var soma=0;
+  ids.forEach(function(id){ soma+=(parseInt($(id).value)||0); });
+  var total=parseInt($('mQtd').value)||0;
+  var el=$('somaCategs');
+  if(soma===total && total>0){
+    el.style.background='#d1e7dd'; el.style.color='#0f5132';
+    el.textContent='Soma: '+soma+' / Total: '+total+' ✓ OK';
+  } else {
+    el.style.background='#fee2e2'; el.style.color='#7f1d1d';
+    el.textContent='Soma: '+soma+' / Total: '+total+(total?(' — falta '+(total-soma)):' — preencha o total');
   }
-  $('sectionTitle').textContent=TITULOS[nome]||nome;
-  abaAtual=nome;
+}
+
+['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul','mQtd'].forEach(function(id){
+  var el=$(id); if(el) el.addEventListener('input', calcularSoma);
+});
+
+// ── NAVEGACAO ─────────────────────────────────────────────────────────────────
+
+var PGTITULOS = {
+  painel:'Inicio',
+  registrar:'Novo Abastecimento',
+  movimentacao:'Movimentacao de Lote',
+  fila:'Fila de Envio',
+  config:'Configuracao'
+};
+
+window.ir = function(nome){
+  document.querySelectorAll('.pg').forEach(function(el){ el.classList.add('hide'); });
+  var alvo = $('pg'+nome.charAt(0).toUpperCase()+nome.slice(1));
+  if(alvo) alvo.classList.remove('hide');
+
+  document.querySelectorAll('.bnav-btn').forEach(function(b){
+    var ativo = b.getAttribute('data-pg') === 'pg'+nome.charAt(0).toUpperCase()+nome.slice(1);
+    b.classList.toggle('active', ativo);
+    b.classList.toggle('active-bar', ativo);
+  });
+
   window.scrollTo({top:0,behavior:'smooth'});
   render();
 };
 
-function bindNav(){
-  var btns=document.querySelectorAll('.nav-tab');
-  for(var i=0;i<btns.length;i++){
-    if(btns[i].dataset.bound)continue;
-    btns[i].dataset.bound='1';
-    btns[i].addEventListener('click',function(){trocarAba(this.getAttribute('data-tab'));});
-  }
-}
+// ── RENDER ────────────────────────────────────────────────────────────────────
 
-if(document.readyState!=='loading')bindNav();
-else document.addEventListener('DOMContentLoaded',bindNav);
-
-// RENDER
 function render(){
-  renderStatus();renderKPIs();renderSelectLotes();renderSelectProdutos();renderLotes();renderFila();renderLogs();
+  renderHeader();
+  renderKPIs();
+  renderDataLists();
+  renderFila();
+  renderUltimas();
 }
 
-function renderStatus(){
-  var on=navigator.onLine,api=load('config',{}).apiUrl||'';
-  $('netStatus').innerHTML='<span class="pill '+(on?'ok':'offline')+'"><span class="dot '+(on?'dot-on':'dot-off')+'"></span>'+(on?'Online':'Offline')+'</span><span class="pill '+(api?'ok':'pending')+'">API '+(api?'OK':'não config.')+'</span>';
+function renderHeader(){
+  var on=navigator.onLine, api=load('config',{}).url||'';
+  var q=getQueue(), pend=q.filter(function(x){return x.st!=='OK';}).length;
+  $('headerPills').innerHTML=
+    '<span class="hpill '+(on?'on':'')+'"><span class="dot '+(on?'on':'off')+'"></span>'+(on?'Online':'Offline')+'</span>'
+    +(api?'<span class="hpill on">Sistema OK</span>':'<span class="hpill">Sem URL</span>');
+  $('hdSync').textContent = pend ? pend+' pendente'+(pend>1?'s':'') : 'Tudo OK';
 }
 
 function renderKPIs(){
-  var lotes=getLotes(),q=getQueue(),t=today(),rh=0,pend=0,er=0;
-  for(var i=0;i<q.length;i++){
-    if((q[i].dataHora||'').slice(0,10)===t)rh++;
-    if(q[i].status!=='SINCRONIZADO')pend++;
-    if(q[i].status==='ERRO'||q[i].status==='CONFLITO')er++;
+  var q=getQueue(),t=hoje(),h=0,p=0;
+  q.forEach(function(x){ if((x.ts||'').slice(0,10)===t)h++; if(x.st!=='OK')p++; });
+  $('kHoje').textContent=h; $('kPend').textContent=p;
+}
+
+function renderDataLists(){
+  var s=getSug();
+  function fill(id,arr){
+    var el=$(id); if(!el) return;
+    el.innerHTML=(arr||[]).map(function(v){ return '<option value="'+esc(v)+'">'; }).join('');
   }
-  $('kLotes').innerHTML=lotes.length;$('kHoje').innerHTML=rh;$('kPend').innerHTML=pend;$('kErr').innerHTML=er;
+  fill('lstProps', s.p); fill('lstCochos',s.c);
+  fill('lstOpers', s.o); fill('lstProds', s.pr);
+  fill('lstLotes', s.l);
 }
-
-function renderSelectLotes(){
-  var lotes=getLotes(),h='<option value="">Selecione...</option>';
-  for(var i=0;i<lotes.length;i++){
-    if(!lotes[i].dataSaida)h+='<option value="'+esc(lotes[i].id)+'">'+esc(lotes[i].id+' ('+lotes[i].qtdTotal+')')+'</option>';
-  }
-  $('regLote').innerHTML=h;$('movLote').innerHTML=h;
-}
-
-function renderSelectProdutos(){
-  var prod=getProdutos(),h='<option value="">Selecione...</option>';
-  for(var i=0;i<prod.length;i++)h+='<option value="'+esc(prod[i].id)+'">'+esc(prod[i].nome)+'</option>';
-  $('regProduto').innerHTML=h;
-}
-
-function renderLotes(){
-  var lotes=getLotes(),h='';
-  if(!lotes.length)h='<div class="item muted">Nenhum lote. Clique em "Baixar da Central".</div>';
-  for(var i=0;i<lotes.length;i++){
-    var l=lotes[i],status=l.dataSaida?'SAÍDO':'ATIVO';
-    h+='<div class="item"><b>'+esc(l.id)+' ('+l.qtdTotal+' animais)</b><span class="pill '+(status==='ATIVO'?'ok':'pending')+'">'+status+'</span><br><span class="muted">Entrada: '+esc(l.dataEntrada||'')+'</span></div>';
-  }
-  $('listaLotes').innerHTML=h;
-}
-
-function cls(st){if(st==='SINCRONIZADO')return'ok';if(st==='ERRO')return'err';if(st==='CONFLITO')return'conflict';if(st==='ENVIANDO')return'offline';return'pending'}
 
 function renderFila(){
-  var q=getQueue(),h='';
-  if(!q.length)h='<div class="item muted">Fila vazia.</div>';
-  for(var i=0;i<q.length;i++){
-    var item=q[i];
-    h+='<div class="item"><b>'+esc(item.tipo)+' • '+item.uuid.substring(0,12)+'...</b><span class="pill '+cls(item.status)+'">'+item.status+'</span><br><span class="muted">'+esc(item.dataHora.substring(0,16))+' • Tent: '+item.tentativas+'</span></div>';
-  }
-  $('listaFila').innerHTML=h;
+  var q=getQueue(), h='';
+  if(!q.length)h='<div style="padding:16px;text-align:center;color:#4e6b52;font-size:15px">Fila vazia. Tudo enviado!</div>';
+  q.forEach(function(x){
+    var cls=x.st==='OK'?'pill-ok':x.st==='ERRO'?'pill-err':x.st==='SEND'?'pill-sync':'pill-pend';
+    h+='<div class="item-fila">'
+      +'<div class="itop"><span class="inome">'+esc(x.tipo)+' &mdash; '+esc(x.prop||'')+'</span>'
+      +'<span class="pill '+cls+'">'+x.st+'</span></div>'
+      +'<div class="isub">'+esc((x.ts||'').slice(0,16))+' &bull; tentativas: '+(x.tent||0)+'</div>'
+      +'</div>';
+  });
+  var el=$('listaFila'); if(el) el.innerHTML=h;
 }
 
-function renderLogs(){
-  var l=getLogs(),h='';
-  for(var i=0;i<Math.min(l.length,20);i++)h+='<div class="item"><b>'+esc(l[i].acao)+' - '+esc(l[i].status)+'</b><span class="muted">'+esc(l[i].data.substring(0,16))+' • '+esc(l[i].detalhes.substring(0,40))+'</span></div>';
-  $('logSync').innerHTML=h||'<div class="item muted">Sem logs.</div>';
+function renderUltimas(){
+  var q=getQueue(),h='',u=q.slice(0,5);
+  if(!u.length)h='<div style="color:#4e6b52;font-size:15px;padding:8px 0">Nenhum registro ainda.</div>';
+  u.forEach(function(x){
+    var cls=x.st==='OK'?'pill-ok':x.st==='ERRO'?'pill-err':'pill-pend';
+    h+='<div class="item-fila">'
+      +'<div class="itop"><span class="inome">'+esc(x.tipo)+(x.prop?' — '+esc(x.prop):'')+'</span>'
+      +'<span class="pill '+cls+'">'+x.st+'</span></div>'
+      +'<div class="isub">'+esc((x.ts||'').slice(0,16))+'</div>'
+      +'</div>';
+  });
+  var el=$('ultimasList'); if(el) el.innerHTML=h;
 }
 
-window.salvarConfig=function(){
-  var cfg=load('config',{});cfg.apiUrl=$('apiUrl').value.trim();save('config',cfg);
-  toast('✅ Salvo');render();
+// ── GPS ───────────────────────────────────────────────────────────────────────
+
+window.capturarGPS = function(){
+  if(!navigator.geolocation){ toast('GPS nao disponivel neste celular.'); return; }
+  $('gpsLabel').textContent = 'Capturando...';
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      GPS={lat:pos.coords.latitude,lng:pos.coords.longitude,acc:pos.coords.accuracy};
+      $('gpsLabel').textContent=GPS.lat.toFixed(5)+', '+GPS.lng.toFixed(5);
+      toast('GPS capturado com sucesso!');
+    },
+    function(e){
+      $('gpsLabel').textContent='Capturar GPS';
+      toast('GPS falhou: '+e.message);
+    },
+    {enableHighAccuracy:true,timeout:12000}
+  );
 };
 
-window.testarAPI=function(){
-  var url=$('apiUrl').value.trim();
-  if(!url){toast('❌ Informe URL.');return;}
-  fetch(url).then(function(r){return r.json();}).then(function(j){toast('✅ '+j.sistema);}).catch(function(e){toast('❌ '+e.message);});
-};
+// ── SALVAR REGISTRO ───────────────────────────────────────────────────────────
 
-window.capturarGPS=function(){
-  if(!navigator.geolocation){toast('GPS indisponível.');return;}
-  navigator.geolocation.getCurrentPosition(function(pos){
-    state.gps={lat:pos.coords.latitude,lng:pos.coords.longitude,acc:pos.coords.accuracy,data:now()};
-    var info='GPS: '+state.gps.lat.toFixed(6)+', '+state.gps.lng.toFixed(6)+' ±'+Math.round(state.gps.acc)+'m';
-    var el=$('gpsInfo');if(el)el.innerHTML=info;
-    var ml=$('movInfo');if(ml)ml.innerHTML=info;
-    toast('✅ GPS OK');
-  },function(e){toast('❌ GPS: '+e.message);},{enableHighAccuracy:true,timeout:10000});
-};
+window.salvarRegistro = function(){
+  var prop  = $('rProp').value.trim();
+  var cocho = $('rCocho').value.trim();
+  var oper  = $('rOper').value.trim();
+  var prod  = $('rProd').value.trim();
+  var qtd   = $('rQtd').value.trim();
 
-window.salvarRegistro=function(){
-  var op=$('regOperador').value.trim(),lote=$('regLote').value,prod=$('regProduto').value,qtd=$('regQtd').value;
-  if(!op||!lote||!prod||!qtd){toast('❌ Preencha todos os campos.');return;}
-  var payload={loteId:lote,operador:op,produtoId:prod,quantidade:qtd,unidade:'kg',gps:state.gps,observacao:$('regObs').value,dispositivo:navigator.userAgent.substring(0,50),origem:'APP_CAMPO'};
-  var item={uuid:uuid(),tipo:'ABASTECIMENTO',dataHora:now(),status:'PENDENTE',tentativas:0,payload:payload};
-  var q=getQueue();q.unshift(item);setQueue(q);
-  addLog('ABASTECIMENTO','PENDENTE',item.uuid);
-  $('regQtd').value='';$('regObs').value='';state.gps=null;$('gpsInfo').innerHTML='GPS: não capturado';
-  toast('✅ Registro offline salvo');render();
-};
+  if(!prop){ toast('Preencha o nome da Fazenda.'); $('rProp').focus(); return; }
+  if(!cocho){ toast('Preencha o Cocho ou Ponto.'); $('rCocho').focus(); return; }
+  if(!oper){ toast('Preencha o nome do Operador.'); $('rOper').focus(); return; }
+  if(!prod){ toast('Preencha o Produto.'); $('rProd').focus(); return; }
+  if(!qtd){ toast('Preencha a Quantidade.'); $('rQtd').focus(); return; }
 
-window.salvarMovimentacao=function(){
-  var lote=$('movLote').value,evento=$('movEvento').value,qtd=$('movQtd').value;
-  if(!lote||!qtd){toast('❌ Preencha lote e quantidade.');return;}
-  var distrib={
-    BEZERRO:parseInt($('movBezerro').value)||0,
-    BEZERRA:parseInt($('movBezerra').value)||0,
-    NOVILHO:parseInt($('movNovilho').value)||0,
-    NOVILHA:parseInt($('movNovilha').value)||0,
-    SOLTEIRA:parseInt($('movSolteira').value)||0,
-    NULIPARA:parseInt($('movNulipara').value)||0,
-    PRIMIPARA:parseInt($('movPrimipara').value)||0,
-    MULTIPARA:parseInt($('movMultipara').value)||0
+  addSug('p',prop); addSug('c',cocho); addSug('o',oper); addSug('pr',prod);
+
+  var item={
+    id:uid(), ts:agora(), tipo:'ABASTECIMENTO', st:'PENDENTE', tent:0,
+    prop:prop, cocho:cocho, oper:oper, prod:prod, qtd:qtd,
+    obs:$('rObs').value.trim(), gps:GPS, novo:true
   };
-  var soma=0;for(var c in distrib)soma+=distrib[c];
-  if(soma!==parseInt(qtd)){toast('❌ Soma categorias ('+soma+') ≠ total ('+qtd+')');return;}
-  
-  var payload={loteId:lote,evento:evento,quantidade:qtd,distribuicao:distrib,gps:state.gps,observacao:$('movObs').value};
-  var item={uuid:uuid(),tipo:'MOVIMENTACAO_LOTE',dataHora:now(),status:'PENDENTE',tentativas:0,payload:payload};
-  var q=getQueue();q.unshift(item);setQueue(q);
-  addLog('MOVIMENTACAO','PENDENTE',item.uuid+' '+evento);
-  $('movQtd').value='';$('movObs').value='';state.gps=null;
-  ['Bezerro','Bezerra','Novilho','Novilha','Solteira','Nulipara','Primipara','Multipara'].forEach(function(c){var el=$('mov'+c);if(el)el.value='';});
-  toast('✅ Movimentação '+evento+' salva offline');render();
+
+  var q=getQueue(); q.unshift(item); setQueue(q);
+
+  // Limpar campos
+  $('rQtd').value=''; $('rObs').value='';
+  GPS=null; $('gpsLabel').textContent='Capturar GPS';
+
+  mostrarSalvo('SALVO!', prop+' / '+cocho+'\n'+qtd+' kg — '+prod);
 };
 
-window.baixarLotes=function(){
-  var cfg=load('config',{});
-  if(!cfg.apiUrl){toast('❌ Configure API.');return;}
-  // Baixa lotes
-  fetch(cfg.apiUrl+'?acao=getLotesAtivos').then(function(r){return r.json();}).then(function(j){
-    if(j.sucesso&&j.lotes){
-      setLotes(j.lotes);
-      addLog('BAIXAR_LOTES','OK',j.lotes.length+' lotes');
-      toast('✅ '+j.lotes.length+' lotes');
-    }
-  }).catch(function(e){toast('❌ '+e.message);addLog('BAIXAR_LOTES','ERRO',e.message);});
-  
-  // Baixa produtos também
-  fetch(cfg.apiUrl+'?acao=getProdutos').then(function(r){return r.json();}).then(function(j){
-    if(j.sucesso&&j.produtos){
-      setProdutos(j.produtos);
-      addLog('BAIXAR_PRODUTOS','OK',j.produtos.length+' produtos');
-    }
-  }).catch(function(e){}).then(function(){render();});
-};
+// ── SALVAR MOVIMENTACAO ───────────────────────────────────────────────────────
 
-window.sincronizarV2=function(){
-  var cfg=load('config',{}),q=getQueue();
-  if(!cfg.apiUrl){toast('❌ API não config.');return;}
-  if(!navigator.onLine){toast('❌ Sem internet.');return;}
-  var pend=[];for(var i=0;i<q.length;i++){if(q[i].status!=='SINCRONIZADO')pend.push(q[i]);}
-  if(!pend.length){toast('Nada pendente.');return;}
-  
-  var lote=pend.slice(0,10);
-  for(i=0;i<q.length;i++){for(var j=0;j<lote.length;j++){if(q[i].uuid===lote[j].uuid){q[i].status='ENVIANDO';q[i].tentativas=(q[i].tentativas||0)+1;}}}
-  setQueue(q);render();
-  
-  var payload={acao:'syncRegistrosComLote',registros:[]};
-  for(var x=0;x<lote.length;x++){
-    var item=lote[x];
-    if(item.tipo==='ABASTECIMENTO'||item.tipo==='MOVIMENTACAO_LOTE'){
-      payload.registros.push({uuid:item.uuid,tipo:item.tipo,dataHora:item.dataHora,payload:item.payload});
-    }
+window.salvarMovimentacao = function(){
+  var prop  = $('mProp').value.trim();
+  var lote  = $('mLote').value.trim();
+  var evento= $('mEvento').value;
+  var qtd   = parseInt($('mQtd').value)||0;
+
+  if(!prop){ toast('Preencha o nome da Fazenda.'); $('mProp').focus(); return; }
+  if(!lote){ toast('Preencha o Lote.'); $('mLote').focus(); return; }
+  if(!qtd){ toast('Preencha a Quantidade de animais.'); $('mQtd').focus(); return; }
+
+  var dist={
+    BEZERRO:parseInt($('mBzm').value)||0, BEZERRA:parseInt($('mBzf').value)||0,
+    NOVILHO:parseInt($('mNvm').value)||0, NOVILHA:parseInt($('mNvf').value)||0,
+    SOLTEIRA:parseInt($('mSol').value)||0, NULIPARA:parseInt($('mNul').value)||0,
+    PRIMIPARA:parseInt($('mPri').value)||0, MULTIPARA:parseInt($('mMul').value)||0
+  };
+
+  var soma=0; for(var c in dist) soma+=dist[c];
+
+  if(soma!==qtd){
+    toast('Soma das categorias ('+soma+') diferente do total ('+qtd+'). Ajuste os numeros.');
+    return;
   }
-  
-  fetch(cfg.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-  .then(function(r){return r.json();}).then(function(resp){
-    if(!resp.acks)throw new Error('ACK ausente');
-    var qq=getQueue();
-    for(var a=0;a<resp.acks.length;a++){
-      for(var b=0;b<qq.length;b++){
-        if(qq[b].uuid===resp.acks[a].uuid){qq[b].status=resp.acks[a].status||'SINCRONIZADO';qq[b].dataSync=resp.acks[a].dataHora||now();}
-      }
+
+  addSug('p',prop); addSug('l',lote);
+
+  var item={
+    id:uid(), ts:agora(), tipo:'MOVIMENTACAO', st:'PENDENTE', tent:0,
+    prop:prop, lote:lote, evento:evento, qtd:qtd, dist:dist,
+    obs:$('mObs').value.trim(), novo:true
+  };
+
+  var q=getQueue(); q.unshift(item); setQueue(q);
+
+  // Limpar
+  $('mQtd').value=''; $('mObs').value='';
+  ['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul'].forEach(function(id){ $(id).value='0'; });
+  calcularSoma();
+
+  mostrarSalvo(evento+' SALVA!', prop+' / Lote: '+lote+'\n'+qtd+' animais');
+};
+
+// ── SINCRONIZAR ───────────────────────────────────────────────────────────────
+
+window.sincronizar = function(){
+  var cfg=load('config',{});
+  if(!cfg.url){ toast('Configure o endereco do sistema primeiro.'); ir('config'); return; }
+  if(!navigator.onLine){ toast('Sem internet. Os dados estao salvos e serao enviados quando conectar.'); return; }
+
+  var q=getQueue(), pend=q.filter(function(x){return x.st!=='OK';});
+  if(!pend.length){ toast('Tudo ja foi enviado!'); return; }
+
+  var lote=pend.slice(0,10);
+  q.forEach(function(x){
+    lote.forEach(function(l){ if(x.id===l.id){ x.st='SEND'; x.tent=(x.tent||0)+1; } });
+  });
+  setQueue(q); render();
+
+  var registros=lote.map(function(x){
+    if(x.tipo==='ABASTECIMENTO'){
+      return { uuid:x.id, tipo:'ABASTECIMENTO', dataHora:x.ts, payload:{
+        propriedade:x.prop, cocho:x.cocho, operador:x.oper,
+        produtoId:x.prod, quantidade:x.qtd, observacao:x.obs||'',
+        gps:x.gps||{}, origem:'CAMPO_V31', novo:x.novo||false
+      }};
+    } else {
+      return { uuid:x.id, tipo:'MOVIMENTACAO_LOTE', dataHora:x.ts, payload:{
+        propriedade:x.prop, loteId:x.lote, evento:x.evento,
+        quantidade:x.qtd, distribuicao:x.dist||{},
+        observacao:x.obs||'', origem:'CAMPO_V31', novo:x.novo||false
+      }};
     }
-    setQueue(qq);addLog('SINCRONIZAR','ACK',resp.acks.length+' confirmações');
-    toast('✅ '+resp.acks.length+' sincronizados');render();
-  }).catch(function(e){
+  });
+
+  fetch(cfg.url,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({acao:'syncRegistrosComLote',registros:registros})
+  })
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    if(!resp||!resp.acks) throw new Error('Resposta invalida do servidor');
     var qq=getQueue();
-    for(var x=0;x<qq.length;x++)if(qq[x].status==='ENVIANDO')qq[x].status='ERRO';
-    setQueue(qq);addLog('SINCRONIZAR','ERRO',e.message);
-    toast('❌ '+e.message);render();
+    resp.acks.forEach(function(ack){
+      qq.forEach(function(x){ if(x.id===ack.uuid) x.st=(ack.status==='SINCRONIZADO'?'OK':ack.status); });
+    });
+    setQueue(qq);
+    toast(resp.acks.length+' registro(s) enviado(s) com sucesso!');
+    render();
+  })
+  .catch(function(e){
+    var qq=getQueue();
+    qq.forEach(function(x){ if(x.st==='SEND') x.st='ERRO'; });
+    setQueue(qq);
+    toast('Falha no envio. Dados salvos e serao reenviados automaticamente.');
+    render();
   });
 };
 
-window.limparSincronizados=function(){
-  var q=getQueue(),n=[];for(var i=0;i<q.length;i++)if(q[i].status!=='SINCRONIZADO')n.push(q[i]);
-  if(confirm('Ocultar '+(q.length-n.length)+' sincronizados?')){setQueue(n);render();}
+window.limparSync = function(){
+  var q=getQueue().filter(function(x){return x.st!=='OK';}); setQueue(q); render();
 };
 
-function download(name,content,type){
-  var blob=new Blob([content],{type:type||'text/plain'});
-  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
-}
+// ── CONFIG ────────────────────────────────────────────────────────────────────
 
-window.exportarJSON=function(){
-  var d={versao:'V2.1',exportadoEm:now(),lotes:getLotes(),queue:getQueue(),produtos:getProdutos(),logs:getLogs()};
-  download('reprogen_campo_'+Date.now()+'.json',JSON.stringify(d,null,2),'application/json');toast('📤 Exportado');
+window.salvarCfg = function(){
+  save('config',{url:$('cfgUrl').value.trim()});
+  toast('Configuracao salva!'); render();
 };
 
-window.exportarCSV=function(){
-  var q=getQueue(),rows=['UUID;TIPO;DATA;LOTE;EVENTO;QTD;PRODUTO;STATUS'];
-  for(var i=0;i<q.length;i++){var p=q[i].payload||{};rows.push([q[i].uuid,q[i].tipo,q[i].dataHora.substring(0,16),p.loteId||'',p.evento||'',p.quantidade||'',p.produtoId||'',q[i].status].join(';'));}
-  download('reprogen_registros_'+Date.now()+'.csv',rows.join('\n'),'text/csv');toast('📤 CSV');
+window.testarCfg = function(){
+  var cfg=load('config',{});
+  if(!cfg.url){ toast('Informe o endereco do sistema primeiro.'); return; }
+  $('cfgResult').innerHTML='<div style="padding:10px;color:#4e6b52">Testando conexao...</div>';
+  fetch(cfg.url)
+    .then(function(r){return r.json();})
+    .then(function(j){
+      $('cfgResult').innerHTML='<div style="padding:12px;background:#d1e7dd;border-radius:12px;font-weight:700;color:#0f5132;font-size:15px">Conectado ao sistema!</div>';
+      toast('Conexao OK!');
+    })
+    .catch(function(e){
+      $('cfgResult').innerHTML='<div style="padding:12px;background:#fee2e2;border-radius:12px;font-weight:700;color:#7f1d1d;font-size:15px">Nao foi possivel conectar.</div>';
+      toast('Falha. Verifique o endereco.');
+    });
 };
 
-window.importarBackup=function(){
-  var f=$('impFile').files[0];if(!f){toast('Selecione arquivo.');return;}
+// ── BACKUP ────────────────────────────────────────────────────────────────────
+
+window.exportar = function(){
+  var d={versao:'V3.1',data:agora(),queue:getQueue(),sugestoes:getSug()};
+  var blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='reprogen_campo_'+Date.now()+'.json'; a.click(); a.remove();
+  toast('Backup exportado!');
+};
+
+window.importar = function(){
+  var f=$('impFile').files[0]; if(!f){toast('Selecione um arquivo.');return;}
   var r=new FileReader();
-  r.onload=function(){try{var d=JSON.parse(r.result);setLotes(d.lotes||[]);setQueue(d.queue||[]);setProdutos(d.produtos||[]);toast('✅ Restaurado');render();}catch(e){toast('❌ '+e.message);}};
+  r.onload=function(){
+    try{
+      var d=JSON.parse(r.result);
+      if(d.queue) setQueue(d.queue);
+      if(d.sugestoes) save('sug',d.sugestoes);
+      toast('Backup restaurado com sucesso!'); render();
+    }catch(e){ toast('Erro ao restaurar: '+e.message); }
+  };
   r.readAsText(f);
 };
 
+// ── EVENTOS ───────────────────────────────────────────────────────────────────
+
 window.addEventListener('online',function(){
-  var q=getQueue(),temPend=false;
-  for(var i=0;i<q.length;i++)if(q[i].status!=='SINCRONIZADO'){temPend=true;break;}
-  if(temPend){toast('Internet voltou. Sincronizando...');sincronizarV2();}
+  var pend=getQueue().some(function(x){return x.st!=='OK';});
+  if(pend){ toast('Conexao recuperada. Enviando dados...'); setTimeout(sincronizar,1500); }
   render();
 });
-window.addEventListener('offline',function(){toast('Modo offline');render();});
+window.addEventListener('offline',function(){
+  toast('Sem internet. Os registros continuam sendo salvos normalmente.');
+  render();
+});
 
-// Polling
+// Polling 30s
 setInterval(function(){
-  if(!navigator.onLine)return;
-  var cfg=load('config',{});if(!cfg.apiUrl)return;
-  var q=getQueue();for(var i=0;i<q.length;i++)if(q[i].status==='PENDENTE'||q[i].status==='ERRO'){sincronizarV2();break;}
+  if(!navigator.onLine) return;
+  var cfg=load('config',{});
+  if(!cfg.url) return;
+  var pend=getQueue().some(function(x){return x.st==='PENDENTE'||x.st==='ERRO';});
+  if(pend) sincronizar();
 },30000);
 
-// Init
-var cfg=load('config',{});if(cfg.apiUrl)$('apiUrl').value=cfg.apiUrl;
-trocarAba('home');
-render();
-setInterval(render,30000);
+// ── INIT ──────────────────────────────────────────────────────────────────────
+
+var cfg=load('config',{}); if(cfg.url) $('cfgUrl').value=cfg.url;
+ir('painel');
+
 })();
 </script>
 </body>
