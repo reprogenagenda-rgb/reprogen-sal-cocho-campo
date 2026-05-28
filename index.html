@@ -82,3 +82,988 @@ body{
 .campo{ margin-bottom:14px; }
 .campo label{
   display:block;font-size:13px;font-weight:800;
+  color:var(--muted);margin-bottom:6px;
+  text-transform:uppercase;letter-spacing:.4px;
+}
+/* iOS: font-size minimo 16px para evitar zoom automatico */
+.campo input,
+.campo select,
+.campo textarea{
+  width:100%;
+  padding:16px 14px;
+  border:2px solid var(--ln);
+  border-radius:14px;
+  background:#f7fbf7;
+  font-size:16px; /* CRITICO iOS: min 16px */
+  font-family:inherit;
+  color:var(--ink);
+  outline:none;
+  font-weight:600;
+  min-height:56px;
+  /* iOS: remove estilo padrão */
+  -webkit-appearance:none;
+  appearance:none;
+}
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus{
+  border-color:var(--g2);background:#fff;
+  box-shadow:0 0 0 4px rgba(25,135,84,.15);
+}
+/* iOS select: adicionar seta */
+.campo select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234e6b52' fill='none' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:36px;
+}
+.campo textarea{
+  min-height:80px;resize:none;line-height:1.5;
+}
+
+/* GRID */
+.grid2{ display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+@media(max-width:360px){ .grid2{ grid-template-columns:1fr; } }
+
+/* BOTOES */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;min-height:64px;padding:14px 16px;
+  border:0;border-radius:16px;
+  font-size:18px;font-weight:900;cursor:pointer;
+  margin-bottom:10px;
+  font-family:inherit;
+  /* iOS: remove estilo padrão */
+  -webkit-appearance:none;
+  transition:opacity .15s;
+}
+.btn:active{ opacity:.85; }
+.btn .bico{ font-size:22px; }
+.btn-verde{
+  background:linear-gradient(135deg,#0f5132,#198754);color:#fff;
+  box-shadow:0 5px 18px rgba(15,81,50,.3);
+}
+.btn-azul{ background:#dbeafe;color:#1e3a8a; }
+.btn-laranja{ background:#fef3c7;color:#78350f; }
+.btn-cinza{ background:#f0f5f0;color:#2d4a32; }
+.btn-roxo{ background:#ede9fe;color:#4c1d95; }
+.btn-sm{ min-height:48px;font-size:15px;padding:10px 14px;border-radius:12px;margin-bottom:8px; }
+
+/* KPIs */
+.kpis{ display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px; }
+.kpi{ background:#fff;border:2px solid var(--ln);border-radius:16px;padding:14px 12px;text-align:center; }
+.kpi .num{ font-size:30px;font-weight:900;color:var(--g);line-height:1; }
+.kpi .lbl{ font-size:12px;font-weight:700;color:var(--muted);margin-top:4px;text-transform:uppercase; }
+
+/* PILLS */
+.pill{ display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:800; }
+.pok{ background:#d1e7dd;color:#0f5132; }
+.ppend{ background:#fef3c7;color:#78350f; }
+.perr{ background:#fee2e2;color:#7f1d1d; }
+.psync{ background:#dbeafe;color:#1e3a8a; }
+.pnota{ background:#ede9fe;color:#4c1d95; }
+
+/* LISTA */
+.lista{ display:flex;flex-direction:column;gap:10px; }
+.item{
+  background:#fff;border:2px solid var(--ln);
+  border-radius:16px;padding:14px;
+}
+.item .itop{ display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px; }
+.item .inome{ font-size:16px;font-weight:800;flex:1; }
+.item .isub{ font-size:12px;color:var(--muted);margin-top:3px; }
+.item .ifoto{ width:60px;height:60px;border-radius:10px;object-fit:cover;margin-top:8px;border:2px solid var(--ln); }
+
+/* NOTA DO COCHO */
+.nota-box{
+  background:#faf5ff;border:2px solid #c4b5fd;
+  border-radius:16px;padding:16px;margin-bottom:14px;
+}
+.nota-titulo{
+  font-size:14px;font-weight:800;color:#4c1d95;
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.foto-preview-wrap{ position:relative;display:inline-block; }
+.foto-preview{
+  width:100%;max-height:220px;object-fit:cover;
+  border-radius:12px;margin-top:8px;display:none;
+  border:2px solid #c4b5fd;
+}
+.foto-preview.show{ display:block; }
+.btn-remover-foto{
+  position:absolute;top:14px;right:8px;
+  background:#7f1d1d;color:#fff;border:0;
+  width:30px;height:30px;border-radius:50%;
+  font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  display:none;
+}
+.btn-remover-foto.show{ display:flex; }
+.foto-status{ font-size:12px;color:#6d28d9;font-weight:700;margin-top:6px; }
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  background:#fff;border-top:2px solid var(--ln);
+  display:flex;
+  /* iOS safe area */
+  padding-bottom:var(--sab);
+  box-shadow:0 -3px 14px rgba(0,0,0,.1);
+}
+.bnbtn{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:10px 4px 10px;
+  border:0;background:none;cursor:pointer;gap:3px;
+  min-height:56px;
+  font-family:inherit;
+  -webkit-appearance:none;
+}
+.bnbtn .bnico{ font-size:22px;line-height:1; }
+.bnbtn .bnome{ font-size:11px;font-weight:700;color:#647067; }
+.bnbtn.active .bnome{ color:var(--g); }
+.bnbtn.active{ position:relative; }
+.bnbtn.active::before{
+  content:'';position:absolute;top:0;left:25%;right:25%;
+  height:3px;background:var(--g);border-radius:0 0 3px 3px;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;left:12px;right:12px;
+  bottom:calc(76px + var(--sab));z-index:100;
+  background:#0a3d24;color:#fff;
+  padding:14px 16px;border-radius:16px;
+  font-size:15px;font-weight:700;
+  box-shadow:0 6px 20px rgba(0,0,0,.3);
+  display:none;text-align:center;
+}
+.toast.show{ display:block;animation:sup .2s ease; }
+@keyframes sup{ from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1} }
+
+/* OVERLAY SALVO */
+.ov-salvo{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(15,81,50,.93);
+  display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:16px;
+  padding:24px;
+}
+.ov-salvo.show{ display:flex;animation:fi .2s ease; }
+@keyframes fi{ from{opacity:0}to{opacity:1} }
+.ov-ico{ font-size:72px; }
+.ov-txt{ color:#fff;font-size:26px;font-weight:900;text-align:center; }
+.ov-sub{ color:rgba(255,255,255,.85);font-size:15px;text-align:center;line-height:1.5; }
+
+.sep{ height:1px;background:var(--ln);margin:14px 0; }
+.hide{ display:none!important; }
+.muted{ color:var(--muted);font-size:13px; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <div>
+      <h1>REPROGEN CAMPO V3.3</h1>
+      <p>Registro de Abastecimento • Fazendas • GPS</p>
+    </div>
+    <div id="hdPend" class="hdpend">OK</div>
+  </div>
+  <div class="hpills" id="hpills"></div>
+</header>
+
+<div class="conteudo">
+
+  <!-- PAINEL -->
+  <div id="pgPainel" class="pg">
+    <div class="kpis">
+      <div class="kpi"><div class="num" id="kHoje">0</div><div class="lbl">Hoje</div></div>
+      <div class="kpi"><div class="num" id="kPend" style="color:#c45200">0</div><div class="lbl">Pendentes</div></div>
+    </div>
+
+    <button class="btn btn-verde" onclick="ir('registrar')">
+      <span class="bico">📝</span> Registrar Abastecimento
+    </button>
+    <button class="btn btn-azul" onclick="ir('fazendas')">
+      <span class="bico">🏡</span> Cadastro de Fazendas
+    </button>
+    <button class="btn btn-roxo" onclick="ir('nota')">
+      <span class="bico">📷</span> Nota do Cocho
+    </button>
+    <button class="btn btn-laranja" onclick="ir('movimentacao')">
+      <span class="bico">🔄</span> Movimentacao de Lote
+    </button>
+    <button class="btn btn-azul btn-sm" onclick="sincronizar()">
+      <span class="bico">🔁</span> Sincronizar Agora
+    </button>
+
+    <div class="sep"></div>
+    <div class="card">
+      <div class="ctitulo"><span class="ico">🕐</span>Ultimos Registros</div>
+      <div id="ultimasList" class="lista"></div>
+    </div>
+  </div>
+
+  <!-- REGISTRAR ABASTECIMENTO -->
+  <div id="pgRegistrar" class="pg hide">
+    <div class="card">
+      <div class="ctitulo"><span class="ico">📝</span>Novo Abastecimento</div>
+
+      <div class="campo">
+        <label>Fazenda / Propriedade</label>
+        <input id="rProp" list="lstProps" placeholder="Ex: Fazenda Sao Joao" autocomplete="off" autocorrect="off" autocapitalize="words">
+        <datalist id="lstProps"></datalist>
+      </div>
+      <div class="campo">
+        <label>Cocho / Ponto</label>
+        <input id="rCocho" list="lstCochos" placeholder="Ex: Cocho Norte" autocomplete="off" autocorrect="off">
+        <datalist id="lstCochos"></datalist>
+      </div>
+      <div class="campo">
+        <label>Operador (seu nome)</label>
+        <input id="rOper" list="lstOpers" placeholder="Ex: Marcelo" autocomplete="off" autocorrect="off">
+        <datalist id="lstOpers"></datalist>
+      </div>
+      <div class="grid2">
+        <div class="campo">
+          <label>Produto</label>
+          <input id="rProd" list="lstProds" placeholder="Concentrado..." autocomplete="off">
+          <datalist id="lstProds"></datalist>
+        </div>
+        <div class="campo">
+          <label>Quantidade (kg)</label>
+          <input id="rQtd" type="number" step="0.5" placeholder="25" inputmode="decimal">
+        </div>
+      </div>
+      <div class="campo">
+        <label>Observacao <span class="muted">(opcional)</span></label>
+        <textarea id="rObs" placeholder="Ex: cocho estava vazio, sal fino..."></textarea>
+      </div>
+
+      <!-- FOTO OPCIONAL -->
+      <div class="nota-box">
+        <div class="nota-titulo">📷 Foto do Cocho <span class="muted" style="font-weight:500">(opcional)</span></div>
+        <button class="btn btn-roxo btn-sm" onclick="abrirCamera('regFoto')">
+          <span class="bico">📸</span> Tirar Foto ou Escolher
+        </button>
+        <input type="file" id="regFotoInput" accept="image/*" capture="environment" style="display:none" onchange="processarFoto(this,'regFoto')">
+        <div class="foto-preview-wrap">
+          <img id="regFotoPreview" class="foto-preview" alt="Preview">
+          <button class="btn-remover-foto" id="regFotoBtnRem" onclick="removerFoto('regFoto')">✕</button>
+        </div>
+        <div id="regFotoStatus" class="foto-status"></div>
+      </div>
+
+      <div id="gpsIndicador" style="background:#f0f5f0;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:13px;color:#4e6b52;display:flex;align-items:center;gap:8px">
+        <span id="gpsIcone">📍</span>
+        <span id="gpsLabel">GPS sera capturado automaticamente ao salvar</span>
+      </div>
+
+      <button class="btn btn-verde" id="btnSalvarReg" onclick="salvarComGPS()">
+        <span class="bico">💾</span> SALVAR
+      </button>
+    </div>
+  </div>
+
+  <!-- NOTA DO COCHO -->
+  <div id="pgNota" class="pg hide">
+    <div class="card">
+      <div class="ctitulo"><span class="ico">📷</span>Nota do Cocho</div>
+      <p class="muted" style="margin-bottom:16px">Registre algo digno de nota: cocho danificado, sal entupido, qualidade ruim, animal doente, problema no pasto...</p>
+
+      <div class="campo">
+        <label>Fazenda / Propriedade</label>
+        <input id="nProp" list="lstProps" placeholder="Ex: Fazenda Sao Joao" autocomplete="off" autocorrect="off" autocapitalize="words">
+      </div>
+      <div class="campo">
+        <label>Cocho / Ponto</label>
+        <input id="nCocho" list="lstCochos" placeholder="Ex: Cocho Norte" autocomplete="off">
+      </div>
+      <div class="campo">
+        <label>Operador (seu nome)</label>
+        <input id="nOper" list="lstOpers" placeholder="Ex: Marcelo" autocomplete="off">
+      </div>
+
+      <!-- FOTO PRINCIPAL DA NOTA -->
+      <div class="nota-box">
+        <div class="nota-titulo">📷 Foto da Situacao</div>
+        <button class="btn btn-roxo btn-sm" onclick="abrirCamera('notaFoto')">
+          <span class="bico">📸</span> Tirar Foto ou Escolher
+        </button>
+        <input type="file" id="notaFotoInput" accept="image/*" capture="environment" style="display:none" onchange="processarFoto(this,'notaFoto')">
+        <div class="foto-preview-wrap" style="width:100%">
+          <img id="notaFotoPreview" class="foto-preview" alt="Preview" style="width:100%">
+          <button class="btn-remover-foto" id="notaFotoBtnRem" onclick="removerFoto('notaFoto')">✕</button>
+        </div>
+        <div id="notaFotoStatus" class="foto-status"></div>
+      </div>
+
+      <div class="campo">
+        <label>Descricao da Situacao</label>
+        <textarea id="nDesc" placeholder="Ex: Cocho com vazamento, sal empedrado, 3 animais com sinais de doenca, cerca rompida ao lado..." style="min-height:100px"></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Urgencia</label>
+        <select id="nUrgencia">
+          <option value="NORMAL">Normal — pode aguardar proxima visita</option>
+          <option value="ATENCAO">Atencao — verificar em breve</option>
+          <option value="URGENTE">Urgente — requer acao rapida</option>
+        </select>
+      </div>
+
+      <button class="btn btn-roxo" onclick="salvarNota()">
+        <span class="bico">📋</span> REGISTRAR NOTA
+      </button>
+    </div>
+  </div>
+
+  <!-- MOVIMENTACAO -->
+  <div id="pgMovimentacao" class="pg hide">
+    <div class="card">
+      <div class="ctitulo"><span class="ico">🔄</span>Movimentacao de Lote</div>
+
+      <div class="campo">
+        <label>Fazenda / Propriedade</label>
+        <input id="mProp" list="lstProps" placeholder="Ex: Fazenda Sao Joao" autocomplete="off" autocorrect="off">
+      </div>
+      <div class="campo">
+        <label>Identificacao do Lote</label>
+        <input id="mLote" list="lstLotes" placeholder="Ex: LOTE_A" autocomplete="off">
+        <datalist id="lstLotes"></datalist>
+      </div>
+      <div class="campo">
+        <label>Tipo de Movimentacao</label>
+        <select id="mEvento">
+          <option value="ENTRADA">🟢 ENTRADA — lote chegou</option>
+          <option value="TRANSFERENCIA">🟡 TRANSFERENCIA — mudou de pasto</option>
+          <option value="SAIDA">🔴 SAIDA — venda ou morte</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>Quantidade Total de Animais</label>
+        <input id="mQtd" type="number" placeholder="Ex: 100" inputmode="numeric">
+      </div>
+
+      <div style="background:#f7fbf7;border-radius:14px;padding:14px;border:1.5px solid var(--ln);margin-bottom:14px">
+        <div class="ctitulo" style="font-size:14px;margin-bottom:12px"><span class="ico">🐄</span>Distribuicao por Categoria</div>
+        <p class="muted" style="margin-bottom:10px">Soma deve ser igual ao total de animais</p>
+        <div class="grid2">
+          <div class="campo"><label>Bezerros</label><input id="mBzm" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Bezerras</label><input id="mBzf" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Novilhos</label><input id="mNvm" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Novilhas</label><input id="mNvf" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Solteiras</label><input id="mSol" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Nulíparas</label><input id="mNul" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Primíparas</label><input id="mPri" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+          <div class="campo"><label>Multíparas</label><input id="mMul" type="number" placeholder="0" inputmode="numeric" value="0"></div>
+        </div>
+        <div id="somaCategs" style="background:#e8f2e9;border-radius:10px;padding:10px;text-align:center;font-weight:800;font-size:15px;color:#0f5132">
+          Soma: 0 / Total: 0
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Observacao</label>
+        <textarea id="mObs" placeholder="Ex: 5 animais vendidos..."></textarea>
+      </div>
+      <button class="btn btn-verde" onclick="salvarMovimentacao()">
+        <span class="bico">💾</span> SALVAR MOVIMENTACAO
+      </button>
+    </div>
+  </div>
+
+  <!-- FAZENDAS -->
+  <div id="pgFazendas" class="pg hide">
+    <div class="card">
+      <div class="ctitulo"><span class="ico">🏡</span>Cadastro Funcional de Fazendas</div>
+      <p class="muted" style="margin-bottom:14px">Cadastre a fazenda uma vez e use o nome nos registros de abastecimento, notas e movimentações. O GPS da sede é opcional.</p>
+
+      <div class="campo">
+        <label>Nome da Fazenda / Propriedade</label>
+        <input id="fNome" placeholder="Ex: Fazenda Sao Joao" autocomplete="off" autocorrect="off" autocapitalize="words">
+      </div>
+      <div class="grid2">
+        <div class="campo"><label>Município</label><input id="fMun" placeholder="Ex: Irituia"></div>
+        <div class="campo"><label>Estado</label><input id="fEst" value="PA" maxlength="2"></div>
+      </div>
+      <div class="grid2">
+        <div class="campo"><label>Responsável</label><input id="fResp" placeholder="Nome do responsável"></div>
+        <div class="campo"><label>Telefone</label><input id="fTel" placeholder="Contato"></div>
+      </div>
+      <div class="grid2">
+        <div class="campo"><label>Latitude da sede</label><input id="fLat" placeholder="Opcional" inputmode="decimal"></div>
+        <div class="campo"><label>Longitude da sede</label><input id="fLng" placeholder="Opcional" inputmode="decimal"></div>
+      </div>
+      <button class="btn btn-azul btn-sm" onclick="capturarGPSFazenda()"><span class="bico">📍</span> Capturar GPS da Fazenda</button>
+      <button class="btn btn-verde" onclick="salvarFazenda()"><span class="bico">💾</span> SALVAR FAZENDA</button>
+    </div>
+
+    <div class="card">
+      <div class="ctitulo"><span class="ico">📋</span>Fazendas Cadastradas</div>
+      <div id="listaFazendas" class="lista"></div>
+    </div>
+  </div>
+
+  <!-- FILA -->
+  <div id="pgFila" class="pg hide">
+    <div class="card">
+      <div class="ctitulo"><span class="ico">⏳</span>Fila de Envio</div>
+      <button class="btn btn-verde btn-sm" onclick="sincronizar()"><span class="bico">🔁</span> Sincronizar Agora</button>
+      <button class="btn btn-cinza btn-sm" onclick="limparSync()">Ocultar Ja Enviados</button>
+    </div>
+    <div id="listaFila" class="lista"></div>
+  </div>
+
+  <!-- CONFIG -->
+  <div id="pgConfig" class="pg hide">
+    <div class="card">
+      <div class="ctitulo"><span class="ico">⚙️</span>Configuracao</div>
+      <div class="campo">
+        <label>Endereco do Sistema (URL)</label>
+        <input id="cfgUrl" placeholder="https://script.google.com/..." type="url" autocorrect="off" autocapitalize="none" spellcheck="false">
+      </div>
+      <button class="btn btn-verde btn-sm" onclick="salvarCfg()"><span class="bico">💾</span> Salvar</button>
+      <button class="btn btn-azul btn-sm" onclick="testarCfg()"><span class="bico">🔗</span> Testar Conexao</button>
+      <div id="cfgResult" style="margin-top:8px"></div>
+      <div class="sep"></div>
+      <div class="ctitulo" style="font-size:15px"><span class="ico">💾</span>Backup</div>
+      <button class="btn btn-cinza btn-sm" onclick="exportar()">Exportar JSON</button>
+      <div class="campo" style="margin-top:10px">
+        <label>Importar Backup</label>
+        <input type="file" id="impFile" accept=".json" style="font-size:15px;padding:10px">
+      </div>
+      <button class="btn btn-laranja btn-sm" onclick="importar()">Restaurar Backup</button>
+    </div>
+  </div>
+
+</div><!-- /conteudo -->
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="bnbtn active" data-pg="pgPainel" onclick="ir('painel')">
+    <span class="bnico">🏠</span><span class="bnome">Inicio</span>
+  </button>
+  <button class="bnbtn" data-pg="pgRegistrar" onclick="ir('registrar')">
+    <span class="bnico">📝</span><span class="bnome">Registrar</span>
+  </button>
+  <button class="bnbtn" data-pg="pgNota" onclick="ir('nota')">
+    <span class="bnico">📷</span><span class="bnome">Nota</span>
+  </button>
+  <button class="bnbtn" data-pg="pgMovimentacao" onclick="ir('movimentacao')">
+    <span class="bnico">🔄</span><span class="bnome">Movim.</span>
+  </button>
+  <button class="bnbtn" data-pg="pgFila" onclick="ir('fila')">
+    <span class="bnico">⏳</span><span class="bnome">Fila</span>
+  </button>
+  <button class="bnbtn" data-pg="pgConfig" onclick="ir('config')">
+    <span class="bnico">⚙️</span><span class="bnome">Config</span>
+  </button>
+</nav>
+
+<!-- OVERLAY SALVO -->
+<div class="ov-salvo" id="ovSalvo">
+  <div class="ov-ico">✅</div>
+  <div class="ov-txt" id="ovTxt">SALVO!</div>
+  <div class="ov-sub" id="ovSub">Registro salvo</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- Canvas para compressão (invisível) -->
+<canvas id="canvasFoto" style="display:none"></canvas>
+
+<script>
+(function(){
+'use strict';
+
+var DB  = 'rg_campo_v32';
+var GPS = null;
+var FOTOS = {}; // {regFoto: base64, notaFoto: base64}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+
+function $(i){ return document.getElementById(i); }
+function load(k,d){ try{ var v=localStorage.getItem(DB+'_'+k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function save(k,v){ localStorage.setItem(DB+'_'+k,JSON.stringify(v)); }
+function uid(){ return 'RGSC-'+Date.now()+'-'+Math.random().toString(16).slice(2,8); }
+function agora(){ return new Date().toISOString(); }
+function hoje(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+function toast(msg){
+  var t=$('toast'); t.textContent=msg; t.className='toast show';
+  setTimeout(function(){ t.className='toast'; },3200);
+}
+
+function mostrarSalvo(titulo,sub){
+  $('ovTxt').textContent=titulo||'SALVO!';
+  $('ovSub').textContent=sub||'Registro salvo offline';
+  $('ovSalvo').className='ov-salvo show';
+  setTimeout(function(){ $('ovSalvo').className='ov-salvo'; ir('painel'); },2000);
+}
+
+function getQueue(){ return load('q',[]); }
+function setQueue(q){ save('q',q); }
+function getSug(){ return load('sug',{p:[],c:[],o:[],pr:[],l:[]}); }
+function addSug(t,v){ if(!v||!v.trim())return; var s=getSug(),val=v.trim(); if(!s[t])s[t]=[]; if(s[t].indexOf(val)===-1){s[t].unshift(val);s[t]=s[t].slice(0,20);} save('sug',s); }
+
+function getFazendas(){ return load('fazendas',[]); }
+function setFazendas(v){ save('fazendas',v); }
+function normNome(v){ return String(v||'').trim().toUpperCase().replace(/\s+/g,' '); }
+function nomesFazendas(){
+  var out=[],seen={};
+  getFazendas().forEach(function(f){ var n=f.nome||''; if(n&&!seen[n]){seen[n]=1;out.push(n);} });
+  (getSug().p||[]).forEach(function(n){ if(n&&!seen[n]){seen[n]=1;out.push(n);} });
+  return out;
+}
+function fazendaPorNome(nome){
+  var nn=normNome(nome),fs=getFazendas();
+  for(var i=0;i<fs.length;i++){ if(normNome(fs[i].nome)===nn)return fs[i]; }
+  return null;
+}
+
+// ── FOTO ──────────────────────────────────────────────────────────────────────
+
+window.abrirCamera = function(chave){
+  var inputId = chave+'Input';
+  var el=$(inputId); if(!el)return;
+  // iOS: resetar input para permitir mesma foto novamente
+  el.value='';
+  el.click();
+};
+
+window.processarFoto = function(inputEl, chave){
+  var file = inputEl.files[0];
+  if(!file) return;
+
+  var statusEl = $(chave+'Status');
+  var previewEl = $(chave+'Preview');
+  var btnRem = $(chave+'BtnRem');
+
+  if(statusEl) statusEl.textContent='Processando foto...';
+
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = new Image();
+    img.onload = function(){
+      try{
+        // Comprimir via Canvas
+        var canvas = $('canvasFoto');
+        var MAX = 900; // px maxima dimensao
+        var w=img.width, h=img.height;
+
+        if(w>h && w>MAX){ h=Math.round(h*(MAX/w)); w=MAX; }
+        else if(h>w && h>MAX){ w=Math.round(w*(MAX/h)); h=MAX; }
+        else if(w>MAX){ w=MAX; h=MAX; }
+
+        canvas.width=w; canvas.height=h;
+        var ctx=canvas.getContext('2d');
+        ctx.drawImage(img,0,0,w,h);
+
+        // JPEG 72% qualidade
+        var b64 = canvas.toDataURL('image/jpeg',0.72);
+        var kb = Math.round(b64.length*0.75/1024);
+
+        FOTOS[chave] = b64;
+
+        if(previewEl){ previewEl.src=b64; previewEl.className='foto-preview show'; }
+        if(btnRem) btnRem.className='btn-remover-foto show';
+        if(statusEl) statusEl.textContent='Foto pronta ('+kb+'KB) — sera enviada com o registro';
+
+      }catch(err){
+        FOTOS[chave]=null;
+        if(statusEl) statusEl.textContent='Nao foi possivel processar. Registro sera salvo sem foto.';
+      }
+    };
+    img.onerror = function(){
+      FOTOS[chave]=null;
+      if(statusEl) statusEl.textContent='Erro ao carregar imagem.';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+window.removerFoto = function(chave){
+  FOTOS[chave]=null;
+  var prev=$(chave+'Preview'), btn=$(chave+'BtnRem'), st=$(chave+'Status');
+  if(prev){ prev.src=''; prev.className='foto-preview'; }
+  if(btn) btn.className='btn-remover-foto';
+  if(st) st.textContent='';
+  // Resetar input
+  var inp=$(chave+'Input'); if(inp) inp.value='';
+};
+
+// ── NAVEGACAO ─────────────────────────────────────────────────────────────────
+
+var TITS={ painel:'Inicio',registrar:'Novo Abastecimento',nota:'Nota do Cocho',movimentacao:'Movimentacao de Lote',fila:'Fila de Envio',config:'Configuracao' };
+
+window.ir = function(nome){
+  document.querySelectorAll('.pg').forEach(function(el){ el.classList.add('hide'); });
+  var alvo=$('pg'+nome.charAt(0).toUpperCase()+nome.slice(1));
+  if(alvo) alvo.classList.remove('hide');
+  document.querySelectorAll('.bnbtn').forEach(function(b){
+    var ativo=b.getAttribute('data-pg')==='pg'+nome.charAt(0).toUpperCase()+nome.slice(1);
+    b.classList.toggle('active',ativo);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  render();
+};
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+
+function render(){
+  renderHeader();
+  renderKPIs();
+  renderDataLists();
+  renderFila();
+  renderUltimas();
+  renderFazendas();
+}
+
+function renderHeader(){
+  var on=navigator.onLine,api=load('config',{}).url||'',pend=getQueue().filter(function(x){return x.st!=='OK';}).length;
+  $('hpills').innerHTML='<span class="hpill '+(on?'on':'')+'"><span class="dot '+(on?'dot-on':'dot-off')+'"></span>'+(on?'Online':'Offline')+'</span>'+(api?'<span class="hpill on">Sistema OK</span>':'<span class="hpill">Sem URL</span>');
+  $('hdPend').textContent=pend?pend+' pend.':'Tudo OK';
+}
+
+function renderKPIs(){
+  var q=getQueue(),t=hoje(),h=0,p=0;
+  q.forEach(function(x){ if((x.ts||'').slice(0,10)===t)h++; if(x.st!=='OK')p++; });
+  $('kHoje').textContent=h; $('kPend').textContent=p;
+}
+
+function renderDataLists(){
+  var s=getSug();
+  function fill(id,arr){ var el=$(id);if(!el)return; el.innerHTML=(arr||[]).map(function(v){return'<option value="'+esc(v)+'">'; }).join(''); }
+  fill('lstProps',nomesFazendas()); fill('lstCochos',s.c); fill('lstOpers',s.o); fill('lstProds',s.pr); fill('lstLotes',s.l);
+}
+
+function renderFila(){
+  var q=getQueue(),h='';
+  if(!q.length)h='<div style="padding:16px;text-align:center;color:var(--muted)">Fila vazia. Tudo enviado!</div>';
+  q.forEach(function(x){
+    var cls=x.st==='OK'?'pok':x.st==='ERRO'?'perr':x.st==='SEND'?'psync':'ppend';
+    var temFoto=x.temFoto?'<span class="pill pnota" style="margin-left:6px">📷 Foto</span>':'';
+    h+='<div class="item"><div class="itop"><span class="inome">'+esc(x.tipo)+(x.prop?' &mdash; '+esc(x.prop):'')+'</span>'
+      +'<span class="pill '+cls+'">'+x.st+'</span></div>'
+      +temFoto
+      +'<div class="isub">'+esc((x.ts||'').slice(0,16))+' &bull; tent: '+(x.tent||0)+'</div>'
+      +'</div>';
+  });
+  var el=$('listaFila'); if(el) el.innerHTML=h;
+}
+
+function renderUltimas(){
+  var q=getQueue(),h='',u=q.slice(0,6);
+  if(!u.length)h='<div style="color:var(--muted);font-size:14px;padding:8px 0">Nenhum registro ainda.</div>';
+  u.forEach(function(x){
+    var cls=x.st==='OK'?'pok':x.st==='ERRO'?'perr':'ppend';
+    h+='<div class="item"><div class="itop"><span class="inome">'+esc(x.tipo)+(x.prop?' &mdash; '+esc(x.prop):'')+'</span>'
+      +'<span class="pill '+cls+'">'+x.st+'</span></div>'
+      +'<div class="isub">'+esc((x.ts||'').slice(0,16))+'</div></div>';
+  });
+  var el=$('ultimasList'); if(el) el.innerHTML=h;
+}
+
+function renderFazendas(){
+  var el=$('listaFazendas'); if(!el)return;
+  var fs=getFazendas(),h='';
+  if(!fs.length)h='<div style="color:var(--muted);font-size:14px;padding:8px 0">Nenhuma fazenda cadastrada ainda.</div>';
+  fs.forEach(function(f){
+    h+='<div class="item"><div class="itop"><span class="inome">'+esc(f.nome)+'</span><span class="pill pok">ATIVA</span></div>'
+      +'<div class="isub">'+esc(f.municipio||'')+(f.estado?' / '+esc(f.estado):'')+(f.responsavel?' • '+esc(f.responsavel):'')+'</div>'
+      +'<div class="isub">GPS sede: '+(f.gps&&f.gps.lat?esc(Number(f.gps.lat).toFixed(5))+', '+esc(Number(f.gps.lng).toFixed(5)):'não informado')+'</div>'
+      +'<button class="btn btn-cinza btn-sm" onclick="usarFazenda(\''+esc(f.nome).replace(/'/g,'&#39;')+'\')">Usar nos formulários</button></div>';
+  });
+  el.innerHTML=h;
+}
+
+window.usarFazenda=function(nome){
+  ['rProp','nProp','mProp'].forEach(function(id){var el=$(id);if(el)el.value=nome;});
+  toast('Fazenda selecionada: '+nome);
+  ir('registrar');
+};
+
+window.capturarGPSFazenda=function(){
+  if(!navigator.geolocation){toast('GPS nao disponivel neste celular.');return;}
+  toast('Capturando GPS da fazenda...');
+  navigator.geolocation.getCurrentPosition(function(p){
+    $('fLat').value=p.coords.latitude.toFixed(7);
+    $('fLng').value=p.coords.longitude.toFixed(7);
+    toast('GPS da fazenda capturado.');
+  },function(e){toast('GPS falhou: '+e.message);},{enableHighAccuracy:true,timeout:12000,maximumAge:30000});
+};
+
+window.salvarFazenda=function(){
+  var nome=$('fNome').value.trim();
+  if(!nome){toast('Informe o nome da fazenda.');$('fNome').focus();return;}
+  var lat=$('fLat').value.trim(),lng=$('fLng').value.trim();
+  var f={id:'FAZ-'+Date.now(),nome:nome,municipio:$('fMun').value.trim(),estado:($('fEst').value.trim()||'PA').toUpperCase(),responsavel:$('fResp').value.trim(),telefone:$('fTel').value.trim(),gps:{lat:lat,lng:lng},ts:agora(),status:'ATIVO',novo:true};
+  var fs=getFazendas(),nn=normNome(nome),achou=false;
+  fs=fs.map(function(x){ if(normNome(x.nome)===nn){achou=true; f.id=x.id||f.id; return f;} return x; });
+  if(!achou)fs.unshift(f);
+  setFazendas(fs); addSug('p',nome);
+  var q=getQueue();
+  q.unshift({id:'CADFAZ-'+Date.now(),ts:agora(),tipo:'CADASTRO_PROPRIEDADE',st:'PENDENTE',tent:0,prop:nome,fazenda:f,novo:true});
+  setQueue(q);
+  ['fNome','fMun','fResp','fTel','fLat','fLng'].forEach(function(id){$(id).value='';}); $('fEst').value='PA';
+  render(); mostrarSalvo('FAZENDA SALVA!',nome+'\nCadastro entrou na fila para sincronizar.');
+};
+
+// ── GPS ───────────────────────────────────────────────────────────────────────
+
+window.capturarGPS = function(){
+  if(!navigator.geolocation){ toast('GPS nao disponivel neste celular.'); return; }
+  $('gpsLabel').textContent='Capturando...';
+  navigator.geolocation.getCurrentPosition(
+    function(p){ GPS={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy}; $('gpsLabel').textContent=GPS.lat.toFixed(5)+', '+GPS.lng.toFixed(5); toast('GPS capturado!'); },
+    function(e){ $('gpsLabel').textContent='Capturar GPS'; toast('GPS falhou: '+e.message); },
+    {enableHighAccuracy:true,timeout:12000}
+  );
+};
+
+// ── SOMA CATEGORIAS ───────────────────────────────────────────────────────────
+
+function calcSoma(){
+  var ids=['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul'];
+  var s=0; ids.forEach(function(i){s+=(parseInt($(i).value)||0);});
+  var t=parseInt($('mQtd').value)||0, el=$('somaCategs');
+  if(s===t&&t>0){el.style.background='#d1e7dd';el.style.color='#0f5132';el.textContent='Soma: '+s+' / Total: '+t+' OK';}
+  else{el.style.background='#fee2e2';el.style.color='#7f1d1d';el.textContent='Soma: '+s+' / Total: '+t+(t?' falta '+(t-s):'');}
+}
+['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul','mQtd'].forEach(function(id){var el=$(id);if(el)el.addEventListener('input',calcSoma);});
+
+// ── SALVAR REGISTROS ──────────────────────────────────────────────────────────
+
+// GPS automatico ao salvar
+window.salvarComGPS = function(){
+  var prop=$('rProp').value.trim(),cocho=$('rCocho').value.trim(),oper=$('rOper').value.trim(),prod=$('rProd').value.trim(),qtd=$('rQtd').value.trim();
+  if(!prop){toast('Preencha o nome da Fazenda.');$('rProp').focus();return;}
+  if(!cocho){toast('Preencha o Cocho ou Ponto.');$('rCocho').focus();return;}
+  if(!oper){toast('Preencha o nome do Operador.');$('rOper').focus();return;}
+  if(!prod){toast('Preencha o Produto.');$('rProd').focus();return;}
+  if(!qtd){toast('Preencha a Quantidade.');$('rQtd').focus();return;}
+
+  // Feedback visual
+  var btn=$('btnSalvarReg');
+  if(btn)btn.style.opacity='0.6';
+  $('gpsIcone').textContent='⏳';
+  $('gpsLabel').textContent='Capturando GPS... (5 segundos)';
+
+  if(!navigator.geolocation){
+    _finalizarSalvar(null,'GPS nao disponivel');
+    return;
+  }
+
+  var gpsObtido=false;
+  var timer=setTimeout(function(){
+    if(!gpsObtido){ _finalizarSalvar(null,'sem sinal GPS'); }
+  },5000);
+
+  navigator.geolocation.getCurrentPosition(
+    function(p){
+      if(gpsObtido)return;
+      gpsObtido=true;
+      clearTimeout(timer);
+      var g={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};
+      $('gpsIcone').textContent='✅';
+      $('gpsLabel').textContent='GPS: '+g.lat.toFixed(5)+', '+g.lng.toFixed(5)+' ±'+Math.round(g.acc)+'m';
+      _finalizarSalvar(g,'');
+    },
+    function(){
+      if(gpsObtido)return;
+      gpsObtido=true;
+      clearTimeout(timer);
+      _finalizarSalvar(null,'GPS nao obtido');
+    },
+    {enableHighAccuracy:true,timeout:5000,maximumAge:30000}
+  );
+};
+
+function _finalizarSalvar(gps, gpsMsg){
+  var prop=$('rProp').value.trim(),cocho=$('rCocho').value.trim(),oper=$('rOper').value.trim();
+  var prod=$('rProd').value.trim(),qtd=$('rQtd').value.trim();
+  var foto=FOTOS['regFoto']||null;
+
+  addSug('p',prop); addSug('c',cocho); addSug('o',oper); addSug('pr',prod);
+
+  var faz=fazendaPorNome(prop)||{};
+  var item={
+    id:uid(),ts:agora(),tipo:'ABASTECIMENTO',st:'PENDENTE',tent:0,
+    prop:prop,cocho:cocho,oper:oper,prod:prod,qtd:qtd,
+    fazendaId:faz.id||'',fazendaMunicipio:faz.municipio||'',fazendaEstado:faz.estado||'',
+    obs:$('rObs').value.trim(),gps:gps,gpsLat:gps?gps.lat:'',gpsLng:gps?gps.lng:'',gpsAcc:gps?gps.acc:'',
+    foto:foto, temFoto:!!foto, novo:true
+  };
+
+  var q=getQueue(); q.unshift(item); setQueue(q);
+
+  // Resetar form
+  $('rQtd').value='';$('rObs').value='';
+  $('gpsIcone').textContent='📍';
+  $('gpsLabel').textContent='GPS sera capturado automaticamente ao salvar';
+  var btn=$('btnSalvarReg');if(btn)btn.style.opacity='1';
+  removerFoto('regFoto');
+  GPS=null;
+
+  var sub=prop+' / '+cocho+'\n'+qtd+' kg'+(gps?' + GPS':'')+(foto?' + foto':'');
+  if(gpsMsg)sub+='\n('+gpsMsg+')';
+  mostrarSalvo('SALVO!',sub);
+}
+
+window.salvarRegistro = window.salvarComGPS;
+
+window.salvarNota = function(){
+  var prop=$('nProp').value.trim(),cocho=$('nCocho').value.trim(),oper=$('nOper').value.trim(),desc=$('nDesc').value.trim();
+  if(!prop){toast('Preencha o nome da Fazenda.');$('nProp').focus();return;}
+  if(!cocho){toast('Preencha o Cocho.');$('nCocho').focus();return;}
+  if(!desc&&!FOTOS['notaFoto']){toast('Adicione uma foto ou descricao.');return;}
+
+  addSug('p',prop); addSug('c',cocho); if(oper)addSug('o',oper);
+
+  var foto=FOTOS['notaFoto']||null;
+
+  var faz=fazendaPorNome(prop)||{};
+  var item={
+    id:uid(),ts:agora(),tipo:'NOTA_COCHO',st:'PENDENTE',tent:0,
+    prop:prop,cocho:cocho,oper:oper||'',fazendaId:faz.id||'',fazendaMunicipio:faz.municipio||'',fazendaEstado:faz.estado||'',
+    descricao:desc,urgencia:$('nUrgencia').value,
+    foto:foto,temFoto:!!foto,novo:true
+  };
+
+  var q=getQueue(); q.unshift(item); setQueue(q);
+  $('nDesc').value='';$('nUrgencia').value='NORMAL';
+  removerFoto('notaFoto');
+
+  mostrarSalvo('NOTA REGISTRADA!',prop+' / '+cocho+(foto?'\n+ Foto':''));
+};
+
+window.salvarMovimentacao = function(){
+  var prop=$('mProp').value.trim(),lote=$('mLote').value.trim(),evento=$('mEvento').value,qtd=parseInt($('mQtd').value)||0;
+  if(!prop){toast('Preencha o nome da Fazenda.');$('mProp').focus();return;}
+  if(!lote){toast('Preencha o Lote.');$('mLote').focus();return;}
+  if(!qtd){toast('Preencha a Quantidade.');$('mQtd').focus();return;}
+  var dist={BEZERRO:parseInt($('mBzm').value)||0,BEZERRA:parseInt($('mBzf').value)||0,NOVILHO:parseInt($('mNvm').value)||0,NOVILHA:parseInt($('mNvf').value)||0,SOLTEIRA:parseInt($('mSol').value)||0,NULIPARA:parseInt($('mNul').value)||0,PRIMIPARA:parseInt($('mPri').value)||0,MULTIPARA:parseInt($('mMul').value)||0};
+  var soma=0; for(var c in dist)soma+=dist[c];
+  if(soma!==qtd){toast('Soma ('+soma+') diferente do total ('+qtd+'). Ajuste os numeros.');return;}
+  addSug('p',prop); addSug('l',lote);
+  var item={id:uid(),ts:agora(),tipo:'MOVIMENTACAO',st:'PENDENTE',tent:0,prop:prop,lote:lote,evento:evento,qtd:qtd,dist:dist,obs:$('mObs').value.trim(),novo:true};
+  var q=getQueue(); q.unshift(item); setQueue(q);
+  $('mQtd').value=''; $('mObs').value='';
+  ['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul'].forEach(function(id){$(id).value='0';});
+  calcSoma();
+  mostrarSalvo(evento+' SALVA!',prop+'\nLote: '+lote+' ('+qtd+' animais)');
+};
+
+// ── SINCRONIZAR ───────────────────────────────────────────────────────────────
+
+window.sincronizar = function(){
+  var cfg=load('config',{});
+  if(!cfg.url){toast('Configure o endereco do sistema.');ir('config');return;}
+  if(!navigator.onLine){toast('Sem internet. Os dados estao salvos e serao enviados em breve.');return;}
+  var q=getQueue(),pend=q.filter(function(x){return x.st!=='OK';});
+  if(!pend.length){toast('Tudo ja foi enviado!');return;}
+  var lote=pend.slice(0,5); // 5 por lote pois pode ter fotos
+  q.forEach(function(x){ lote.forEach(function(l){ if(x.id===l.id){x.st='SEND';x.tent=(x.tent||0)+1;} }); });
+  setQueue(q); render();
+
+  var registros=lote.map(function(x){
+    if(x.tipo==='CADASTRO_PROPRIEDADE'){
+      return {uuid:x.id,tipo:'CADASTRO_PROPRIEDADE',dataHora:x.ts,payload:{
+        propriedade:x.prop,fazenda:x.fazenda||{},
+        nome:x.prop,municipio:(x.fazenda&&x.fazenda.municipio)||'',estado:(x.fazenda&&x.fazenda.estado)||'PA',
+        responsavel:(x.fazenda&&x.fazenda.responsavel)||'',telefone:(x.fazenda&&x.fazenda.telefone)||'',
+        gps:(x.fazenda&&x.fazenda.gps)||{},gpsLat:(x.fazenda&&x.fazenda.gps&&x.fazenda.gps.lat)||'',gpsLng:(x.fazenda&&x.fazenda.gps&&x.fazenda.gps.lng)||'',
+        origem:'CAMPO_V33',novo:true
+      }};
+    } else if(x.tipo==='ABASTECIMENTO'){
+      return {uuid:x.id,tipo:'ABASTECIMENTO',dataHora:x.ts,payload:{
+        propriedade:x.prop,cocho:x.cocho,operador:x.oper,
+        produtoId:x.prod,produto:x.prod,quantidade:x.qtd,observacao:x.obs||'',
+        gps:x.gps||{},gpsLat:x.gpsLat||'',gpsLng:x.gpsLng||'',gpsAcc:x.gpsAcc||'',
+        fazendaId:x.fazendaId||'',municipio:x.fazendaMunicipio||'',estado:x.fazendaEstado||'',
+        origem:'CAMPO_V33',novo:x.novo||false,
+        foto:x.foto||null // Pode ser null se nao tiver foto
+      }};
+    } else if(x.tipo==='NOTA_COCHO'){
+      return {uuid:x.id,tipo:'NOTA_COCHO',dataHora:x.ts,payload:{
+        propriedade:x.prop,cocho:x.cocho,operador:x.oper,
+        descricao:x.descricao||'',urgencia:x.urgencia||'NORMAL',
+        fazendaId:x.fazendaId||'',municipio:x.fazendaMunicipio||'',estado:x.fazendaEstado||'',
+        origem:'CAMPO_V33',novo:x.novo||false,
+        foto:x.foto||null
+      }};
+    } else {
+      return {uuid:x.id,tipo:'MOVIMENTACAO_LOTE',dataHora:x.ts,payload:{
+        propriedade:x.prop,loteId:x.lote,evento:x.evento,
+        quantidade:x.qtd,distribuicao:x.dist||{},
+        observacao:x.obs||'',origem:'CAMPO_V33',novo:x.novo||false
+      }};
+    }
+  });
+
+  fetch(cfg.url,{method:'POST',body:JSON.stringify({acao:'syncRegistrosComLote',registros:registros})})
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    if(!resp||!resp.acks)throw new Error('Resposta invalida');
+    var qq=getQueue();
+    resp.acks.forEach(function(ack){ qq.forEach(function(x){ if(x.id===ack.uuid)x.st=(ack.status==='SINCRONIZADO'?'OK':ack.status); }); });
+    setQueue(qq); toast(resp.acks.length+' registro(s) enviado(s)!'); render();
+  })
+  .catch(function(e){
+    var qq=getQueue(); qq.forEach(function(x){if(x.st==='SEND')x.st='ERRO';}); setQueue(qq);
+    toast('Falha no envio. Sera tentado automaticamente.'); render();
+  });
+};
+
+window.limparSync=function(){ var q=getQueue().filter(function(x){return x.st!=='OK';}); setQueue(q); render(); };
+
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+
+window.salvarCfg=function(){ save('config',{url:$('cfgUrl').value.trim()}); toast('Configuracao salva!'); render(); };
+window.testarCfg=function(){
+  var cfg=load('config',{}); if(!cfg.url){toast('Informe a URL primeiro.');return;}
+  $('cfgResult').innerHTML='<div style="padding:10px;color:var(--muted)">Testando...</div>';
+  fetch(cfg.url).then(function(r){return r.json();}).then(function(j){
+    $('cfgResult').innerHTML='<div style="padding:12px;background:#d1e7dd;border-radius:12px;font-weight:700;color:#0f5132">Conectado ao sistema!</div>';
+    toast('Conexao OK!');
+  }).catch(function(e){
+    $('cfgResult').innerHTML='<div style="padding:12px;background:#fee2e2;border-radius:12px;font-weight:700;color:#7f1d1d">Nao foi possivel conectar.</div>';
+    toast('Falha na conexao.');
+  });
+};
+
+// ── BACKUP ────────────────────────────────────────────────────────────────────
+
+window.exportar=function(){
+  // Exportar SEM fotos (evitar arquivo muito grande)
+  var q=getQueue().map(function(x){ var c=Object.assign({},x); c.foto=null; return c; });
+  var d={versao:'V3.3',data:agora(),queue:q,sugestoes:getSug(),fazendas:getFazendas()};
+  var blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='reprogen_campo_'+Date.now()+'.json'; document.body.appendChild(a); a.click(); a.remove();
+  toast('Backup exportado!');
+};
+window.importar=function(){
+  var f=$('impFile').files[0]; if(!f){toast('Selecione um arquivo.');return;}
+  var r=new FileReader(); r.onload=function(){ try{ var d=JSON.parse(r.result); if(d.queue)setQueue(d.queue); if(d.sugestoes)save('sug',d.sugestoes); if(d.fazendas)setFazendas(d.fazendas); toast('Backup restaurado!'); render(); }catch(e){toast('Erro: '+e.message);} }; r.readAsText(f);
+};
+
+// ── EVENTOS ───────────────────────────────────────────────────────────────────
+
+window.addEventListener('online',function(){ var p=getQueue().some(function(x){return x.st!=='OK';}); if(p){toast('Conexao recuperada. Enviando...');setTimeout(sincronizar,1500);} render(); });
+window.addEventListener('offline',function(){ toast('Modo offline. Registros salvos normalmente.'); render(); });
+setInterval(function(){ if(!navigator.onLine)return; var cfg=load('config',{}); if(!cfg.url)return; if(getQueue().some(function(x){return x.st==='PENDENTE'||x.st==='ERRO';})) sincronizar(); },30000);
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+
+var cfgSalvo=load('config',{}); if(cfgSalvo.url)$('cfgUrl').value=cfgSalvo.url;
+ir('painel');
+
+})();
+</script>
+</body>
+</html>
