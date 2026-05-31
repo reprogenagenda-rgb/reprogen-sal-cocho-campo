@@ -1,22 +1,25 @@
 {
-  "name": "REPROGEN Campo Cocho",
-  "short_name": "Campo Cocho",
+  "name": "REPROGEN CAMPO V3.4",
+  "short_name": "REPROGEN",
+  "description": "REPROGEN CAMPO - Registro de Abastecimento, Fazendas e GPS",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#e8f2e9",
-  "theme_color": "#0f5132",
   "orientation": "portrait",
+  "background_color": "#0b3d22",
+  "theme_color": "#0b3d22",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
