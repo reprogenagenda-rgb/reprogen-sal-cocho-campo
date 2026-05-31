@@ -1,9 +1,9 @@
-/* REPROGEN CAMPO V3.4.2 — PWA Offline Real
+/* REPROGEN CAMPO V3.4.3 — PWA Offline Real + atualização de cache
    Compatível com GitHub Pages, Android Chrome e JavaScript ES5.
-   Correção: cache app-shell + fallback para abertura fria offline.
+   Motivo da versão: força o navegador/PWA a baixar o index.html corrigido da data/hora local BR.
 */
 
-var CACHE_VERSION = 'reprogen-campo-v3-4-2-offline-real';
+var CACHE_VERSION = 'reprogen-campo-v3-4-3-hora-br';
 
 var APP_SHELL = [
   './',
