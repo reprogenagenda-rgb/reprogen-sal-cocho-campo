@@ -9,7 +9,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="REPROGEN">
-<title>REPROGEN CAMPO V3.3</title>
+<title>REPROGEN CAMPO V3.4</title>
+<link rel="manifest" href="./manifest.json">
 <style>
 :root{
   --g:#0f5132;--g2:#198754;--g3:#d1e7dd;
@@ -258,6 +259,7 @@ body{
 .sep{ height:1px;background:var(--ln);margin:14px 0; }
 .hide{ display:none!important; }
 .muted{ color:var(--muted);font-size:13px; }
+.offline-box{background:#fff3cd;color:#664d03;border:1.5px solid #ffc107;border-radius:12px;padding:10px;margin-bottom:12px;font-size:13px;font-weight:800;text-align:center}.online-box{background:#d1e7dd;color:#0f5132;border:1.5px solid #198754;border-radius:12px;padding:10px;margin-bottom:12px;font-size:13px;font-weight:800;text-align:center}
 </style>
 </head>
 <body>
@@ -265,7 +267,7 @@ body{
 <header class="header">
   <div class="header-top">
     <div>
-      <h1>REPROGEN CAMPO V3.3</h1>
+      <h1>REPROGEN CAMPO V3.4</h1>
       <p>Registro de Abastecimento • Fazendas • GPS</p>
     </div>
     <div id="hdPend" class="hdpend">OK</div>
@@ -277,6 +279,7 @@ body{
 
   <!-- PAINEL -->
   <div id="pgPainel" class="pg">
+    <div id="offlineStatusBox" class="online-box">Modo online</div>
     <div class="kpis">
       <div class="kpi"><div class="num" id="kHoje">0</div><div class="lbl">Hoje</div></div>
       <div class="kpi"><div class="num" id="kPend" style="color:#c45200">0</div><div class="lbl">Pendentes</div></div>
@@ -728,6 +731,7 @@ function renderHeader(){
   var on=navigator.onLine,api=load('config',{}).url||'',pend=getQueue().filter(function(x){return x.st!=='OK';}).length;
   $('hpills').innerHTML='<span class="hpill '+(on?'on':'')+'"><span class="dot '+(on?'dot-on':'dot-off')+'"></span>'+(on?'Online':'Offline')+'</span>'+(api?'<span class="hpill on">Sistema OK</span>':'<span class="hpill">Sem URL</span>');
   $('hdPend').textContent=pend?pend+' pend.':'Tudo OK';
+  var sb=$('offlineStatusBox'); if(sb){ sb.className=on?'online-box':'offline-box'; sb.textContent=on?'Online: pronto para sincronizar':'Offline real: registros serão salvos na fila local'; }
 }
 
 function renderKPIs(){
@@ -1064,6 +1068,16 @@ var cfgSalvo=load('config',{}); if(cfgSalvo.url)$('cfgUrl').value=cfgSalvo.url;
 ir('painel');
 
 })();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(function () { console.log('REPROGEN Campo SW registrado'); })
+      .catch(function (err) { console.log('Erro no SW Campo', err); });
+  });
+}
 </script>
 </body>
 </html>
