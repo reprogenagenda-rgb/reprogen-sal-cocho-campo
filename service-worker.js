@@ -3,7 +3,7 @@
    Correção cirúrgica: cache app-shell + fallback para abertura fria offline.
 */
 
-var CACHE_VERSION = 'reprogen-campo-v3-4-1-offline-real';
+var CACHE_VERSION = 'reprogen-campo-v3-4-2-offline-real';
 var APP_SHELL = [
   './',
   './index.html',
