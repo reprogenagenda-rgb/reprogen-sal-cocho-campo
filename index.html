@@ -592,7 +592,13 @@ function $(i){ return document.getElementById(i); }
 function load(k,d){ try{ var v=localStorage.getItem(DB+'_'+k); return v?JSON.parse(v):d; }catch(e){ return d; } }
 function save(k,v){ localStorage.setItem(DB+'_'+k,JSON.stringify(v)); }
 function uid(){ return 'RGSC-'+Date.now()+'-'+Math.random().toString(16).slice(2,8); }
-function agora(){ return new Date().toISOString(); }
+function agora(){
+  // Horário local do aparelho, sem UTC/toISOString.
+  // Corrige diferença de +3h no Brasil/Pará quando registra offline.
+  var d=new Date();
+  return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)+'T'+
+         ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2);
+}
 function hoje(){ var d=new Date(); return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
