@@ -1,8 +1,8 @@
 {
-  "name": "REPROGEN Campo V3.4.1",
-  "short_name": "REPROGEN Campo",
+  "name": "REPROGEN Sal Cocho Campo",
+  "short_name": "Cocho",
   "description": "REPROGEN Campo — registro de abastecimento, GPS, fila offline e sincronização corrigida com Apps Script V1.4.",
-  "start_url": "./index.html",
+  "start_url": "./index.html?v=1.0.1",
   "scope": "./",
   "display": "standalone",
   "background_color": "#e8f2e9",
