@@ -1,0 +1,9 @@
+LEIA PRIMEIRO — REPROGEN CAMPO V3.4.1
+
+1. Suba todos os arquivos deste pacote no GitHub do Campo.
+2. O arquivo principal já está com o nome correto: index.html.
+3. Depois de subir, abra com ?v=341 para evitar cache.
+4. No Campo, configure a URL do Apps Script V1.4.
+5. Use Fila > Reprocessar Erros e depois Sincronizar Agora.
+
+Não mexa no Apps Script nem na Central para esta etapa.
