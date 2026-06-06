@@ -1,37 +1,35 @@
-# APP COCHO CAMPO V1.1.7 SUPABASE — Base Offline Permanente
-
-## Decisão funcional
-Não é necessário baixar a base toda vez para lançar.
-
-## Regra implementada
-- Primeiro uso da fazenda: login + baixar base.
-- Depois que a base foi baixada: o app pode lançar usando a base offline salva.
-- Sem internet: usa a última base offline.
-- Com internet: pode atualizar base quando houver novo cocho, produto, lote ou usuário.
-- Se a sessão cair, o app restaura a fazenda a partir da base offline salva.
-
-## O que entrou
-- Botão: Usar Base Offline Salva.
-- Barra de status: Base offline salva com fazenda, data, cochos e produtos.
-- Restauração automática da sessão a partir da base offline.
-- Lançamento liberado com base offline válida.
-- Baixar base virou atualização, não obrigação diária.
+# APP COCHO CENTRAL V6.9 SUPABASE — Relatório Gerencial da Fazenda
 
 ## Base preservada
-- Botão único: Registrar lançamento + GPS.
-- Raio antes de salvar.
-- Nome da fazenda no lançamento offline.
-- Snapshot da fazenda.
-- Seleção persistente.
-- Fila offline.
-- Sincronização com Supabase.
-- Central V6.4.2.
+Evolução sobre a Central V6.8.1 aprovada:
+- estoque em nuvem;
+- entradas cloud;
+- saídas por abastecimento;
+- saldo de estoque;
+- custo e consumo;
+- Campo V1.1.7 preservado.
+
+## Conceito
+A coleta acontece no cocho, mas a análise principal é o consumo do lote/fazenda.
+
+## O que entrou
+Nova aba **Gerencial**:
+- kg consumidos;
+- lançamentos;
+- animais;
+- kg/animal/dia;
+- custo total;
+- saldo de estoque;
+- alertas gerenciais;
+- resumo por produto;
+- resumo por cocho/lote;
+- exportação CSV.
 
 ## SUPABASE
-Não precisa rodar SQL.
+Não precisa rodar SQL novo se a V6.8.1 já foi validada.
 
 ## GITHUB
-Substituir no repositório do Campo:
+Substituir no repositório da Central:
 - index.html
 - manifest.json
 - service-worker.js
@@ -40,25 +38,18 @@ Substituir no repositório do Campo:
 - icons/icon-512.png
 
 Mensagem de commit:
-`Atualiza Campo Cocho V1.1.7 base offline permanente`
+`Atualiza Central Cocho V6.9 relatorio gerencial`
 
 Abrir:
-`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.7-base-offline-permanente`
+`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-central/index.html?v=6.9-relatorio-gerencial`
 
 ## Teste
-1. Com internet, faça login e baixe a base.
-2. Feche o app.
-3. Abra novamente.
-4. Toque em Usar Base Offline Salva.
-5. Desligue internet.
-6. Faça lançamento.
-7. O lançamento deve salvar pendente.
-8. Ligue internet.
-9. Sincronize.
-10. Confira na Central V6.4.2.
-
-## Critério de aprovação
-Depois de baixar a base uma vez, o operador não deve precisar baixar novamente para lançar na mesma fazenda.
+1. Abrir Central V6.9.
+2. Ativar FAZENDA TESTE SUPABASE 01.
+3. Ir em Gerencial.
+4. Gerar relatório.
+5. Conferir kg, custo, estoque, GPS e alertas.
+6. Exportar CSV.
 
 ## Validação técnica
 JS validado com node --check: True
