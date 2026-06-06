@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<title>APP COCHO CAMPO V1.1.2 SUPABASE</title>
-<link rel="manifest" href="./manifest.json?v=1.1.2">
+<title>APP COCHO CAMPO V1.1.4 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.1.4">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
@@ -33,8 +33,8 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 </head>
 <body>
 <header>
-  <h1>APP COCHO CAMPO V1.1.2 SUPABASE</h1>
-  <div class="sub">Coletador offline • V1.1.2 • Seleção persistente corrigida</div>
+  <h1>APP COCHO CAMPO V1.1.4 SUPABASE</h1>
+  <div class="sub">Coletador offline • V1.1.4 • Botão único GPS + lançamento</div>
   <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
 </header>
 <main>
@@ -117,9 +117,9 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
     </div>
     <div id="confBox" class="confirmBox"><b>Conferência:</b> selecione cocho, produto e kg.</div>
     <div id="gpsAlert" class="alertGps warn">GPS ainda não capturado.</div>
-    <button class="blue bigbtn" onclick="capturarGPS(this)">Capturar GPS</button>
-    <button class="warn" onclick="preencherTeste()">Preencher Teste</button>
-    <button class="bigbtn" onclick="salvarLocal(this)">Salvar Offline</button>
+    <button class="blue bigbtn" onclick="registrarComGps(this)">Registrar lançamento + GPS</button>
+    <button class="warn" onclick="registrarSemGpsForcado(this)">Registrar sem GPS</button>
+    <button onclick="preencherTeste()">Preencher Teste</button>
     <button class="blue bigbtn" onclick="sincronizarFila(this)">Sincronizar Agora</button>
     <pre id="lanOut">Sem lançamento.</pre>
   </div>
@@ -145,13 +145,13 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
   </div>
 </div>
 
-<div class="footer">APP COCHO CAMPO V1.1.2 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
+<div class="footer">APP COCHO CAMPO V1.1.4 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
 </main>
 
 <script>
 (function(){
 'use strict';
-var APP_VERSION='APP COCHO CAMPO V1.1.2 SUPABASE — OFFLINE';
+var APP_VERSION='APP COCHO CAMPO V1.1.4 SUPABASE — OFFLINE';
 var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
 var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
 var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
@@ -335,6 +335,18 @@ function atualizarAlertaGps(){
   }
 }
 
+
+function nomeCochoOffline(b,id){
+  var arr=(b&&b.cochos)||[];
+  for(var i=0;i<arr.length;i++){if(arr[i].id===id){return (arr[i].nome_cocho||'')+(arr[i].codigo_cocho?' | '+arr[i].codigo_cocho:'');}}
+  return '';
+}
+function nomeProdutoOffline(b,id){
+  var arr=(b&&b.produtos)||[];
+  for(var i=0;i<arr.length;i++){if(arr[i].id===id){return (arr[i].nome_produto||'')+(arr[i].tipo_produto?' | '+arr[i].tipo_produto:'');}}
+  return '';
+}
+
 window.capturarGPS=function(btn){
   btnLock(btn,'Capturando...');
   if(!navigator.geolocation){setOut('lanOut',{ok:false,erro:'GPS_NAO_SUPORTADO',gps_status:'SEM_GPS'});btnUnlock(btn);return;}
@@ -344,17 +356,83 @@ window.capturarGPS=function(btn){
   },function(err){salvarRascunho();atualizarConferencia();atualizarAlertaGps();setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Pode salvar como SEM_GPS nesta fase.'});btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
 };
 window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}$('lan_obs').value='LANÇAMENTO TESTE APP CAMPO';salvarRascunho();atualizarConferencia();atualizarAlertaGps();};
-window.salvarLocal=function(btn){
+
+function salvarLocalInterno(btn, permitirSemGps){
   btnLock(btn,'Salvando...');
   var b=getBase(),cochoId=$('lan_cocho').value,prodId=$('lan_produto').value,kg=Number($('lan_kg').value||0);
   if(!b.propriedade){setOut('lanOut',{ok:false,erro:'BASE_OFFLINE_OBRIGATORIA'});btnUnlock(btn);return;}
   if(!cochoId){setOut('lanOut',{ok:false,erro:'COCHO_OBRIGATORIO'});btnUnlock(btn);return;}
   if(!prodId){setOut('lanOut',{ok:false,erro:'PRODUTO_OBRIGATORIO'});btnUnlock(btn);return;}
   if(!kg||kg<=0){setOut('lanOut',{ok:false,erro:'KG_OBRIGATORIO'});btnUnlock(btn);return;}
-  salvarRascunho();atualizarConferencia();atualizarAlertaGps();var temGps=!!($('lan_lat').value&&$('lan_lng').value);
-  var item={id_operacao_cliente:genOp(),propriedade_id:b.propriedade.id,cocho_id:cochoId,produto_id:prodId,usuario_id:(session.usuario&&session.usuario.id)||null,quantidade_kg:kg,data_hora_brasilia:nowBR(),data_hora_iso:new Date().toISOString(),gps_lat:$('lan_lat').value?Number($('lan_lat').value):null,gps_lng:$('lan_lng').value?Number($('lan_lng').value):null,gps_precisao_m:$('lan_acc').value?Number($('lan_acc').value):null,status_gps:temGps?'COM_GPS':'SEM_GPS',observacoes:$('lan_obs').value.trim(),origem_lancamento:'APP_CAMPO_V1_0',status_sync:'PENDENTE',status_local:'PENDENTE',criado_local_em:nowBR()};
-  var fila=getFila();fila.unshift(item);setFila(fila);setRascunho({cocho_id:cochoId,produto_id:prodId});updateUI();preencherSelects();aplicarRascunho();renderFila();setOut('lanOut',{ok:true,mensagem:'Lançamento salvo offline.',pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length,lancamento:item});btnUnlock(btn);
+  if(!permitirSemGps && !($('lan_lat').value&&$('lan_lng').value)){
+    setOut('lanOut',{ok:false,erro:'GPS_OBRIGATORIO_NO_BOTAO_UNICO',mensagem:'O GPS não foi capturado. Use Registrar sem GPS apenas se estiver autorizado.'});
+    btnUnlock(btn);return;
+  }
+  salvarRascunho();atualizarConferencia();atualizarAlertaGps();
+  var temGps=!!($('lan_lat').value&&$('lan_lng').value);
+  var item={
+    id_operacao_cliente:genOp(),
+    propriedade_id:b.propriedade.id,
+    propriedade_nome:b.propriedade.nome_propriedade||b.propriedade.nome||'',
+    chave_fazenda:b.propriedade.chave_fazenda||session.chave_fazenda||'',
+    fazenda_snapshot:{
+      propriedade_id:b.propriedade.id,
+      nome_propriedade:b.propriedade.nome_propriedade||b.propriedade.nome||'',
+      chave_fazenda:b.propriedade.chave_fazenda||session.chave_fazenda||'',
+      operador_nome:(session.usuario&&session.usuario.nome_usuario)||'',
+      operador_login:(session.usuario&&session.usuario.login_usuario)||'',
+      cocho_nome:nomeCochoOffline(b,cochoId),
+      produto_nome:nomeProdutoOffline(b,prodId)
+    },
+    cocho_id:cochoId,
+    produto_id:prodId,
+    usuario_id:(session.usuario&&session.usuario.id)||null,
+    quantidade_kg:kg,
+    data_hora_brasilia:nowBR(),
+    data_hora_iso:new Date().toISOString(),
+    gps_lat:$('lan_lat').value?Number($('lan_lat').value):null,
+    gps_lng:$('lan_lng').value?Number($('lan_lng').value):null,
+    gps_precisao_m:$('lan_acc').value?Number($('lan_acc').value):null,
+    status_gps:temGps?'COM_GPS':'SEM_GPS',
+    observacoes:$('lan_obs').value.trim(),
+    origem_lancamento:'APP_CAMPO_V1_1_4',
+    status_sync:'PENDENTE',
+    status_local:'PENDENTE',
+    criado_local_em:nowBR()
+  };
+  var fila=getFila();
+  fila.unshift(item);
+  setFila(fila);
+  setRascunho({cocho_id:cochoId,produto_id:prodId});
+  updateUI();preencherSelects();aplicarRascunho();renderFila();
+  setOut('lanOut',{ok:true,mensagem:'Lançamento registrado offline.',pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length,lancamento:item});
+  btnUnlock(btn);
+}
+window.registrarSemGpsForcado=function(btn){
+  salvarLocalInterno(btn,true);
 };
+window.registrarComGps=function(btn){
+  btnLock(btn,'GPS + Salvando...');
+  if(!navigator.geolocation){
+    btnUnlock(btn);
+    setOut('lanOut',{ok:false,erro:'GPS_INDISPONIVEL',mensagem:'GPS indisponível. Use Registrar sem GPS somente se necessário.'});
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(function(pos){
+    $('lan_lat').value=pos.coords.latitude;
+    $('lan_lng').value=pos.coords.longitude;
+    $('lan_acc').value=pos.coords.accuracy||'';
+    salvarRascunho();atualizarConferencia();atualizarAlertaGps();
+    btnUnlock(btn);
+    salvarLocalInterno(btn,false);
+  },function(err){
+    btnUnlock(btn);
+    atualizarAlertaGps();
+    setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Não salvou automaticamente. Use Registrar sem GPS somente se estiver autorizado.'});
+  },{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+};
+
+window.salvarLocal=function(btn){salvarLocalInterno(btn,true);};
 window.sincronizarFila=function(btn){
   btnLock(btn,'Sincronizando...');
   var fila=getFila(),pend=fila.filter(function(x){return x.status_local==='PENDENTE';});

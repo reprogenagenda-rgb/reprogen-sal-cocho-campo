@@ -1,17 +1,39 @@
-# APP COCHO CAMPO V1.1.2 SUPABASE — Seleção Persistente Corrigida
+# APP COCHO CAMPO V1.1.4 SUPABASE — Botão Único GPS + Lançamento
 
-## Correção real
-O arquivo anterior pode ter ficado igual ao V1.1.  
-Este pacote foi recriado a partir do Campo V1.0 aprovado e recebeu a correção novamente, com versão visível V1.1.2.
+## Correção funcional
+O fluxo de campo foi simplificado para evitar duas ações separadas.
 
-## O que corrigiu
-- Ao escolher cocho e produto, a seleção fica salva como rascunho local.
-- Ao capturar GPS, o cocho e o produto não devem sumir.
-- Ao voltar para a aba Lançar, o rascunho é recuperado.
-- A tela mostra uma Conferência antes de salvar.
+Antes:
+- Capturar GPS
+- Salvar Offline
+
+Agora:
+- **Registrar lançamento + GPS**
+
+Esse botão faz:
+1. valida cocho/produto/kg;
+2. captura GPS;
+3. registra o lançamento offline;
+4. deixa o registro pendente para sincronizar depois.
+
+## Botão de exceção
+Existe também:
+- **Registrar sem GPS**
+
+Esse botão deve ser usado somente quando o GPS falhar ou estiver autorizado, para não travar o vaqueiro no campo.
+
+## Base preservada
+- Login
+- Baixar base
+- Seleção persistente de cocho/produto
+- Fazenda salva no lançamento offline
+- Snapshot da fazenda
+- Fila offline
+- Sincronização posterior
+- Central V6.4.2
 
 ## SUPABASE
-Não mexer no Supabase.
+Não precisa rodar SQL.
 
 ## GITHUB
 Substituir no repositório do Campo:
@@ -23,24 +45,23 @@ Substituir no repositório do Campo:
 - icons/icon-512.png
 
 Mensagem de commit:
-`Corrige Campo Cocho V1.1.2 selecao persistente`
+`Atualiza Campo Cocho V1.1.4 botao unico GPS lancamento`
 
 Abrir:
-`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.2-selecao-persistente-corrigida`
-
-## Conferência no GitHub
-No começo do index.html precisa aparecer:
-`APP COCHO CAMPO V1.1.2 SUPABASE`
+`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.4-botao-unico`
 
 ## Teste
 1. Login.
 2. Baixar base.
-3. Lançar.
+3. Desligar internet se quiser testar offline.
 4. Selecionar cocho.
 5. Selecionar produto.
 6. Informar kg.
-7. Capturar GPS.
-8. Cocho e produto devem continuar selecionados.
+7. Clicar **Registrar lançamento + GPS**.
+8. Confirmar que entrou em pendentes.
+9. Voltar internet.
+10. Sincronizar.
+11. Conferir na Central V6.4.2.
 
 ## Validação técnica
 JS validado com node --check: True
