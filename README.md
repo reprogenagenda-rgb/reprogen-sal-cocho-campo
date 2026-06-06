@@ -1,22 +1,17 @@
-# APP COCHO CAMPO V1.1.1 SUPABASE — Seleção Persistente
+# APP COCHO CAMPO V1.1.2 SUPABASE — Seleção Persistente Corrigida
 
-## Diagnóstico corrigido
-Na V1.1, ao capturar GPS ou atualizar a tela, os campos de seleção podiam voltar ao vazio:
-- Cocho selecionado
-- Produto selecionado
+## Correção real
+O arquivo anterior pode ter ficado igual ao V1.1.  
+Este pacote foi recriado a partir do Campo V1.0 aprovado e recebeu a correção novamente, com versão visível V1.1.2.
 
-## Causa técnica
-A função de atualização da interface chamava `preencherSelects()` várias vezes.  
-Isso reconstruía o HTML dos selects e perdia o valor selecionado.
-
-## Correção
-- O app agora preserva o cocho e o produto selecionados ao reconstruir os selects.
-- O rascunho do lançamento fica salvo localmente.
-- Ao capturar GPS, a seleção de cocho/produto não deve mais sumir.
-- Ao voltar para a aba Lançar, o cocho/produto continuam selecionados.
+## O que corrigiu
+- Ao escolher cocho e produto, a seleção fica salva como rascunho local.
+- Ao capturar GPS, o cocho e o produto não devem sumir.
+- Ao voltar para a aba Lançar, o rascunho é recuperado.
+- A tela mostra uma Conferência antes de salvar.
 
 ## SUPABASE
-Não precisa rodar SQL.
+Não mexer no Supabase.
 
 ## GITHUB
 Substituir no repositório do Campo:
@@ -28,10 +23,14 @@ Substituir no repositório do Campo:
 - icons/icon-512.png
 
 Mensagem de commit:
-`Corrige selecao persistente Campo Cocho V1.1.1`
+`Corrige Campo Cocho V1.1.2 selecao persistente`
 
 Abrir:
-`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.1-selecao-persistente`
+`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.2-selecao-persistente-corrigida`
+
+## Conferência no GitHub
+No começo do index.html precisa aparecer:
+`APP COCHO CAMPO V1.1.2 SUPABASE`
 
 ## Teste
 1. Login.
@@ -41,9 +40,7 @@ Abrir:
 5. Selecionar produto.
 6. Informar kg.
 7. Capturar GPS.
-8. Conferir que cocho e produto continuam selecionados.
-9. Salvar offline.
-10. Sincronizar.
+8. Cocho e produto devem continuar selecionados.
 
 ## Validação técnica
 JS validado com node --check: True

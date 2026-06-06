@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<title>APP COCHO CAMPO V1.1.1 SUPABASE</title>
-<link rel="manifest" href="./manifest.json?v=1.1.1">
+<title>APP COCHO CAMPO V1.1.2 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.1.2">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
@@ -28,14 +28,13 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 .alertGps{font-weight:900;border-radius:12px;padding:9px;margin:8px 0}
 .alertGps.ok{background:#e7f6eb;color:#0f5132;border:1px solid #b8dfc1}
 .alertGps.warn{background:#fff3cd;color:#5b4300;border:1px solid #ffe08a}
-.alertGps.err{background:#f8d7da;color:#842029;border:1px solid #f1aeb5}
 
 </style>
 </head>
 <body>
 <header>
-  <h1>APP COCHO CAMPO V1.1.1 SUPABASE</h1>
-  <div class="sub">Coletador offline • Seleção persistente • GPS • Sync</div>
+  <h1>APP COCHO CAMPO V1.1.2 SUPABASE</h1>
+  <div class="sub">Coletador offline • V1.1.2 • Seleção persistente corrigida</div>
   <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
 </header>
 <main>
@@ -53,7 +52,7 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 <div id="view-painel" class="view">
   <div class="card">
     <h2>Painel Campo V1.0</h2>
-    <div class="okbox">Fluxo correto: configurar Supabase → login → baixar base → conferir cocho/produto → lançar offline → sincronizar.</div>
+    <div class="okbox">Fluxo correto: configurar Supabase → login → baixar base → lançar offline → sincronizar.</div>
     <div class="kpirow">
       <div class="kpi"><b id="kCochos">0</b><br><span class="small">Cochos</span></div>
       <div class="kpi"><b id="kProdutos">0</b><br><span class="small">Produtos</span></div>
@@ -118,7 +117,6 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
     </div>
     <div id="confBox" class="confirmBox"><b>Conferência:</b> selecione cocho, produto e kg.</div>
     <div id="gpsAlert" class="alertGps warn">GPS ainda não capturado.</div>
-    <button class="blue" onclick="mostrarUltimoCocho()">Ver último lançamento do cocho</button>
     <button class="blue bigbtn" onclick="capturarGPS(this)">Capturar GPS</button>
     <button class="warn" onclick="preencherTeste()">Preencher Teste</button>
     <button class="bigbtn" onclick="salvarLocal(this)">Salvar Offline</button>
@@ -147,19 +145,19 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
   </div>
 </div>
 
-<div class="footer">APP COCHO CAMPO V1.1.1 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
+<div class="footer">APP COCHO CAMPO V1.1.2 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
 </main>
 
 <script>
 (function(){
 'use strict';
-var APP_VERSION='APP COCHO CAMPO V1.1.1 SUPABASE — OFFLINE';
+var APP_VERSION='APP COCHO CAMPO V1.1.2 SUPABASE — OFFLINE';
 var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
 var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
 var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
 var LS_BASE='APP_COCHO_CAMPO_BASE_V1';
 var LS_FILA='APP_COCHO_CAMPO_FILA_V1';
-var LS_RASCUNHO='APP_COCHO_CAMPO_RASCUNHO_LANCAMENTO_V1';
+var LS_RASCUNHO='APP_COCHO_CAMPO_RASCUNHO_V112';
 var sbClient=null;
 var session={propriedade:null,usuario:null};
 
@@ -183,7 +181,7 @@ function setFila(a){localStorage.setItem(LS_FILA,JSON.stringify(a||[]));}
 function getRascunho(){try{return JSON.parse(localStorage.getItem(LS_RASCUNHO)||'{}');}catch(e){return {};}}
 function setRascunho(o){localStorage.setItem(LS_RASCUNHO,JSON.stringify(o||{}));}
 function salvarRascunho(){
-  var o={
+  setRascunho({
     cocho_id:$('lan_cocho')?$('lan_cocho').value:'',
     produto_id:$('lan_produto')?$('lan_produto').value:'',
     kg:$('lan_kg')?$('lan_kg').value:'',
@@ -191,19 +189,17 @@ function salvarRascunho(){
     lng:$('lan_lng')?$('lan_lng').value:'',
     acc:$('lan_acc')?$('lan_acc').value:'',
     obs:$('lan_obs')?$('lan_obs').value:''
-  };
-  setRascunho(o);
+  });
 }
 function aplicarRascunho(){
-  var o=getRascunho();
-  if(!o){return;}
-  if($('lan_cocho')&&o.cocho_id){$('lan_cocho').value=o.cocho_id;}
-  if($('lan_produto')&&o.produto_id){$('lan_produto').value=o.produto_id;}
-  if($('lan_kg')&&o.kg){$('lan_kg').value=o.kg;}
-  if($('lan_lat')&&o.lat){$('lan_lat').value=o.lat;}
-  if($('lan_lng')&&o.lng){$('lan_lng').value=o.lng;}
-  if($('lan_acc')&&o.acc){$('lan_acc').value=o.acc;}
-  if($('lan_obs')&&o.obs){$('lan_obs').value=o.obs;}
+  var r=getRascunho();
+  if($('lan_cocho')&&r.cocho_id){$('lan_cocho').value=r.cocho_id;}
+  if($('lan_produto')&&r.produto_id){$('lan_produto').value=r.produto_id;}
+  if($('lan_kg')&&r.kg){$('lan_kg').value=r.kg;}
+  if($('lan_lat')&&r.lat){$('lan_lat').value=r.lat;}
+  if($('lan_lng')&&r.lng){$('lan_lng').value=r.lng;}
+  if($('lan_acc')&&r.acc){$('lan_acc').value=r.acc;}
+  if($('lan_obs')&&r.obs){$('lan_obs').value=r.obs;}
 }
 function getClient(){
   var c=cfg(),url=String(c.url||'').trim(),key=String(c.key||'').trim();
@@ -239,7 +235,7 @@ window.showTab=function(tab){
   document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
   if(tab==='base'){renderBase();}
   if(tab==='fila'){renderFila();}
-  if(tab==='lancar'){preencherSelects();atualizarConferencia();}
+  if(tab==='lancar'){preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();}
   updateUI();
 };
 window.saveConfig=function(){saveCfg({url:$('supabaseUrl').value.trim(),key:$('supabaseKey').value.trim(),savedAt:nowBR()});sbClient=null;setOut('configOut','Configuração salva. Teste conexão.');updateUI();};
@@ -305,26 +301,25 @@ function renderBase(){
 }
 function preencherSelects(){
   var b=getBase();
-  var cochoAtual=$('lan_cocho')?$('lan_cocho').value:'';
-  var produtoAtual=$('lan_produto')?$('lan_produto').value:'';
   var r=getRascunho();
-  if(!cochoAtual && r.cocho_id){cochoAtual=r.cocho_id;}
-  if(!produtoAtual && r.produto_id){produtoAtual=r.produto_id;}
+  var cochoAtual=($('lan_cocho')&&$('lan_cocho').value)||r.cocho_id||'';
+  var produtoAtual=($('lan_produto')&&$('lan_produto').value)||r.produto_id||'';
   var h1='<option value="">Selecione o cocho</option>',h2='<option value="">Selecione o produto</option>';
   (b.cochos||[]).forEach(function(c){h1+='<option value="'+esc(c.id)+'">'+esc((c.nome_cocho||'')+(c.codigo_cocho?' | '+c.codigo_cocho:''))+'</option>';});
   (b.produtos||[]).forEach(function(p){h2+='<option value="'+esc(p.id)+'">'+esc((p.nome_produto||'')+' | '+(p.tipo_produto||''))+'</option>';});
   setHTML('lan_cocho',h1);setHTML('lan_produto',h2);
-  if($('lan_cocho') && cochoAtual){$('lan_cocho').value=cochoAtual;}
-  if($('lan_produto') && produtoAtual){$('lan_produto').value=produtoAtual;}
+  if($('lan_cocho')&&cochoAtual){$('lan_cocho').value=cochoAtual;}
+  if($('lan_produto')&&produtoAtual){$('lan_produto').value=produtoAtual;}
 }
 
-function itemPeloId(arr,id){for(var i=0;i<(arr||[]).length;i++){if(arr[i].id===id){return arr[i];}}return null;}
-function cochoSelecionado(){var b=getBase();return itemPeloId(b.cochos||[],$('lan_cocho').value);}
-function produtoSelecionado(){var b=getBase();return itemPeloId(b.produtos||[],$('lan_produto').value);}
+function nomeSelecionadoSelect(id){
+  var el=$(id); if(!el||el.selectedIndex<0){return '-';}
+  return el.options[el.selectedIndex].text || '-';
+}
 function atualizarConferencia(){
-  var c=cochoSelecionado(),p=produtoSelecionado(),kg=$('lan_kg')?$('lan_kg').value:'';
-  var cocho=c?((c.nome_cocho||'')+(c.codigo_cocho?' | '+c.codigo_cocho:'')):'-';
-  var prod=p?((p.nome_produto||'')+(p.tipo_produto?' | '+p.tipo_produto:'')):'-';
+  var cocho=nomeSelecionadoSelect('lan_cocho');
+  var prod=nomeSelecionadoSelect('lan_produto');
+  var kg=$('lan_kg')?$('lan_kg').value:'';
   var gps=($('lan_lat')&&$('lan_lat').value&&$('lan_lng').value)?('COM GPS: '+$('lan_lat').value+', '+$('lan_lng').value):'SEM GPS';
   setHTML('confBox','<b>Conferência antes de salvar:</b><br>Cocho: '+esc(cocho)+'<br>Produto: '+esc(prod)+'<br>Kg: '+esc(kg||'-')+'<br>'+esc(gps));
 }
@@ -333,41 +328,11 @@ function atualizarAlertaGps(){
   if($('lan_lat').value&&$('lan_lng').value){
     var acc=Number($('lan_acc').value||0);
     el.className='alertGps '+(acc>100?'warn':'ok');
-    el.textContent=acc>100?'GPS capturado, mas com precisão fraca: '+acc+' m':'GPS capturado: precisão '+(acc||'-')+' m';
+    el.textContent=acc>100?'GPS capturado, mas precisão fraca: '+acc+' m':'GPS capturado. Precisão: '+(acc||'-')+' m';
   }else{
     el.className='alertGps warn';
     el.textContent='GPS ainda não capturado. Pode salvar como SEM_GPS, mas o ideal é capturar.';
   }
-}
-window.mostrarUltimoCocho=function(){
-  var cochoId=$('lan_cocho').value;
-  if(!cochoId){setOut('lanOut',{ok:false,erro:'SELECIONE_COCHO'});return;}
-  var fila=getFila().filter(function(x){return x.cocho_id===cochoId;});
-  fila.sort(function(a,b){return String(b.data_hora_iso||'').localeCompare(String(a.data_hora_iso||''));});
-  if(fila.length){
-    setOut('lanOut',{ok:true,origem:'fila_local',ultimo:fila[0]});
-    return;
-  }
-  if(!navigator.onLine){setOut('lanOut',{ok:false,erro:'SEM_INTERNET_PARA_CONSULTAR_SUPABASE',mensagem:'Nenhum lançamento local encontrado para este cocho.'});return;}
-  try{
-    getClient().from('lancamentos_cocho').select('*').eq('cocho_id',cochoId).order('created_at',{ascending:false}).limit(1).then(function(r){
-      if(r.error){throw r.error;}
-      if((r.data||[]).length){setOut('lanOut',{ok:true,origem:'supabase',ultimo:r.data[0]});}
-      else{setOut('lanOut',{ok:true,mensagem:'Nenhum lançamento anterior encontrado para este cocho.'});}
-    }).catch(function(e){setOut('lanOut',{ok:false,erro:String(e.message||e)});});
-  }catch(e){setOut('lanOut',{ok:false,erro:String(e.message||e)});}
-};
-function existePendenteMuitoRecente(cochoId,prodId,kg){
-  var agora=Date.now();
-  var fila=getFila();
-  for(var i=0;i<fila.length;i++){
-    var x=fila[i];
-    if(x.status_local==='PENDENTE' && x.cocho_id===cochoId && x.produto_id===prodId && Number(x.quantidade_kg)===Number(kg)){
-      var t=Date.parse(x.data_hora_iso||'');
-      if(t && (agora-t)<(5*60*1000)){return x;}
-    }
-  }
-  return null;
 }
 
 window.capturarGPS=function(btn){
@@ -375,8 +340,8 @@ window.capturarGPS=function(btn){
   if(!navigator.geolocation){setOut('lanOut',{ok:false,erro:'GPS_NAO_SUPORTADO',gps_status:'SEM_GPS'});btnUnlock(btn);return;}
   navigator.geolocation.getCurrentPosition(function(pos){
     $('lan_lat').value=pos.coords.latitude.toFixed(7);$('lan_lng').value=pos.coords.longitude.toFixed(7);$('lan_acc').value=pos.coords.accuracy?Math.round(pos.coords.accuracy):'';
-    salvarRascunho();atualizarAlertaGps();atualizarConferencia();setOut('lanOut',{ok:true,mensagem:'GPS capturado.',gps_status:'COM_GPS',lat:$('lan_lat').value,lng:$('lan_lng').value,precisao_m:$('lan_acc').value});btnUnlock(btn);
-  },function(err){atualizarAlertaGps();setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Pode salvar como SEM_GPS nesta fase.'});btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+    salvarRascunho();atualizarConferencia();atualizarAlertaGps();setOut('lanOut',{ok:true,mensagem:'GPS capturado sem limpar cocho/produto.',gps_status:'COM_GPS',lat:$('lan_lat').value,lng:$('lan_lng').value,precisao_m:$('lan_acc').value});btnUnlock(btn);
+  },function(err){salvarRascunho();atualizarConferencia();atualizarAlertaGps();setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Pode salvar como SEM_GPS nesta fase.'});btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
 };
 window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}$('lan_obs').value='LANÇAMENTO TESTE APP CAMPO';salvarRascunho();atualizarConferencia();atualizarAlertaGps();};
 window.salvarLocal=function(btn){
@@ -386,12 +351,9 @@ window.salvarLocal=function(btn){
   if(!cochoId){setOut('lanOut',{ok:false,erro:'COCHO_OBRIGATORIO'});btnUnlock(btn);return;}
   if(!prodId){setOut('lanOut',{ok:false,erro:'PRODUTO_OBRIGATORIO'});btnUnlock(btn);return;}
   if(!kg||kg<=0){setOut('lanOut',{ok:false,erro:'KG_OBRIGATORIO'});btnUnlock(btn);return;}
-  var dupRecente=existePendenteMuitoRecente(cochoId,prodId,kg);
-  if(dupRecente){setOut('lanOut',{ok:false,erro:'POSSIVEL_DUPLICIDADE_LOCAL',mensagem:'Já existe lançamento pendente igual nos últimos 5 minutos.',operacao:dupRecente.id_operacao_cliente});btnUnlock(btn);return;}
-  atualizarConferencia();
-  var temGps=!!($('lan_lat').value&&$('lan_lng').value);
+  salvarRascunho();atualizarConferencia();atualizarAlertaGps();var temGps=!!($('lan_lat').value&&$('lan_lng').value);
   var item={id_operacao_cliente:genOp(),propriedade_id:b.propriedade.id,cocho_id:cochoId,produto_id:prodId,usuario_id:(session.usuario&&session.usuario.id)||null,quantidade_kg:kg,data_hora_brasilia:nowBR(),data_hora_iso:new Date().toISOString(),gps_lat:$('lan_lat').value?Number($('lan_lat').value):null,gps_lng:$('lan_lng').value?Number($('lan_lng').value):null,gps_precisao_m:$('lan_acc').value?Number($('lan_acc').value):null,status_gps:temGps?'COM_GPS':'SEM_GPS',observacoes:$('lan_obs').value.trim(),origem_lancamento:'APP_CAMPO_V1_0',status_sync:'PENDENTE',status_local:'PENDENTE',criado_local_em:nowBR()};
-  var fila=getFila();fila.unshift(item);setFila(fila);setRascunho({cocho_id:cochoId,produto_id:prodId});updateUI();renderFila();setOut('lanOut',{ok:true,mensagem:'Lançamento salvo offline.',pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length,lancamento:item});btnUnlock(btn);
+  var fila=getFila();fila.unshift(item);setFila(fila);setRascunho({cocho_id:cochoId,produto_id:prodId});updateUI();preencherSelects();aplicarRascunho();renderFila();setOut('lanOut',{ok:true,mensagem:'Lançamento salvo offline.',pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length,lancamento:item});btnUnlock(btn);
 };
 window.sincronizarFila=function(btn){
   btnLock(btn,'Sincronizando...');
@@ -426,7 +388,7 @@ function nomeProduto(id){var b=getBase(),a=b.produtos||[];for(var i=0;i<a.length
 window.exportarFila=function(){var blob=new Blob([JSON.stringify(getFila(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup_fila_app_cocho_campo_'+Date.now()+'.json';a.click();};
 window.limparSincronizados=function(){var fila=getFila().filter(function(x){return x.status_local==='PENDENTE';});setFila(fila);updateUI();renderFila();};
 window.diagnostico=function(){setOut('diagOut',{app:APP_VERSION,online:navigator.onLine,config:cfg(),session:session,base:getBase(),fila:getFila(),data_hora_brasilia:nowBR()});};
-['lan_cocho','lan_produto','lan_kg','lan_lat','lan_lng','lan_acc'].forEach(function(id){var el=$(id);if(el){el.addEventListener('change',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();});el.addEventListener('input',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();});}});
+['lan_cocho','lan_produto','lan_kg','lan_lat','lan_lng','lan_acc','lan_obs'].forEach(function(id){var el=$(id);if(el){el.addEventListener('change',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();});el.addEventListener('input',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();});}});
 loadConfig();loadSession();updateUI();renderBase();renderFila();preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();setInterval(updateUI,10000);window.addEventListener('online',updateUI);window.addEventListener('offline',updateUI);
 })();
 </script>
