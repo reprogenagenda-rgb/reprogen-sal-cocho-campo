@@ -4,55 +4,328 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="REPROGEN">
-<title>REPROGEN CAMPO V3.4.1 — SYNC CORRIGIDO</title>
-<link rel="manifest" href="./manifest.json">
+<title>APP COCHO CAMPO V1.0 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.0">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--g:#0f5132;--g2:#198754;--g3:#d1e7dd;--r:#dc3545;--am:#ffc107;--bl:#0d6efd;--ln:#c8dcc9;--bg:#e8f2e9;--card:#fff;--ink:#0d1f12;--muted:#4e6b52;--sab:env(safe-area-inset-bottom,0px);--sat:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}html{height:100%}body{background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;color:var(--ink);font-size:17px;-webkit-font-smoothing:antialiased;min-height:100%}
-.header{background:linear-gradient(135deg,#0a3d24,#0f5132);color:#fff;padding:calc(12px + var(--sat)) 16px 12px;position:sticky;top:0;z-index:50;box-shadow:0 3px 10px rgba(0,0,0,.25)}.header-top{display:flex;align-items:center;justify-content:space-between}.header h1{font-size:20px;font-weight:900}.header p{font-size:12px;opacity:.8;margin-top:2px}.hpills{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.hpill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(255,255,255,.15)}.dot{width:9px;height:9px;border-radius:50%;background:#999}.dot-on{background:#4ade80}.dot-off{background:#60a5fa}.hdpend{background:rgba(255,255,255,.15);border-radius:10px;padding:6px 10px;font-size:12px;font-weight:700;color:#fff}
-.conteudo{padding:14px 12px calc(80px + var(--sab));max-width:540px;margin:0 auto;-webkit-overflow-scrolling:touch}.card{background:var(--card);border-radius:18px;box-shadow:0 4px 16px rgba(10,50,20,.12);padding:18px 16px;margin-bottom:14px;border:1.5px solid var(--ln)}.ctitulo{font-size:17px;font-weight:900;color:var(--g);margin-bottom:16px;display:flex;align-items:center;gap:10px}.ctitulo .ico{font-size:21px}
-.campo{margin-bottom:14px}.campo label{display:block;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}.campo input,.campo select,.campo textarea{width:100%;padding:16px 14px;border:2px solid var(--ln);border-radius:14px;background:#f7fbf7;font-size:16px;font-family:inherit;color:var(--ink);outline:none;font-weight:600;min-height:56px;-webkit-appearance:none;appearance:none}.campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--g2);background:#fff;box-shadow:0 0 0 4px rgba(25,135,84,.15)}.campo select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234e6b52' fill='none' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}.campo textarea{min-height:80px;resize:none;line-height:1.5}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:360px){.grid2{grid-template-columns:1fr}}
-.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:64px;padding:14px 16px;border:0;border-radius:16px;font-size:18px;font-weight:900;cursor:pointer;margin-bottom:10px;font-family:inherit;-webkit-appearance:none;transition:opacity .15s}.btn:active{opacity:.85}.btn .bico{font-size:22px}.btn-verde{background:linear-gradient(135deg,#0f5132,#198754);color:#fff;box-shadow:0 5px 18px rgba(15,81,50,.3)}.btn-azul{background:#dbeafe;color:#1e3a8a}.btn-laranja{background:#fef3c7;color:#78350f}.btn-cinza{background:#f0f5f0;color:#2d4a32}.btn-roxo{background:#ede9fe;color:#4c1d95}.btn-danger{background:#fee2e2;color:#7f1d1d}.btn-sm{min-height:48px;font-size:15px;padding:10px 14px;border-radius:12px;margin-bottom:8px}
-.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}.kpi{background:#fff;border:2px solid var(--ln);border-radius:16px;padding:14px 12px;text-align:center}.kpi .num{font-size:30px;font-weight:900;color:var(--g);line-height:1}.kpi .lbl{font-size:12px;font-weight:700;color:var(--muted);margin-top:4px;text-transform:uppercase}.pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:800}.pok{background:#d1e7dd;color:#0f5132}.ppend{background:#fef3c7;color:#78350f}.perr{background:#fee2e2;color:#7f1d1d}.psync{background:#dbeafe;color:#1e3a8a}.pnota{background:#ede9fe;color:#4c1d95}
-.lista{display:flex;flex-direction:column;gap:10px}.item{background:#fff;border:2px solid var(--ln);border-radius:16px;padding:14px}.item .itop{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;gap:8px}.item .inome{font-size:16px;font-weight:800;flex:1}.item .isub{font-size:12px;color:var(--muted);margin-top:3px;word-break:break-word}.errobox{margin-top:8px;background:#fff5f5;color:#7f1d1d;border-radius:10px;padding:8px;font-size:12px;font-weight:700;word-break:break-word}.nota-box{background:#faf5ff;border:2px solid #c4b5fd;border-radius:16px;padding:16px;margin-bottom:14px}.nota-titulo{font-size:14px;font-weight:800;color:#4c1d95;margin-bottom:12px;display:flex;align-items:center;gap:8px}.foto-preview-wrap{position:relative;display:inline-block;width:100%}.foto-preview{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin-top:8px;display:none;border:2px solid #c4b5fd}.foto-preview.show{display:block}.btn-remover-foto{position:absolute;top:14px;right:8px;background:#7f1d1d;color:#fff;border:0;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;align-items:center;justify-content:center;display:none}.btn-remover-foto.show{display:flex}.foto-status{font-size:12px;color:#6d28d9;font-weight:700;margin-top:6px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:2px solid var(--ln);display:flex;padding-bottom:var(--sab);box-shadow:0 -3px 14px rgba(0,0,0,.1)}.bnbtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;border:0;background:none;cursor:pointer;gap:3px;min-height:56px;font-family:inherit;-webkit-appearance:none}.bnbtn .bnico{font-size:22px;line-height:1}.bnbtn .bnome{font-size:11px;font-weight:700;color:#647067}.bnbtn.active .bnome{color:var(--g)}.bnbtn.active{position:relative}.bnbtn.active::before{content:'';position:absolute;top:0;left:25%;right:25%;height:3px;background:var(--g);border-radius:0 0 3px 3px}.toast{position:fixed;left:12px;right:12px;bottom:calc(76px + var(--sab));z-index:100;background:#0a3d24;color:#fff;padding:14px 16px;border-radius:16px;font-size:15px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.3);display:none;text-align:center}.toast.show{display:block;animation:sup .2s ease}@keyframes sup{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}.ov-salvo{position:fixed;inset:0;z-index:200;background:rgba(15,81,50,.93);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px}.ov-salvo.show{display:flex}.ov-ico{font-size:72px}.ov-txt{color:#fff;font-size:26px;font-weight:900;text-align:center}.ov-sub{color:rgba(255,255,255,.85);font-size:15px;text-align:center;line-height:1.5}.sep{height:1px;background:var(--ln);margin:14px 0}.hide{display:none!important}.muted{color:var(--muted);font-size:13px}.offline-box{background:#fff3cd;color:#664d03;border:1.5px solid #ffc107;border-radius:12px;padding:10px;margin-bottom:12px;font-size:13px;font-weight:800;text-align:center}.online-box{background:#d1e7dd;color:#0f5132;border:1.5px solid #198754;border-radius:12px;padding:10px;margin-bottom:12px;font-size:13px;font-weight:800;text-align:center}
+:root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+header{position:sticky;top:0;z-index:10;background:linear-gradient(135deg,var(--g),#082114);color:#fff;padding:8px 10px;box-shadow:0 2px 8px rgba(0,0,0,.16)}
+h1{font-size:17px;margin:0;font-weight:900}.sub{font-size:11px;opacity:.9;margin-top:2px}.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.badge{display:inline-block;background:#e9fff0;color:#083b21;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800}.badge.warn{background:#fff3cd;color:#5b4300}.badge.err{background:#f8d7da;color:#842029}.badge.blue{background:#dbeafe;color:#123a75}
+main{max-width:900px;margin:0 auto;padding:8px}nav{display:flex;gap:6px;overflow:auto;padding:7px 0}.tab{border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 10px;font-weight:900;color:var(--ink);white-space:nowrap;font-size:13px}.tab.active{background:var(--g);color:#fff;border-color:var(--g)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:11px;margin:8px 0;box-shadow:0 3px 12px rgba(0,0,0,.04)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}.col-12{grid-column:span 12}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}
+@media(max-width:760px){.col-6,.col-4,.col-3{grid-column:span 12}h1{font-size:16px}.kpirow{grid-template-columns:repeat(2,1fr)!important}table{min-width:720px}.tablewrap{overflow-x:auto}button{font-size:14px}}
+label{display:block;font-size:12px;font-weight:900;color:#234b36;margin:4px 0}input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:14px;color:var(--ink)}textarea{min-height:80px}
+button{border:0;border-radius:12px;padding:10px 12px;font-weight:900;background:var(--g2);color:#fff;margin:4px 4px 4px 0}button.blue{background:var(--b)}button.gray{background:#6c757d}button.warn{background:#f0ad00;color:#222}button.red{background:var(--r)}button:disabled{opacity:.55}
+.small{font-size:12px;color:var(--muted)}.okbox{background:#e7f6eb;border:1px solid #b8dfc1;border-radius:12px;padding:10px;margin:8px 0}.warnbox{background:#fff3cd;border:1px solid #ffe08a;border-radius:12px;padding:10px;margin:8px 0}.errbox{background:#f8d7da;border:1px solid #f1aeb5;border-radius:12px;padding:10px;margin:8px 0}
+pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:auto;white-space:pre-wrap;font-size:12px;min-height:44px}table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}th,td{border-bottom:1px solid #e7efe9;padding:8px;text-align:left;font-size:13px}th{background:#edf7ef;color:#1c5135;font-weight:900}
+.hidden{display:none}.footer{text-align:center;color:#607060;font-size:12px;margin:18px 0}.sessionbar{background:#dff3e5;border:1px solid #b9dfc3;border-radius:14px;padding:10px;margin:8px 0;font-size:13px}.sessionbar b{color:#0f5132}.kpirow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}.kpi b{font-size:18px}.bigbtn{width:100%;padding:14px;font-size:18px}
 </style>
 </head>
 <body>
-<header class="header"><div class="header-top"><div><h1>REPROGEN CAMPO V3.4.1</h1><p>Registro de Abastecimento • Fazendas • GPS • Sync V1.4 • Sync V1.4</p></div><div id="hdPend" class="hdpend">OK</div></div><div class="hpills" id="hpills"></div></header>
-<div class="conteudo">
-<div id="pgPainel" class="pg"><div id="offlineStatusBox" class="online-box">Modo online</div><div class="kpis"><div class="kpi"><div class="num" id="kHoje">0</div><div class="lbl">Hoje</div></div><div class="kpi"><div class="num" id="kPend" style="color:#c45200">0</div><div class="lbl">Pendentes</div></div></div><button class="btn btn-verde" onclick="ir('registrar')"><span class="bico">📝</span> Registrar Abastecimento</button><button class="btn btn-azul" onclick="ir('fazendas')"><span class="bico">🏡</span> Cadastro de Fazendas</button><button class="btn btn-roxo" onclick="ir('nota')"><span class="bico">📷</span> Nota do Cocho</button><button class="btn btn-laranja" onclick="ir('movimentacao')"><span class="bico">🔄</span> Movimentacao de Lote</button><button class="btn btn-azul btn-sm" onclick="sincronizar()"><span class="bico">🔁</span> Sincronizar Agora</button><div class="sep"></div><div class="card"><div class="ctitulo"><span class="ico">🕐</span>Ultimos Registros</div><div id="ultimasList" class="lista"></div></div></div>
-<div id="pgRegistrar" class="pg hide"><div class="card"><div class="ctitulo"><span class="ico">📝</span>Novo Abastecimento</div><div class="campo"><label>Fazenda / Propriedade</label><input id="rProp" list="lstProps" placeholder="Ex: Fazenda Sao Joao" autocomplete="off" autocorrect="off" autocapitalize="words"><datalist id="lstProps"></datalist></div><div class="campo"><label>Cocho / Ponto</label><input id="rCocho" list="lstCochos" placeholder="Ex: Cocho Norte" autocomplete="off"><datalist id="lstCochos"></datalist></div><div class="campo"><label>Operador</label><input id="rOper" list="lstOpers" placeholder="Ex: Marcelo" autocomplete="off"><datalist id="lstOpers"></datalist></div><div class="grid2"><div class="campo"><label>Produto</label><input id="rProd" list="lstProds" placeholder="Premix aguas" autocomplete="off"><datalist id="lstProds"></datalist></div><div class="campo"><label>Quantidade (kg)</label><input id="rQtd" type="number" step="0.5" placeholder="25" inputmode="decimal"></div></div><div class="campo"><label>Observacao</label><textarea id="rObs" placeholder="Opcional"></textarea></div><div class="nota-box"><div class="nota-titulo">📷 Foto do Cocho <span class="muted">(opcional)</span></div><button class="btn btn-roxo btn-sm" onclick="abrirCamera('regFoto')"><span class="bico">📸</span> Tirar Foto ou Escolher</button><input type="file" id="regFotoInput" accept="image/*" capture="environment" style="display:none" onchange="processarFoto(this,'regFoto')"><div class="foto-preview-wrap"><img id="regFotoPreview" class="foto-preview" alt="Preview"><button class="btn-remover-foto" id="regFotoBtnRem" onclick="removerFoto('regFoto')">✕</button></div><div id="regFotoStatus" class="foto-status"></div></div><div id="gpsIndicador" style="background:#f0f5f0;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:13px;color:#4e6b52;display:flex;align-items:center;gap:8px"><span id="gpsIcone">📍</span><span id="gpsLabel">GPS sera capturado automaticamente ao salvar</span></div><button class="btn btn-verde" id="btnSalvarReg" onclick="salvarComGPS()"><span class="bico">💾</span> SALVAR</button></div></div>
-<div id="pgNota" class="pg hide"><div class="card"><div class="ctitulo"><span class="ico">📷</span>Nota do Cocho</div><p class="muted" style="margin-bottom:16px">Registre cocho danificado, sal entupido, animal doente ou outro problema.</p><div class="campo"><label>Fazenda / Propriedade</label><input id="nProp" list="lstProps" placeholder="Ex: Fazenda Sao Joao" autocomplete="off"></div><div class="campo"><label>Cocho / Ponto</label><input id="nCocho" list="lstCochos" placeholder="Ex: Cocho Norte" autocomplete="off"></div><div class="campo"><label>Operador</label><input id="nOper" list="lstOpers" placeholder="Ex: Marcelo" autocomplete="off"></div><div class="nota-box"><div class="nota-titulo">📷 Foto da Situacao</div><button class="btn btn-roxo btn-sm" onclick="abrirCamera('notaFoto')"><span class="bico">📸</span> Tirar Foto ou Escolher</button><input type="file" id="notaFotoInput" accept="image/*" capture="environment" style="display:none" onchange="processarFoto(this,'notaFoto')"><div class="foto-preview-wrap"><img id="notaFotoPreview" class="foto-preview" alt="Preview"><button class="btn-remover-foto" id="notaFotoBtnRem" onclick="removerFoto('notaFoto')">✕</button></div><div id="notaFotoStatus" class="foto-status"></div></div><div class="campo"><label>Descricao</label><textarea id="nDesc" placeholder="Descreva a situação" style="min-height:100px"></textarea></div><div class="campo"><label>Urgencia</label><select id="nUrgencia"><option value="NORMAL">Normal</option><option value="ATENCAO">Atencao</option><option value="URGENTE">Urgente</option></select></div><button class="btn btn-roxo" onclick="salvarNota()"><span class="bico">📋</span> REGISTRAR NOTA</button></div></div>
-<div id="pgMovimentacao" class="pg hide"><div class="card"><div class="ctitulo"><span class="ico">🔄</span>Movimentacao de Lote</div><div class="campo"><label>Fazenda / Propriedade</label><input id="mProp" list="lstProps" placeholder="Ex: Fazenda Sao Joao" autocomplete="off"></div><div class="campo"><label>Identificacao do Lote</label><input id="mLote" list="lstLotes" placeholder="Ex: LOTE_A" autocomplete="off"><datalist id="lstLotes"></datalist></div><div class="campo"><label>Tipo</label><select id="mEvento"><option value="ENTRADA">ENTRADA</option><option value="TRANSFERENCIA">TRANSFERENCIA</option><option value="SAIDA">SAIDA</option></select></div><div class="campo"><label>Quantidade Total</label><input id="mQtd" type="number" placeholder="Ex: 100" inputmode="numeric"></div><div style="background:#f7fbf7;border-radius:14px;padding:14px;border:1.5px solid var(--ln);margin-bottom:14px"><div class="ctitulo" style="font-size:14px;margin-bottom:12px"><span class="ico">🐄</span>Distribuicao por Categoria</div><div class="grid2"><div class="campo"><label>Bezerros</label><input id="mBzm" type="number" value="0"></div><div class="campo"><label>Bezerras</label><input id="mBzf" type="number" value="0"></div><div class="campo"><label>Novilhos</label><input id="mNvm" type="number" value="0"></div><div class="campo"><label>Novilhas</label><input id="mNvf" type="number" value="0"></div><div class="campo"><label>Solteiras</label><input id="mSol" type="number" value="0"></div><div class="campo"><label>Nulíparas</label><input id="mNul" type="number" value="0"></div><div class="campo"><label>Primíparas</label><input id="mPri" type="number" value="0"></div><div class="campo"><label>Multíparas</label><input id="mMul" type="number" value="0"></div></div><div id="somaCategs" style="background:#e8f2e9;border-radius:10px;padding:10px;text-align:center;font-weight:800;font-size:15px;color:#0f5132">Soma: 0 / Total: 0</div></div><div class="campo"><label>Observacao</label><textarea id="mObs" placeholder="Opcional"></textarea></div><button class="btn btn-verde" onclick="salvarMovimentacao()"><span class="bico">💾</span> SALVAR MOVIMENTACAO</button></div></div>
-<div id="pgFazendas" class="pg hide"><div class="card"><div class="ctitulo"><span class="ico">🏡</span>Cadastro de Fazendas</div><div class="campo"><label>Nome da Fazenda</label><input id="fNome" placeholder="Ex: Fazenda Sao Joao" autocomplete="off"></div><div class="grid2"><div class="campo"><label>Município</label><input id="fMun" placeholder="Ex: Irituia"></div><div class="campo"><label>Estado</label><input id="fEst" value="PA" maxlength="2"></div></div><div class="grid2"><div class="campo"><label>Responsável</label><input id="fResp"></div><div class="campo"><label>Telefone</label><input id="fTel"></div></div><div class="grid2"><div class="campo"><label>Latitude sede</label><input id="fLat" placeholder="Opcional"></div><div class="campo"><label>Longitude sede</label><input id="fLng" placeholder="Opcional"></div></div><button class="btn btn-azul btn-sm" onclick="capturarGPSFazenda()"><span class="bico">📍</span> Capturar GPS da Fazenda</button><button class="btn btn-verde" onclick="salvarFazenda()"><span class="bico">💾</span> SALVAR FAZENDA</button></div><div class="card"><div class="ctitulo"><span class="ico">📋</span>Fazendas Cadastradas</div><div id="listaFazendas" class="lista"></div></div></div>
-<div id="pgFila" class="pg hide"><div class="card"><div class="ctitulo"><span class="ico">⏳</span>Fila de Envio</div><button class="btn btn-verde btn-sm" onclick="sincronizar()"><span class="bico">🔁</span> Sincronizar Agora</button><button class="btn btn-laranja btn-sm" onclick="reprocessarErrosFila(true)"><span class="bico">♻️</span> Reprocessar Erros e Enviar</button><button class="btn btn-azul btn-sm" onclick="diagnosticoFila()"><span class="bico">🔎</span> Diagnóstico da Fila</button><button class="btn btn-cinza btn-sm" onclick="limparSync()">Ocultar Ja Enviados</button><div id="filaDiag" class="muted" style="white-space:pre-wrap;margin-top:8px"></div></div><div id="listaFila" class="lista"></div></div>
-<div id="pgConfig" class="pg hide"><div class="card"><div class="ctitulo"><span class="ico">⚙️</span>Configuracao</div><div class="campo"><label>Endereco do Sistema (URL /exec)</label><input id="cfgUrl" placeholder="https://script.google.com/macros/s/.../exec" type="url" autocorrect="off" autocapitalize="none" spellcheck="false"></div><button class="btn btn-verde btn-sm" onclick="salvarCfg()"><span class="bico">💾</span> Salvar</button><button class="btn btn-azul btn-sm" onclick="testarCfg()"><span class="bico">🔗</span> Testar Conexao</button><div id="cfgResult" style="margin-top:8px"></div><div class="sep"></div><div class="ctitulo" style="font-size:15px"><span class="ico">💾</span>Backup</div><button class="btn btn-cinza btn-sm" onclick="exportar()">Exportar JSON</button><div class="campo" style="margin-top:10px"><label>Importar Backup</label><input type="file" id="impFile" accept=".json" style="font-size:15px;padding:10px"></div><button class="btn btn-laranja btn-sm" onclick="importar()">Restaurar Backup</button></div></div>
+<header>
+  <h1>APP COCHO CAMPO V1.0 SUPABASE</h1>
+  <div class="sub">Coletador offline • Cocho • Produto • Kg • GPS • Sincronização</div>
+  <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
+</header>
+<main>
+<nav>
+<button class="tab active" data-tab="painel" onclick="showTab('painel')">Painel</button>
+<button class="tab" data-tab="config" onclick="showTab('config')">Config</button>
+<button class="tab" data-tab="login" onclick="showTab('login')">Login</button>
+<button class="tab" data-tab="base" onclick="showTab('base')">Base</button>
+<button class="tab" data-tab="lancar" onclick="showTab('lancar')">Lançar</button>
+<button class="tab" data-tab="fila" onclick="showTab('fila')">Fila</button>
+<button class="tab" data-tab="diagnostico" onclick="showTab('diagnostico')">Diagnóstico</button>
+</nav>
+<div class="sessionbar" id="sessionBar"><b>Sessão:</b> sem login.</div>
+
+<div id="view-painel" class="view">
+  <div class="card">
+    <h2>Painel Campo V1.0</h2>
+    <div class="okbox">Fluxo correto: configurar Supabase → login → baixar base → lançar offline → sincronizar.</div>
+    <div class="kpirow">
+      <div class="kpi"><b id="kCochos">0</b><br><span class="small">Cochos</span></div>
+      <div class="kpi"><b id="kProdutos">0</b><br><span class="small">Produtos</span></div>
+      <div class="kpi"><b id="kPend">0</b><br><span class="small">Pendentes</span></div>
+      <div class="kpi"><b id="kSync">0</b><br><span class="small">Sincronizados</span></div>
+    </div>
+    <button class="blue" onclick="testSupabase(this)">Testar Supabase</button>
+    <button onclick="baixarBase(this)">Baixar/Atualizar Base</button>
+    <button class="warn" onclick="showTab('lancar')">Novo lançamento</button>
+    <pre id="painelOut">Aguardando operação.</pre>
+  </div>
 </div>
-<nav class="bottom-nav"><button class="bnbtn active" data-pg="pgPainel" onclick="ir('painel')"><span class="bnico">🏠</span><span class="bnome">Inicio</span></button><button class="bnbtn" data-pg="pgRegistrar" onclick="ir('registrar')"><span class="bnico">📝</span><span class="bnome">Registrar</span></button><button class="bnbtn" data-pg="pgNota" onclick="ir('nota')"><span class="bnico">📷</span><span class="bnome">Nota</span></button><button class="bnbtn" data-pg="pgMovimentacao" onclick="ir('movimentacao')"><span class="bnico">🔄</span><span class="bnome">Movim.</span></button><button class="bnbtn" data-pg="pgFila" onclick="ir('fila')"><span class="bnico">⏳</span><span class="bnome">Fila</span></button><button class="bnbtn" data-pg="pgConfig" onclick="ir('config')"><span class="bnico">⚙️</span><span class="bnome">Config</span></button></nav>
-<div class="ov-salvo" id="ovSalvo"><div class="ov-ico">✅</div><div class="ov-txt" id="ovTxt">SALVO!</div><div class="ov-sub" id="ovSub">Registro salvo</div></div><div class="toast" id="toast"></div><canvas id="canvasFoto" style="display:none"></canvas>
+
+<div id="view-config" class="view hidden">
+  <div class="card">
+    <h2>Config Supabase</h2>
+    <div class="warnbox">Use apenas Project URL e Publishable Key / anon public. Nunca cole secret key ou service_role.</div>
+    <label>SUPABASE_URL</label><input id="supabaseUrl" value="https://wxnsyozjiosbdwxpodbf.supabase.co">
+    <label>SUPABASE_PUBLISHABLE_KEY</label><textarea id="supabaseKey" placeholder="sb_publishable_..."></textarea>
+    <button onclick="saveConfig()">Salvar Config</button><button class="blue" onclick="testSupabase(this)">Testar conexão</button><button class="gray" onclick="clearConfig()">Limpar</button>
+    <pre id="configOut">Cole a publishable key e teste.</pre>
+  </div>
+</div>
+
+<div id="view-login" class="view hidden">
+  <div class="card">
+    <h2>Login da Fazenda</h2>
+    <div class="grid">
+      <div class="col-12"><label>Chave da fazenda</label><input id="login_chave" placeholder="COCHO-...-2026"></div>
+      <div class="col-6"><label>Login do funcionário</label><input id="login_usuario" placeholder="marcelo"></div>
+      <div class="col-6"><label>PIN</label><input id="login_pin" placeholder="5544" inputmode="numeric"></div>
+    </div>
+    <button class="blue" onclick="validarLogin(this)">Entrar / Validar</button>
+    <button class="gray" onclick="limparSessao()">Sair</button>
+    <pre id="loginOut">Informe chave, usuário e PIN.</pre>
+  </div>
+</div>
+
+<div id="view-base" class="view hidden">
+  <div class="card">
+    <h2>Base Offline da Fazenda</h2>
+    <button class="blue" onclick="baixarBase(this)">Baixar/Atualizar Base</button>
+    <button onclick="importarBaseArquivo()">Importar JSON da Central</button>
+    <input id="baseFile" type="file" accept=".json,application/json" class="hidden" onchange="lerBaseArquivo(event)">
+    <button class="gray" onclick="limparBaseLocal()">Limpar Base Local</button>
+    <pre id="baseOut">Sem base carregada.</pre>
+  </div>
+  <div class="card tablewrap"><h3>Cochos da Base</h3><div id="baseCochos"></div></div>
+</div>
+
+<div id="view-lancar" class="view hidden">
+  <div class="card">
+    <h2>Novo Abastecimento</h2>
+    <div class="grid">
+      <div class="col-6"><label>Cocho abastecido</label><select id="lan_cocho"><option value="">Baixe a base primeiro</option></select></div>
+      <div class="col-6"><label>Produto / sal / suplemento</label><select id="lan_produto"><option value="">Baixe a base primeiro</option></select></div>
+      <div class="col-4"><label>Quantidade colocada (kg)</label><input id="lan_kg" type="number" step="0.001" placeholder="30"></div>
+      <div class="col-4"><label>Latitude</label><input id="lan_lat" placeholder="opcional"></div>
+      <div class="col-4"><label>Longitude</label><input id="lan_lng" placeholder="opcional"></div>
+      <div class="col-4"><label>Precisão GPS (m)</label><input id="lan_acc" placeholder="opcional"></div>
+      <div class="col-8"><label>Observação</label><input id="lan_obs" placeholder="cocho vazio / abastecimento normal / sobrou sal"></div>
+    </div>
+    <button class="blue bigbtn" onclick="capturarGPS(this)">Capturar GPS</button>
+    <button class="warn" onclick="preencherTeste()">Preencher Teste</button>
+    <button class="bigbtn" onclick="salvarLocal(this)">Salvar Offline</button>
+    <button class="blue bigbtn" onclick="sincronizarFila(this)">Sincronizar Agora</button>
+    <pre id="lanOut">Sem lançamento.</pre>
+  </div>
+</div>
+
+<div id="view-fila" class="view hidden">
+  <div class="card">
+    <h2>Fila Offline</h2>
+    <button class="blue" onclick="renderFila()">Atualizar Lista</button>
+    <button onclick="sincronizarFila(this)">Sincronizar Pendentes</button>
+    <button class="gray" onclick="exportarFila()">Exportar Backup JSON</button>
+    <button class="red" onclick="limparSincronizados()">Limpar Sincronizados</button>
+    <pre id="filaOut">Fila local.</pre>
+  </div>
+  <div class="card tablewrap"><h3>Lançamentos locais</h3><div id="filaTable"></div></div>
+</div>
+
+<div id="view-diagnostico" class="view hidden">
+  <div class="card">
+    <h2>Diagnóstico</h2>
+    <button class="blue" onclick="diagnostico()">Gerar Diagnóstico</button>
+    <pre id="diagOut">Sem diagnóstico.</pre>
+  </div>
+</div>
+
+<div class="footer">APP COCHO CAMPO V1.0 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
+</main>
+
 <script>
-(function(){'use strict';
-var DB='rg_campo_v32';var GPS=null;var FOTOS={};
-function $(i){return document.getElementById(i);}function load(k,d){try{var v=localStorage.getItem(DB+'_'+k);return v?JSON.parse(v):d;}catch(e){return d;}}function save(k,v){localStorage.setItem(DB+'_'+k,JSON.stringify(v));}function uid(){return'RGSC-'+Date.now()+'-'+Math.random().toString(16).slice(2,8);}function agora(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)+'T'+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2);}function hoje(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}function toast(msg){var t=$('toast');t.textContent=msg;t.className='toast show';setTimeout(function(){t.className='toast';},3200);}function mostrarSalvo(titulo,sub){$('ovTxt').textContent=titulo||'SALVO!';$('ovSub').textContent=sub||'Registro salvo offline';$('ovSalvo').className='ov-salvo show';setTimeout(function(){$('ovSalvo').className='ov-salvo';ir('painel');},2000);}function getQueue(){return load('q',[]);}function setQueue(q){save('q',q);}function getSug(){return load('sug',{p:[],c:[],o:[],pr:[],l:[]});}function addSug(t,v){if(!v||!v.trim())return;var s=getSug(),val=v.trim();if(!s[t])s[t]=[];if(s[t].indexOf(val)===-1){s[t].unshift(val);s[t]=s[t].slice(0,20);}save('sug',s);}function getFazendas(){return load('fazendas',[]);}function setFazendas(v){save('fazendas',v);}function normNome(v){return String(v||'').trim().toUpperCase().replace(/\s+/g,' ');}function nomesFazendas(){var out=[],seen={};getFazendas().forEach(function(f){var n=f.nome||'';if(n&&!seen[n]){seen[n]=1;out.push(n);}});(getSug().p||[]).forEach(function(n){if(n&&!seen[n]){seen[n]=1;out.push(n);}});return out;}function fazendaPorNome(nome){var nn=normNome(nome),fs=getFazendas();for(var i=0;i<fs.length;i++){if(normNome(fs[i].nome)===nn)return fs[i];}return null;}
-window.abrirCamera=function(chave){var el=$(chave+'Input');if(!el)return;el.value='';el.click();};window.processarFoto=function(inputEl,chave){var file=inputEl.files[0];if(!file)return;var statusEl=$(chave+'Status'),previewEl=$(chave+'Preview'),btnRem=$(chave+'BtnRem');if(statusEl)statusEl.textContent='Processando foto...';var reader=new FileReader();reader.onload=function(e){var img=new Image();img.onload=function(){try{var canvas=$('canvasFoto'),MAX=900,w=img.width,h=img.height;if(w>h&&w>MAX){h=Math.round(h*(MAX/w));w=MAX;}else if(h>w&&h>MAX){w=Math.round(w*(MAX/h));h=MAX;}else if(w>MAX){w=MAX;h=MAX;}canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);var b64=canvas.toDataURL('image/jpeg',0.72);var kb=Math.round(b64.length*0.75/1024);FOTOS[chave]=b64;if(previewEl){previewEl.src=b64;previewEl.className='foto-preview show';}if(btnRem)btnRem.className='btn-remover-foto show';if(statusEl)statusEl.textContent='Foto pronta ('+kb+'KB)';}catch(err){FOTOS[chave]=null;if(statusEl)statusEl.textContent='Nao foi possivel processar.';}};img.onerror=function(){FOTOS[chave]=null;if(statusEl)statusEl.textContent='Erro ao carregar imagem.';};img.src=e.target.result;};reader.readAsDataURL(file);};window.removerFoto=function(chave){FOTOS[chave]=null;var prev=$(chave+'Preview'),btn=$(chave+'BtnRem'),st=$(chave+'Status'),inp=$(chave+'Input');if(prev){prev.src='';prev.className='foto-preview';}if(btn)btn.className='btn-remover-foto';if(st)st.textContent='';if(inp)inp.value='';};
-window.ir=function(nome){document.querySelectorAll('.pg').forEach(function(el){el.classList.add('hide');});var alvo=$('pg'+nome.charAt(0).toUpperCase()+nome.slice(1));if(alvo)alvo.classList.remove('hide');document.querySelectorAll('.bnbtn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-pg')==='pg'+nome.charAt(0).toUpperCase()+nome.slice(1));});window.scrollTo({top:0,behavior:'smooth'});render();};
-function render(){renderHeader();renderKPIs();renderDataLists();renderFila();renderUltimas();renderFazendas();}function renderHeader(){var on=navigator.onLine,api=load('config',{}).url||'',pend=getQueue().filter(function(x){return x.st!=='OK';}).length;$('hpills').innerHTML='<span class="hpill"><span class="dot '+(on?'dot-on':'dot-off')+'"></span>'+(on?'Online':'Offline')+'</span>'+(api?'<span class="hpill">Sistema OK</span>':'<span class="hpill">Sem URL</span>');$('hdPend').textContent=pend?pend+' pend.':'Tudo OK';var sb=$('offlineStatusBox');if(sb){sb.className=on?'online-box':'offline-box';sb.textContent=on?'Online: pronto para sincronizar':'Offline real: registros serão salvos na fila local';}}function renderKPIs(){var q=getQueue(),t=hoje(),h=0,p=0;q.forEach(function(x){if((x.ts||'').slice(0,10)===t)h++;if(x.st!=='OK')p++;});$('kHoje').textContent=h;$('kPend').textContent=p;}function renderDataLists(){var s=getSug();function fill(id,arr){var el=$(id);if(!el)return;el.innerHTML=(arr||[]).map(function(v){return'<option value="'+esc(v)+'">';}).join('');}fill('lstProps',nomesFazendas());fill('lstCochos',s.c);fill('lstOpers',s.o);fill('lstProds',s.pr);fill('lstLotes',s.l);}function renderFila(){var q=getQueue(),h='';if(!q.length)h='<div style="padding:16px;text-align:center;color:var(--muted)">Fila vazia. Tudo enviado!</div>';q.forEach(function(x){var cls=x.st==='OK'?'pok':x.st==='ERRO'?'perr':x.st==='SEND'?'psync':'ppend';var temFoto=x.temFoto?'<span class="pill pnota" style="margin-left:6px">📷 Foto</span>':'';h+='<div class="item"><div class="itop"><span class="inome">'+esc(x.tipo)+(x.prop?' — '+esc(x.prop):'')+'</span><span class="pill '+cls+'">'+esc(x.st)+'</span></div>'+temFoto+'<div class="isub">'+esc((x.ts||'').slice(0,16))+' • tent: '+(x.tent||0)+' • '+esc(x.cocho||x.lote||'')+'</div>'+(x.erroSync?'<div class="errobox">Erro: '+esc(x.erroSync)+'</div>':'')+'</div>';});var el=$('listaFila');if(el)el.innerHTML=h;}function renderUltimas(){var q=getQueue(),h='',u=q.slice(0,6);if(!u.length)h='<div style="color:var(--muted);font-size:14px;padding:8px 0">Nenhum registro ainda.</div>';u.forEach(function(x){var cls=x.st==='OK'?'pok':x.st==='ERRO'?'perr':'ppend';h+='<div class="item"><div class="itop"><span class="inome">'+esc(x.tipo)+(x.prop?' — '+esc(x.prop):'')+'</span><span class="pill '+cls+'">'+esc(x.st)+'</span></div><div class="isub">'+esc((x.ts||'').slice(0,16))+'</div>'+(x.erroSync?'<div class="errobox">Erro: '+esc(x.erroSync)+'</div>':'')+'</div>';});var el=$('ultimasList');if(el)el.innerHTML=h;}function renderFazendas(){var el=$('listaFazendas');if(!el)return;var fs=getFazendas(),h='';if(!fs.length)h='<div style="color:var(--muted);font-size:14px;padding:8px 0">Nenhuma fazenda cadastrada ainda.</div>';fs.forEach(function(f){h+='<div class="item"><div class="itop"><span class="inome">'+esc(f.nome)+'</span><span class="pill pok">ATIVA</span></div><div class="isub">'+esc(f.municipio||'')+(f.estado?' / '+esc(f.estado):'')+(f.responsavel?' • '+esc(f.responsavel):'')+'</div><div class="isub">GPS sede: '+(f.gps&&f.gps.lat?esc(Number(f.gps.lat).toFixed(5))+', '+esc(Number(f.gps.lng).toFixed(5)):'não informado')+'</div><button class="btn btn-cinza btn-sm" onclick="usarFazenda(\''+esc(f.nome).replace(/'/g,'&#39;')+'\')">Usar nos formulários</button></div>';});el.innerHTML=h;}window.usarFazenda=function(nome){['rProp','nProp','mProp'].forEach(function(id){var el=$(id);if(el)el.value=nome;});toast('Fazenda selecionada: '+nome);ir('registrar');};
-window.capturarGPSFazenda=function(){if(!navigator.geolocation){toast('GPS nao disponivel.');return;}toast('Capturando GPS da fazenda...');navigator.geolocation.getCurrentPosition(function(p){$('fLat').value=p.coords.latitude.toFixed(7);$('fLng').value=p.coords.longitude.toFixed(7);toast('GPS da fazenda capturado.');},function(e){toast('GPS falhou: '+e.message);},{enableHighAccuracy:true,timeout:12000,maximumAge:30000});};window.salvarFazenda=function(){var nome=$('fNome').value.trim();if(!nome){toast('Informe o nome da fazenda.');return;}var lat=$('fLat').value.trim(),lng=$('fLng').value.trim();var f={id:'FAZ-'+Date.now(),nome:nome,municipio:$('fMun').value.trim(),estado:($('fEst').value.trim()||'PA').toUpperCase(),responsavel:$('fResp').value.trim(),telefone:$('fTel').value.trim(),gps:{lat:lat,lng:lng},ts:agora(),status:'ATIVO',novo:true};var fs=getFazendas(),nn=normNome(nome),achou=false;fs=fs.map(function(x){if(normNome(x.nome)===nn){achou=true;f.id=x.id||f.id;return f;}return x;});if(!achou)fs.unshift(f);setFazendas(fs);addSug('p',nome);var q=getQueue();q.unshift({id:'CADFAZ-'+Date.now(),ts:agora(),tipo:'CADASTRO_PROPRIEDADE',st:'PENDENTE',tent:0,prop:nome,fazenda:f,novo:true});setQueue(q);['fNome','fMun','fResp','fTel','fLat','fLng'].forEach(function(id){$(id).value='';});$('fEst').value='PA';render();mostrarSalvo('FAZENDA SALVA!',nome+'\nCadastro entrou na fila.');};
-function calcSoma(){var ids=['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul'];var s=0;ids.forEach(function(i){s+=(parseInt($(i).value)||0);});var t=parseInt($('mQtd').value)||0,el=$('somaCategs');if(s===t&&t>0){el.style.background='#d1e7dd';el.style.color='#0f5132';el.textContent='Soma: '+s+' / Total: '+t+' OK';}else{el.style.background='#fee2e2';el.style.color='#7f1d1d';el.textContent='Soma: '+s+' / Total: '+t+(t?' falta '+(t-s):'');}}['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul','mQtd'].forEach(function(id){var el=$(id);if(el)el.addEventListener('input',calcSoma);});
-window.salvarComGPS=function(){var prop=$('rProp').value.trim(),cocho=$('rCocho').value.trim(),oper=$('rOper').value.trim(),prod=$('rProd').value.trim(),qtd=$('rQtd').value.trim();if(!prop){toast('Preencha a Fazenda.');return;}if(!cocho){toast('Preencha o Cocho.');return;}if(!oper){toast('Preencha o Operador.');return;}if(!prod){toast('Preencha o Produto.');return;}if(!qtd){toast('Preencha a Quantidade.');return;}var btn=$('btnSalvarReg');if(btn)btn.style.opacity='0.6';$('gpsIcone').textContent='⏳';$('gpsLabel').textContent='Capturando GPS...';if(!navigator.geolocation){_finalizarSalvar(null,'GPS nao disponivel');return;}var done=false,timer=setTimeout(function(){if(!done){done=true;_finalizarSalvar(null,'sem sinal GPS');}},5000);navigator.geolocation.getCurrentPosition(function(p){if(done)return;done=true;clearTimeout(timer);var g={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};$('gpsIcone').textContent='✅';$('gpsLabel').textContent='GPS: '+g.lat.toFixed(5)+', '+g.lng.toFixed(5);_finalizarSalvar(g,'');},function(){if(done)return;done=true;clearTimeout(timer);_finalizarSalvar(null,'GPS nao obtido');},{enableHighAccuracy:true,timeout:5000,maximumAge:30000});};function _finalizarSalvar(gps,gpsMsg){var prop=$('rProp').value.trim(),cocho=$('rCocho').value.trim(),oper=$('rOper').value.trim(),prod=$('rProd').value.trim(),qtd=$('rQtd').value.trim(),foto=FOTOS['regFoto']||null;addSug('p',prop);addSug('c',cocho);addSug('o',oper);addSug('pr',prod);var faz=fazendaPorNome(prop)||{};var item={id:uid(),ts:agora(),tipo:'ABASTECIMENTO',st:'PENDENTE',tent:0,prop:prop,cocho:cocho,oper:oper,prod:prod,qtd:qtd,fazendaId:faz.id||'',fazendaMunicipio:faz.municipio||'',fazendaEstado:faz.estado||'',obs:$('rObs').value.trim(),gps:gps,gpsLat:gps?gps.lat:'',gpsLng:gps?gps.lng:'',gpsAcc:gps?gps.acc:'',foto:foto,temFoto:!!foto,novo:true,erroSync:''};var q=getQueue();q.unshift(item);setQueue(q);$('rQtd').value='';$('rObs').value='';$('gpsIcone').textContent='📍';$('gpsLabel').textContent='GPS sera capturado automaticamente ao salvar';var btn=$('btnSalvarReg');if(btn)btn.style.opacity='1';removerFoto('regFoto');GPS=null;var sub=prop+' / '+cocho+'\n'+qtd+' kg'+(gps?' + GPS':'')+(foto?' + foto':'');if(gpsMsg)sub+='\n('+gpsMsg+')';mostrarSalvo('SALVO!',sub);}window.salvarRegistro=window.salvarComGPS;
-window.salvarNota=function(){var prop=$('nProp').value.trim(),cocho=$('nCocho').value.trim(),oper=$('nOper').value.trim(),desc=$('nDesc').value.trim();if(!prop){toast('Preencha a Fazenda.');return;}if(!cocho){toast('Preencha o Cocho.');return;}if(!desc&&!FOTOS['notaFoto']){toast('Adicione foto ou descricao.');return;}addSug('p',prop);addSug('c',cocho);if(oper)addSug('o',oper);var foto=FOTOS['notaFoto']||null,faz=fazendaPorNome(prop)||{};var item={id:uid(),ts:agora(),tipo:'NOTA_COCHO',st:'PENDENTE',tent:0,prop:prop,cocho:cocho,oper:oper||'',fazendaId:faz.id||'',fazendaMunicipio:faz.municipio||'',fazendaEstado:faz.estado||'',descricao:desc,urgencia:$('nUrgencia').value,foto:foto,temFoto:!!foto,novo:true,erroSync:''};var q=getQueue();q.unshift(item);setQueue(q);$('nDesc').value='';$('nUrgencia').value='NORMAL';removerFoto('notaFoto');mostrarSalvo('NOTA REGISTRADA!',prop+' / '+cocho+(foto?'\n+ Foto':''));};
-window.salvarMovimentacao=function(){var prop=$('mProp').value.trim(),lote=$('mLote').value.trim(),evento=$('mEvento').value,qtd=parseInt($('mQtd').value)||0;if(!prop){toast('Preencha a Fazenda.');return;}if(!lote){toast('Preencha o Lote.');return;}if(!qtd){toast('Preencha a Quantidade.');return;}var dist={BEZERRO:parseInt($('mBzm').value)||0,BEZERRA:parseInt($('mBzf').value)||0,NOVILHO:parseInt($('mNvm').value)||0,NOVILHA:parseInt($('mNvf').value)||0,SOLTEIRA:parseInt($('mSol').value)||0,NULIPARA:parseInt($('mNul').value)||0,PRIMIPARA:parseInt($('mPri').value)||0,MULTIPARA:parseInt($('mMul').value)||0};var soma=0;for(var c in dist)soma+=dist[c];if(soma!==qtd){toast('Soma diferente do total.');return;}addSug('p',prop);addSug('l',lote);var item={id:uid(),ts:agora(),tipo:'MOVIMENTACAO',st:'PENDENTE',tent:0,prop:prop,lote:lote,evento:evento,qtd:qtd,dist:dist,obs:$('mObs').value.trim(),novo:true,erroSync:''};var q=getQueue();q.unshift(item);setQueue(q);$('mQtd').value='';$('mObs').value='';['mBzm','mBzf','mNvm','mNvf','mSol','mNul','mPri','mMul'].forEach(function(id){$(id).value='0';});calcSoma();mostrarSalvo(evento+' SALVA!',prop+'\nLote: '+lote+' ('+qtd+' animais)');};
-function montarPayloadEnvioCampo(x){if(x.tipo==='CADASTRO_PROPRIEDADE'){return{acao:'cadastrarPropriedade',propriedade:{id:x.fazenda&&x.fazenda.id?x.fazenda.id:'',nome:x.prop||'',municipio:x.fazenda&&x.fazenda.municipio?x.fazenda.municipio:'',estado:x.fazenda&&x.fazenda.estado?x.fazenda.estado:'PA',responsavel:x.fazenda&&x.fazenda.responsavel?x.fazenda.responsavel:'',telefone:x.fazenda&&x.fazenda.telefone?x.fazenda.telefone:'',gps:x.fazenda&&x.fazenda.gps?x.fazenda.gps:{},gpsLat:x.fazenda&&x.fazenda.gps?x.fazenda.gps.lat:'',gpsLng:x.fazenda&&x.fazenda.gps?x.fazenda.gps.lng:'',origem:'CAMPO_V34_1',novo:true}};}if(x.tipo==='ABASTECIMENTO'){return{acao:'salvarRegistro',payload:{uid:x.id,uuid:x.id,tipo:'ABASTECIMENTO',dataHora:x.ts,dataHoraLocal:x.ts,propriedade:x.prop||'',cocho:x.cocho||'',operador:x.oper||'',produtoId:x.prod||'',produto:x.prod||'',quantidade:x.qtd||'',observacao:x.obs||'',gps:x.gps||{},gpsLat:x.gpsLat||'',gpsLng:x.gpsLng||'',gpsAcc:x.gpsAcc||'',fazendaId:x.fazendaId||'',municipio:x.fazendaMunicipio||'',estado:x.fazendaEstado||'',origem:'CAMPO_V34_1',novo:x.novo||false,foto:x.foto||null}};}if(x.tipo==='NOTA_COCHO'){return{acao:'salvarNota',nota:{uid:x.id,uuid:x.id,dataHora:x.ts,dataHoraLocal:x.ts,propriedade:x.prop||'',cocho:x.cocho||'',operador:x.oper||'',descricao:x.descricao||'',urgencia:x.urgencia||'NORMAL',fazendaId:x.fazendaId||'',municipio:x.fazendaMunicipio||'',estado:x.fazendaEstado||'',origem:'CAMPO_V34_1',novo:x.novo||false,foto:x.foto||null}};}if(x.tipo==='MOVIMENTACAO'){return{acao:'salvarMovimentacao',movimentacao:{uid:x.id,uuid:x.id,dataHora:x.ts,dataHoraLocal:x.ts,propriedade:x.prop||'',loteId:x.lote||'',evento:x.evento||'',quantidade:x.qtd||'',distribuicao:x.dist||{},observacao:x.obs||'',origem:'CAMPO_V34_1',novo:x.novo||false}};}return{acao:'salvarRegistro',payload:x};}
-window.sincronizar=function(){var cfg=load('config',{});if(!cfg.url){toast('Configure o endereco do sistema.');ir('config');return;}if(!navigator.onLine){toast('Sem internet. Dados salvos localmente.');return;}var q=getQueue(),pend=q.filter(function(x){return x.st!=='OK';});if(!pend.length){toast('Tudo ja foi enviado!');return;}var lote=pend.slice(0,5);q.forEach(function(x){lote.forEach(function(l){if(x.id===l.id){x.st='SEND';x.tent=(x.tent||0)+1;x.erroSync='';}});});setQueue(q);render();enviarSequencialCampo(cfg.url,lote,0,0,0);};function enviarSequencialCampo(url,lote,idx,ok,erro){if(idx>=lote.length){toast('Sincronizacao concluida. OK: '+ok+' | Erro: '+erro);render();return;}var item=lote[idx],payload=montarPayloadEnvioCampo(item);fetch(url,{method:'POST',body:JSON.stringify(payload)}).then(function(r){return r.json();}).then(function(resp){var q=getQueue();q.forEach(function(x){if(x.id===item.id){if(resp&&(resp.sucesso||resp.ok)){x.st='OK';x.erroSync='';x.enviadoEm=agora();}else{x.st='ERRO';x.erroSync=resp&&resp.erro?resp.erro:'Resposta sem sucesso: '+JSON.stringify(resp).slice(0,160);}}});setQueue(q);render();if(resp&&(resp.sucesso||resp.ok)){enviarSequencialCampo(url,lote,idx+1,ok+1,erro);}else{enviarSequencialCampo(url,lote,idx+1,ok,erro+1);}}).catch(function(e){var q=getQueue();q.forEach(function(x){if(x.id===item.id){x.st='ERRO';x.erroSync=e.message||String(e);}});setQueue(q);render();enviarSequencialCampo(url,lote,idx+1,ok,erro+1);});}
-window.reprocessarErrosFila=function(enviar){var q=getQueue(),n=0;q.forEach(function(x){if(String(x.st||'').toUpperCase()==='ERRO'){x.st='PENDENTE';x.erroSync='';n++;}});setQueue(q);render();toast(n+' registro(s) com erro voltaram para PENDENTE.');if(enviar&&n>0)setTimeout(function(){sincronizar();},700);};window.diagnosticoFila=function(){var q=getQueue(),ok=0,er=0,pe=0,se=0;q.forEach(function(x){if(x.st==='OK')ok++;else if(x.st==='ERRO')er++;else if(x.st==='SEND')se++;else pe++;});var cfg=load('config',{});$('filaDiag').textContent='Diagnóstico Campo V3.4.1\nTotal local: '+q.length+'\nOK: '+ok+'\nPENDENTE: '+pe+'\nERRO: '+er+'\nSEND: '+se+'\nURL configurada: '+(cfg.url?'SIM':'NÃO')+'\nDB: '+DB;toast('Diagnóstico gerado na aba Fila.');};window.limparSync=function(){var q=getQueue().filter(function(x){return x.st!=='OK';});setQueue(q);render();};
-window.salvarCfg=function(){var u=$('cfgUrl').value.trim();save('config',{url:u});toast('Configuracao salva!');render();};window.testarCfg=function(){var cfg=load('config',{});if(!cfg.url){toast('Informe a URL.');return;}$('cfgResult').innerHTML='<div style="padding:10px;color:var(--muted)">Testando...</div>';fetch(cfg.url).then(function(r){return r.json();}).then(function(j){$('cfgResult').innerHTML='<div style="padding:12px;background:#d1e7dd;border-radius:12px;font-weight:700;color:#0f5132">Conectado: '+esc(j.sistema||j.ok||'OK')+'</div>';toast('Conexao OK!');}).catch(function(e){$('cfgResult').innerHTML='<div style="padding:12px;background:#fee2e2;border-radius:12px;font-weight:700;color:#7f1d1d">Nao foi possivel conectar: '+esc(e.message)+'</div>';toast('Falha na conexao.');});};window.exportar=function(){var q=getQueue().map(function(x){var c=Object.assign({},x);c.foto=null;return c;});var d={versao:'V3.4.1',data:agora(),queue:q,sugestoes:getSug(),fazendas:getFazendas()};var blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='reprogen_campo_'+Date.now()+'.json';document.body.appendChild(a);a.click();a.remove();toast('Backup exportado!');};window.importar=function(){var f=$('impFile').files[0];if(!f){toast('Selecione um arquivo.');return;}var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(d.queue)setQueue(d.queue);if(d.sugestoes)save('sug',d.sugestoes);if(d.fazendas)setFazendas(d.fazendas);toast('Backup restaurado!');render();}catch(e){toast('Erro: '+e.message);}};r.readAsText(f);};
-window.addEventListener('online',function(){var p=getQueue().some(function(x){return x.st!=='OK';});if(p){toast('Conexao recuperada. Enviando...');setTimeout(sincronizar,1500);}render();});window.addEventListener('offline',function(){toast('Modo offline. Registros salvos normalmente.');render();});setInterval(function(){if(!navigator.onLine)return;var cfg=load('config',{});if(!cfg.url)return;if(getQueue().some(function(x){return x.st==='PENDENTE';}))sincronizar();},30000);var cfgSalvo=load('config',{});if(cfgSalvo.url)$('cfgUrl').value=cfgSalvo.url;ir('painel');
+(function(){
+'use strict';
+var APP_VERSION='APP COCHO CAMPO V1.0 SUPABASE — OFFLINE';
+var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
+var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
+var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
+var LS_BASE='APP_COCHO_CAMPO_BASE_V1';
+var LS_FILA='APP_COCHO_CAMPO_FILA_V1';
+var sbClient=null;
+var session={propriedade:null,usuario:null};
+
+function $(id){return document.getElementById(id);}
+function setTxt(id,v){var el=$(id);if(el){el.textContent=v;}}
+function setHTML(id,v){var el=$(id);if(el){el.innerHTML=v;}}
+function setOut(id,obj){var el=$(id);if(el){el.textContent=(typeof obj==='string')?obj:JSON.stringify(obj,null,2);}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+function nowBR(){try{return new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'});}catch(e){return new Date().toLocaleString();}}
+function p2(n){return (n<10?'0':'')+n;}
+function genOp(){var d=new Date();return 'OP-'+d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate())+p2(d.getHours())+p2(d.getMinutes())+p2(d.getSeconds())+'-CAMPO-'+Math.random().toString(36).slice(2,6).toUpperCase();}
+function btnLock(btn,t){if(btn){btn.disabled=true;btn.dataset.old=btn.textContent;btn.textContent=t||'Aguarde...';}}
+function btnUnlock(btn){if(btn){btn.disabled=false;btn.textContent=btn.dataset.old||btn.textContent;}}
+function withTimeout(p,ms){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej(new Error('TEMPO_EXCEDIDO'));},ms||30000);})]);}
+function cfg(){try{return JSON.parse(localStorage.getItem(LS_CFG)||'{}');}catch(e){return {};}}
+function saveCfg(o){localStorage.setItem(LS_CFG,JSON.stringify(o||{}));}
+function getBase(){try{return JSON.parse(localStorage.getItem(LS_BASE)||'{}');}catch(e){return {};}}
+function setBase(b){localStorage.setItem(LS_BASE,JSON.stringify(b||{}));}
+function getFila(){try{return JSON.parse(localStorage.getItem(LS_FILA)||'[]');}catch(e){return [];}}
+function setFila(a){localStorage.setItem(LS_FILA,JSON.stringify(a||[]));}
+function getClient(){
+  var c=cfg(),url=String(c.url||'').trim(),key=String(c.key||'').trim();
+  if(!url||!key){throw new Error('CONFIG_SUPABASE_OBRIGATORIA');}
+  if(!window.supabase){throw new Error('BIBLIOTECA_SUPABASE_NAO_CARREGOU');}
+  if(!sbClient||sbClient._u!==url||sbClient._k!==key){sbClient=window.supabase.createClient(url,key);sbClient._u=url;sbClient._k=key;}
+  return sbClient;
+}
+function loadConfig(){var c=cfg();$('supabaseUrl').value=c.url||DEFAULT_URL;$('supabaseKey').value=c.key||'';}
+function loadSession(){try{session=JSON.parse(localStorage.getItem(LS_SESSION)||'{}')||{};}catch(e){session={};}}
+function saveSession(){localStorage.setItem(LS_SESSION,JSON.stringify(session||{}));}
+function updateUI(){
+  setTxt('netBadge',navigator.onLine?'Online':'Offline');
+  $('netBadge').className='badge '+(navigator.onLine?'':'err');
+  var c=cfg();setTxt('cfgBadge',(c.url&&c.key)?'Config OK':'Config pendente');$('cfgBadge').className='badge '+((c.url&&c.key)?'':'warn');
+  var base=getBase(),fila=getFila(),pend=fila.filter(function(x){return x.status_local==='PENDENTE';}).length,sinc=fila.filter(function(x){return x.status_local==='SINCRONIZADO'||x.status_local==='DUPLICADO_OK';}).length;
+  setTxt('pendBadge',pend+' pendentes');$('pendBadge').className='badge '+(pend?'warn':'');
+  setTxt('kPend',pend);setTxt('kSync',sinc);
+  setTxt('kCochos',(base.cochos||[]).length||0);setTxt('kProdutos',(base.produtos||[]).length||0);
+  if(session.propriedade&&session.usuario){
+    setTxt('sessBadge',(session.propriedade.nome_fazenda||'Fazenda')+' | '+(session.usuario.nome_usuario||session.usuario.login_usuario||'Usuário'));
+    setHTML('sessionBar','<b>Sessão:</b> '+esc(session.propriedade.nome_fazenda||'-')+' • '+esc(session.usuario.nome_usuario||session.usuario.login_usuario||'-'));
+  }else{
+    setTxt('sessBadge','Sem login');setHTML('sessionBar','<b>Sessão:</b> sem login.');
+  }
+  preencherSelects();
+}
+window.showTab=function(tab){
+  var views=document.querySelectorAll('.view'),tabs=document.querySelectorAll('.tab'),i;
+  for(i=0;i<views.length;i++){views[i].classList.add('hidden');}
+  for(i=0;i<tabs.length;i++){tabs[i].classList.remove('active');}
+  $('view-'+tab).classList.remove('hidden');
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+  if(tab==='base'){renderBase();}
+  if(tab==='fila'){renderFila();}
+  updateUI();
+};
+window.saveConfig=function(){saveCfg({url:$('supabaseUrl').value.trim(),key:$('supabaseKey').value.trim(),savedAt:nowBR()});sbClient=null;setOut('configOut','Configuração salva. Teste conexão.');updateUI();};
+window.clearConfig=function(){localStorage.removeItem(LS_CFG);sbClient=null;loadConfig();updateUI();setOut('configOut','Configuração limpa.');};
+window.testSupabase=function(btn){
+  btnLock(btn,'Testando...');
+  try{
+    var t=Date.now();
+    withTimeout(getClient().from('propriedades').select('id').limit(1),20000).then(function(r){
+      if(r.error){throw r.error;}
+      var out={ok:true,app:APP_VERSION,supabase:'OK',tempo_ms:Date.now()-t,data_hora_brasilia:nowBR()};
+      setOut('configOut',out);setOut('painelOut',out);setOut('diagOut',out);
+    }).catch(function(e){var out={ok:false,erro:String(e.message||e)};setOut('configOut',out);setOut('painelOut',out);setOut('diagOut',out);}).finally(function(){btnUnlock(btn);updateUI();});
+  }catch(e){setOut('configOut',{ok:false,erro:String(e.message||e)});btnUnlock(btn);}
+};
+window.validarLogin=function(btn){
+  btnLock(btn,'Validando...');
+  var chave=$('login_chave').value.trim(),login=$('login_usuario').value.trim(),pin=$('login_pin').value.trim();
+  if(!chave||!login||!pin){setOut('loginOut',{ok:false,erro:'CHAVE_LOGIN_PIN_OBRIGATORIOS'});btnUnlock(btn);return;}
+  var sb=getClient();
+  withTimeout(sb.from('propriedades').select('*').eq('chave_fazenda',chave).limit(1).single(),30000).then(function(rp){
+    if(rp.error){throw rp.error;}
+    return sb.from('usuarios_app').select('*').eq('propriedade_id',rp.data.id).eq('login_usuario',login).eq('pin_mascarado',pin).eq('status_usuario','ATIVO').limit(1).single().then(function(ru){
+      if(ru.error){throw ru.error;}
+      session={propriedade:rp.data,usuario:ru.data,login_at:nowBR()};
+      saveSession();updateUI();
+      setOut('loginOut',{ok:true,mensagem:'Login validado.',propriedade:rp.data.nome_fazenda,usuario:ru.data.nome_usuario||ru.data.login_usuario});
+    });
+  }).catch(function(e){setOut('loginOut',{ok:false,erro:String(e.message||e),orientacao:'Confira CHAVE_FAZENDA, login e PIN.'});}).finally(function(){btnUnlock(btn);});
+};
+window.limparSessao=function(){session={};localStorage.removeItem(LS_SESSION);updateUI();setOut('loginOut',{ok:true,mensagem:'Sessão limpa.'});};
+window.baixarBase=function(btn){
+  if(!session.propriedade||!session.propriedade.id){setOut('baseOut',{ok:false,erro:'LOGIN_OBRIGATORIO'});return;}
+  btnLock(btn,'Baixando...');
+  var sb=getClient(),pid=session.propriedade.id;
+  var tasks=[
+    sb.from('usuarios_app').select('id,nome_usuario,login_usuario,perfil_usuario,status_usuario').eq('propriedade_id',pid),
+    sb.from('produtos').select('id,nome_produto,tipo_produto,unidade_padrao,kg_por_unidade,status_produto').eq('propriedade_id',pid),
+    sb.from('lotes').select('*').eq('propriedade_id',pid),
+    sb.from('cochos').select('*').eq('propriedade_id',pid)
+  ];
+  withTimeout(Promise.all(tasks),45000).then(function(res){
+    for(var i=0;i<res.length;i++){if(res[i].error){throw res[i].error;}}
+    var b={app:'APP COCHO CAMPO BASE V1',baixado_em_brasilia:nowBR(),propriedade:session.propriedade,usuario:session.usuario,usuarios:res[0].data||[],produtos:res[1].data||[],lotes:res[2].data||[],cochos:res[3].data||[]};
+    setBase(b);renderBase();updateUI();setOut('baseOut',{ok:true,mensagem:'Base baixada para uso offline.',resumo:{usuarios:b.usuarios.length,produtos:b.produtos.length,lotes:b.lotes.length,cochos:b.cochos.length}});
+    setOut('painelOut',{ok:true,mensagem:'Base baixada.',resumo:{produtos:b.produtos.length,cochos:b.cochos.length}});
+  }).catch(function(e){setOut('baseOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
+};
+window.importarBaseArquivo=function(){$('baseFile').click();};
+window.lerBaseArquivo=function(ev){
+  var f=ev.target.files[0]; if(!f){return;}
+  var rd=new FileReader();
+  rd.onload=function(){try{var b=JSON.parse(rd.result);setBase(b);if(b.propriedade){session.propriedade=b.propriedade;}if(b.usuario){session.usuario=b.usuario;}saveSession();renderBase();updateUI();setOut('baseOut',{ok:true,mensagem:'Base importada.',resumo:{produtos:(b.produtos||[]).length,cochos:(b.cochos||[]).length}});}catch(e){setOut('baseOut',{ok:false,erro:String(e.message||e)});}};
+  rd.readAsText(f);
+};
+window.limparBaseLocal=function(){localStorage.removeItem(LS_BASE);renderBase();updateUI();setOut('baseOut',{ok:true,mensagem:'Base local limpa.'});};
+function renderBase(){
+  var b=getBase();
+  var h='<table><tr><th>Cocho</th><th>Código</th><th>Tipo</th><th>GPS</th><th>Status</th></tr>';
+  (b.cochos||[]).forEach(function(c){h+='<tr><td>'+esc(c.nome_cocho)+'</td><td>'+esc(c.codigo_cocho)+'</td><td>'+esc(c.tipo_cocho)+'</td><td>'+esc((c.gps_lat||'')+', '+(c.gps_lng||''))+'</td><td>'+esc(c.status_cocho)+'</td></tr>';});
+  setHTML('baseCochos',h+'</table>');
+  setOut('baseOut',{base_carregada:!!b.propriedade,propriedade:b.propriedade&&b.propriedade.nome_fazenda,baixado_em:b.baixado_em_brasilia,produtos:(b.produtos||[]).length,lotes:(b.lotes||[]).length,cochos:(b.cochos||[]).length});
+}
+function preencherSelects(){
+  var b=getBase(),h1='<option value="">Selecione o cocho</option>',h2='<option value="">Selecione o produto</option>';
+  (b.cochos||[]).forEach(function(c){h1+='<option value="'+esc(c.id)+'">'+esc((c.nome_cocho||'')+(c.codigo_cocho?' | '+c.codigo_cocho:''))+'</option>';});
+  (b.produtos||[]).forEach(function(p){h2+='<option value="'+esc(p.id)+'">'+esc((p.nome_produto||'')+' | '+(p.tipo_produto||''))+'</option>';});
+  setHTML('lan_cocho',h1);setHTML('lan_produto',h2);
+}
+window.capturarGPS=function(btn){
+  btnLock(btn,'Capturando...');
+  if(!navigator.geolocation){setOut('lanOut',{ok:false,erro:'GPS_NAO_SUPORTADO',gps_status:'SEM_GPS'});btnUnlock(btn);return;}
+  navigator.geolocation.getCurrentPosition(function(pos){
+    $('lan_lat').value=pos.coords.latitude.toFixed(7);$('lan_lng').value=pos.coords.longitude.toFixed(7);$('lan_acc').value=pos.coords.accuracy?Math.round(pos.coords.accuracy):'';
+    setOut('lanOut',{ok:true,mensagem:'GPS capturado.',gps_status:'COM_GPS',lat:$('lan_lat').value,lng:$('lan_lng').value,precisao_m:$('lan_acc').value});btnUnlock(btn);
+  },function(err){setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Pode salvar como SEM_GPS nesta fase.'});btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+};
+window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}$('lan_obs').value='LANÇAMENTO TESTE APP CAMPO';};
+window.salvarLocal=function(btn){
+  btnLock(btn,'Salvando...');
+  var b=getBase(),cochoId=$('lan_cocho').value,prodId=$('lan_produto').value,kg=Number($('lan_kg').value||0);
+  if(!b.propriedade){setOut('lanOut',{ok:false,erro:'BASE_OFFLINE_OBRIGATORIA'});btnUnlock(btn);return;}
+  if(!cochoId){setOut('lanOut',{ok:false,erro:'COCHO_OBRIGATORIO'});btnUnlock(btn);return;}
+  if(!prodId){setOut('lanOut',{ok:false,erro:'PRODUTO_OBRIGATORIO'});btnUnlock(btn);return;}
+  if(!kg||kg<=0){setOut('lanOut',{ok:false,erro:'KG_OBRIGATORIO'});btnUnlock(btn);return;}
+  var temGps=!!($('lan_lat').value&&$('lan_lng').value);
+  var item={id_operacao_cliente:genOp(),propriedade_id:b.propriedade.id,cocho_id:cochoId,produto_id:prodId,usuario_id:(session.usuario&&session.usuario.id)||null,quantidade_kg:kg,data_hora_brasilia:nowBR(),data_hora_iso:new Date().toISOString(),gps_lat:$('lan_lat').value?Number($('lan_lat').value):null,gps_lng:$('lan_lng').value?Number($('lan_lng').value):null,gps_precisao_m:$('lan_acc').value?Number($('lan_acc').value):null,status_gps:temGps?'COM_GPS':'SEM_GPS',observacoes:$('lan_obs').value.trim(),origem_lancamento:'APP_CAMPO_V1_0',status_sync:'PENDENTE',status_local:'PENDENTE',criado_local_em:nowBR()};
+  var fila=getFila();fila.unshift(item);setFila(fila);updateUI();renderFila();setOut('lanOut',{ok:true,mensagem:'Lançamento salvo offline.',pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length,lancamento:item});btnUnlock(btn);
+};
+window.sincronizarFila=function(btn){
+  btnLock(btn,'Sincronizando...');
+  var fila=getFila(),pend=fila.filter(function(x){return x.status_local==='PENDENTE';});
+  if(!pend.length){setOut('filaOut',{ok:true,mensagem:'Não há pendentes.'});btnUnlock(btn);return;}
+  var sb;
+  try{sb=getClient();}catch(e){setOut('filaOut',{ok:false,erro:String(e.message||e)});btnUnlock(btn);return;}
+  var seq=Promise.resolve(),ok=0,erros=[];
+  pend.forEach(function(item){
+    seq=seq.then(function(){
+      var payload={propriedade_id:item.propriedade_id,cocho_id:item.cocho_id,produto_id:item.produto_id,usuario_id:item.usuario_id,quantidade_kg:item.quantidade_kg,data_hora_brasilia:item.data_hora_brasilia,data_hora_iso:item.data_hora_iso,gps_lat:item.gps_lat,gps_lng:item.gps_lng,gps_precisao_m:item.gps_precisao_m,status_gps:item.status_gps,observacoes:item.observacoes,id_operacao_cliente:item.id_operacao_cliente,origem_lancamento:item.origem_lancamento,status_sync:'SINCRONIZADO'};
+      return sb.from('lancamentos_cocho').insert(payload).select('id').single().then(function(r){
+        if(r.error){throw r.error;}
+        item.status_local='SINCRONIZADO';item.status_sync='SINCRONIZADO';item.supabase_id=r.data.id;item.sincronizado_em=nowBR();ok++;
+      }).catch(function(e){
+        var m=String(e.message||e);
+        if(m.indexOf('duplicate')>=0||m.indexOf('unique')>=0){item.status_local='DUPLICADO_OK';item.status_sync='SINCRONIZADO';ok++;}
+        else{item.erro_sync=m;erros.push({operacao:item.id_operacao_cliente,erro:m});}
+      });
+    });
+  });
+  seq.then(function(){setFila(fila);updateUI();renderFila();setOut('filaOut',{ok:erros.length===0,sincronizados:ok,erros:erros});}).finally(function(){btnUnlock(btn);});
+};
+window.renderFila=function(){
+  var fila=getFila();
+  var h='<table><tr><th>Status</th><th>Data</th><th>Cocho</th><th>Produto</th><th>Kg</th><th>GPS</th><th>Operação</th></tr>';
+  fila.forEach(function(x){h+='<tr><td>'+esc(x.status_local)+'</td><td>'+esc(x.data_hora_brasilia)+'</td><td>'+esc(nomeCocho(x.cocho_id))+'</td><td>'+esc(nomeProduto(x.produto_id))+'</td><td>'+esc(x.quantidade_kg)+'</td><td>'+esc(x.status_gps)+'</td><td>'+esc(x.id_operacao_cliente)+'</td></tr>';});
+  setHTML('filaTable',h+'</table>');setOut('filaOut',{total:fila.length,pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length});
+};
+function nomeCocho(id){var b=getBase(),a=b.cochos||[];for(var i=0;i<a.length;i++){if(a[i].id===id){return (a[i].nome_cocho||'')+(a[i].codigo_cocho?' | '+a[i].codigo_cocho:'');}}return id||'';}
+function nomeProduto(id){var b=getBase(),a=b.produtos||[];for(var i=0;i<a.length;i++){if(a[i].id===id){return a[i].nome_produto||id;}}return id||'';}
+window.exportarFila=function(){var blob=new Blob([JSON.stringify(getFila(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup_fila_app_cocho_campo_'+Date.now()+'.json';a.click();};
+window.limparSincronizados=function(){var fila=getFila().filter(function(x){return x.status_local==='PENDENTE';});setFila(fila);updateUI();renderFila();};
+window.diagnostico=function(){setOut('diagOut',{app:APP_VERSION,online:navigator.onLine,config:cfg(),session:session,base:getBase(),fila:getFila(),data_hora_brasilia:nowBR()});};
+loadConfig();loadSession();updateUI();renderBase();renderFila();setInterval(updateUI,10000);window.addEventListener('online',updateUI);window.addEventListener('offline',updateUI);
 })();
 </script>
-<script>if('serviceWorker'in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./service-worker.js').then(function(){console.log('REPROGEN Campo SW registrado');}).catch(function(err){console.log('Erro no SW Campo',err);});});}</script>
 </body>
 </html>

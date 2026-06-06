@@ -1,83 +1,52 @@
-# REPROGEN CAMPO V3.4.1 — Sync Corrigido
+# APP COCHO CAMPO V1.0 SUPABASE — Coletador Offline
 
-Pacote completo para subir no GitHub Pages.
+## Objetivo
+Primeira versão do App Cocho Campo, coletador operacional para enviar abastecimentos para a Central Supabase.
 
-## Arquivos incluídos
+## Funções
+- Config Supabase.
+- Login por CHAVE_FAZENDA + usuário + PIN.
+- Baixar base da fazenda.
+- Operar offline.
+- Selecionar cocho.
+- Selecionar produto/sal.
+- Informar kg colocados.
+- Capturar GPS.
+- Salvar lançamento offline.
+- Sincronizar fila com Supabase.
+- Evitar duplicidade por id_operacao_cliente.
 
-```text
-index.html
-manifest.json
-service-worker.js
-README.md
-LEIA_PRIMEIRO.txt
-icons/icon-192.png
-icons/icon-512.png
-```
+## SUPABASE
+Não rodar SQL novo se a Central V6.3.1 já foi aprovada.
 
-## Correção principal
+O App Campo grava na tabela:
+`lancamentos_cocho`
 
-O App Campo deixou de enviar pela ação antiga:
+## GITHUB
+Criar ou atualizar repositório do Campo, por exemplo:
+`reprogen-sal-cocho-campo`
 
-```text
-syncRegistrosComLote
-```
+Subir:
+- index.html
+- manifest.json
+- service-worker.js
+- README.md
+- icons/icon-192.png
+- icons/icon-512.png
 
-e passa a usar ações compatíveis com o Apps Script V1.4:
+Mensagem de commit:
+`Cria App Cocho Campo V1.0 Supabase Offline`
 
-```text
-salvarRegistro
-salvarNota
-salvarMovimentacao
-cadastrarPropriedade
-```
-
-Também foi incluído o botão:
-
-```text
-Fila > Reprocessar Erros
-```
-
-para transformar registros com `ERRO` em `PENDENTE` e permitir novo envio.
-
-## Como subir no GitHub
-
-No repositório do Campo, envie/substitua:
-
-```text
-index.html
-manifest.json
-service-worker.js
-README.md
-icons/icon-192.png
-icons/icon-512.png
-```
-
-Mensagem de commit sugerida:
-
-```text
-Atualiza Campo V3.4.1 com sincronização corrigida
-```
-
-## Depois de subir
-
-Abra o app com quebra de cache:
-
-```text
-https://SEU_USUARIO.github.io/SEU_REPOSITORIO/?v=341
-```
-
-No celular:
-
-1. Config > URL do Apps Script V1.4 > Salvar
-2. Config > Testar Conexão
-3. Fila > Reprocessar Erros
-4. Fila > Sincronizar Agora
-
-## Critério de aprovação
-
-```text
-Pendentes = 0
-Registros com ERRO viram OK
-Central recebe registros
-Mapa mantém GPS funcionando
-```
+## Teste oficial
+1. Abrir app.
+2. Configurar Supabase.
+3. Testar conexão.
+4. Login com CHAVE_FAZENDA + marcelo + 5544.
+5. Baixar Base.
+6. Conferir cochos e produtos.
+7. Novo lançamento.
+8. Capturar GPS.
+9. Salvar Offline.
+10. Conferir Fila.
+11. Sincronizar.
+12. Conferir na Central V6.3.1 Histórico.
