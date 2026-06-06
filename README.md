@@ -1,32 +1,28 @@
-# APP COCHO CAMPO V1.0 SUPABASE — Coletador Offline
+# APP COCHO CAMPO V1.1 SUPABASE — Operação Segura
 
-## Objetivo
-Primeira versão do App Cocho Campo, coletador operacional para enviar abastecimentos para a Central Supabase.
+## Base preservada
+Evolução sobre o Campo V1.0 aprovado:
+- Login por CHAVE_FAZENDA + usuário + PIN
+- Baixar base offline
+- Selecionar cocho e produto
+- Informar kg
+- Capturar GPS
+- Salvar offline
+- Sincronizar com Supabase
+- Central V6.4.2 recebendo/histórico funcionando
 
-## Funções
-- Config Supabase.
-- Login por CHAVE_FAZENDA + usuário + PIN.
-- Baixar base da fazenda.
-- Operar offline.
-- Selecionar cocho.
-- Selecionar produto/sal.
-- Informar kg colocados.
-- Capturar GPS.
-- Salvar lançamento offline.
-- Sincronizar fila com Supabase.
-- Evitar duplicidade por id_operacao_cliente.
+## O que entrou
+- Conferência antes de salvar: cocho, produto, kg e GPS.
+- Alerta visual de GPS: COM GPS / SEM GPS / precisão fraca.
+- Botão para ver último lançamento do cocho.
+- Bloqueio de possível duplicidade local: mesmo cocho + produto + kg em menos de 5 minutos.
+- Mantém GPS do lançamento opcional: se não capturar, salva como SEM_GPS.
 
 ## SUPABASE
-Não rodar SQL novo se a Central V6.3.1 já foi aprovada.
-
-O App Campo grava na tabela:
-`lancamentos_cocho`
+Não precisa rodar SQL novo.
 
 ## GITHUB
-Criar ou atualizar repositório do Campo, por exemplo:
-`reprogen-sal-cocho-campo`
-
-Subir:
+No repositório do Campo, subir/substituir:
 - index.html
 - manifest.json
 - service-worker.js
@@ -35,18 +31,23 @@ Subir:
 - icons/icon-512.png
 
 Mensagem de commit:
-`Cria App Cocho Campo V1.0 Supabase Offline`
+`Atualiza App Cocho Campo V1.1 Operacao Segura`
 
-## Teste oficial
-1. Abrir app.
-2. Configurar Supabase.
-3. Testar conexão.
-4. Login com CHAVE_FAZENDA + marcelo + 5544.
-5. Baixar Base.
-6. Conferir cochos e produtos.
-7. Novo lançamento.
-8. Capturar GPS.
-9. Salvar Offline.
-10. Conferir Fila.
-11. Sincronizar.
-12. Conferir na Central V6.3.1 Histórico.
+Abrir:
+`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1-operacao-segura`
+
+## Teste
+1. Abrir Campo V1.1.
+2. Testar Supabase.
+3. Login.
+4. Baixar base.
+5. Lançar: selecionar cocho, produto e kg.
+6. Ver conferência.
+7. Capturar GPS.
+8. Salvar offline.
+9. Tentar salvar igual novamente em menos de 5 min: deve bloquear possível duplicidade.
+10. Sincronizar.
+11. Conferir na Central V6.4.2.
+
+## Validação técnica
+JS validado com node --check: True
