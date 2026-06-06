@@ -1,35 +1,32 @@
-# APP COCHO CAMPO V1.1.4 SUPABASE — Botão Único GPS + Lançamento
+# APP COCHO CAMPO V1.1.5 SUPABASE — Raio antes de salvar
 
-## Correção funcional
-O fluxo de campo foi simplificado para evitar duas ações separadas.
+## Objetivo
+Mostrar no próprio App Campo se o operador está dentro ou fora do raio do cocho selecionado antes de registrar o lançamento.
 
-Antes:
-- Capturar GPS
-- Salvar Offline
+## O que entrou
+- Cálculo de distância no Campo usando GPS do cocho + GPS do lançamento.
+- Aviso visual:
+  - DENTRO_DO_RAIO
+  - FORA_DO_RAIO
+  - SEM_GPS
+  - COCHO_SEM_GPS
+- A conferência antes de salvar mostra o raio/distância.
+- O lançamento local guarda:
+  - distancia_cocho_m
+  - status_raio_local
+  - raio_aceito_m
 
-Agora:
-- **Registrar lançamento + GPS**
-
-Esse botão faz:
-1. valida cocho/produto/kg;
-2. captura GPS;
-3. registra o lançamento offline;
-4. deixa o registro pendente para sincronizar depois.
-
-## Botão de exceção
-Existe também:
-- **Registrar sem GPS**
-
-Esse botão deve ser usado somente quando o GPS falhar ou estiver autorizado, para não travar o vaqueiro no campo.
+## Importante
+A Central V6.4.2 continua calculando oficialmente o raio depois da sincronização.
+O Campo V1.1.5 mostra o alerta antes de salvar para evitar erro no campo.
 
 ## Base preservada
-- Login
-- Baixar base
+- Botão único: Registrar lançamento + GPS
+- Registrar sem GPS como exceção
 - Seleção persistente de cocho/produto
-- Fazenda salva no lançamento offline
-- Snapshot da fazenda
+- Fazenda registrada offline
 - Fila offline
-- Sincronização posterior
+- Sincronização
 - Central V6.4.2
 
 ## SUPABASE
@@ -45,23 +42,21 @@ Substituir no repositório do Campo:
 - icons/icon-512.png
 
 Mensagem de commit:
-`Atualiza Campo Cocho V1.1.4 botao unico GPS lancamento`
+`Atualiza Campo Cocho V1.1.5 raio antes de salvar`
 
 Abrir:
-`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.4-botao-unico`
+`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.5-raio-antes-salvar`
 
 ## Teste
 1. Login.
 2. Baixar base.
-3. Desligar internet se quiser testar offline.
-4. Selecionar cocho.
-5. Selecionar produto.
-6. Informar kg.
-7. Clicar **Registrar lançamento + GPS**.
-8. Confirmar que entrou em pendentes.
-9. Voltar internet.
-10. Sincronizar.
-11. Conferir na Central V6.4.2.
+3. Selecionar cocho.
+4. Selecionar produto.
+5. Informar kg.
+6. Clicar Registrar lançamento + GPS.
+7. Antes/sobre o registro deve aparecer DENTRO_DO_RAIO ou FORA_DO_RAIO.
+8. Sincronizar.
+9. Conferir na Central V6.4.2.
 
 ## Validação técnica
 JS validado com node --check: True

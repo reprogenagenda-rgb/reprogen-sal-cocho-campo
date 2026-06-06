@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<title>APP COCHO CAMPO V1.1.4 SUPABASE</title>
-<link rel="manifest" href="./manifest.json?v=1.1.4">
+<title>APP COCHO CAMPO V1.1.5 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.1.5">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
@@ -29,12 +29,19 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 .alertGps.ok{background:#e7f6eb;color:#0f5132;border:1px solid #b8dfc1}
 .alertGps.warn{background:#fff3cd;color:#5b4300;border:1px solid #ffe08a}
 
+.raioBox{font-weight:900;border-radius:14px;padding:11px;margin:8px 0;border:1px solid #ddd}
+.raioBox.ok{background:#e7f6eb;color:#0f5132;border-color:#b8dfc1}
+.raioBox.fora{background:#fff3cd;color:#5b4300;border-color:#ffe08a}
+.raioBox.erro{background:#f8d7da;color:#842029;border-color:#f1aeb5}
+.raioBox.neutro{background:#eef4ff;color:#1b3765;border-color:#c7d7ff}
+
+
 </style>
 </head>
 <body>
 <header>
-  <h1>APP COCHO CAMPO V1.1.4 SUPABASE</h1>
-  <div class="sub">Coletador offline • V1.1.4 • Botão único GPS + lançamento</div>
+  <h1>APP COCHO CAMPO V1.1.5 SUPABASE</h1>
+  <div class="sub">Coletador offline • V1.1.5 • Raio antes de salvar</div>
   <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
 </header>
 <main>
@@ -117,6 +124,7 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
     </div>
     <div id="confBox" class="confirmBox"><b>Conferência:</b> selecione cocho, produto e kg.</div>
     <div id="gpsAlert" class="alertGps warn">GPS ainda não capturado.</div>
+    <div id="raioAlert" class="raioBox neutro">Raio do cocho: aguardando GPS.</div>
     <button class="blue bigbtn" onclick="registrarComGps(this)">Registrar lançamento + GPS</button>
     <button class="warn" onclick="registrarSemGpsForcado(this)">Registrar sem GPS</button>
     <button onclick="preencherTeste()">Preencher Teste</button>
@@ -145,13 +153,13 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
   </div>
 </div>
 
-<div class="footer">APP COCHO CAMPO V1.1.4 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
+<div class="footer">APP COCHO CAMPO V1.1.5 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
 </main>
 
 <script>
 (function(){
 'use strict';
-var APP_VERSION='APP COCHO CAMPO V1.1.4 SUPABASE — OFFLINE';
+var APP_VERSION='APP COCHO CAMPO V1.1.5 SUPABASE — OFFLINE';
 var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
 var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
 var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
@@ -235,7 +243,7 @@ window.showTab=function(tab){
   document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
   if(tab==='base'){renderBase();}
   if(tab==='fila'){renderFila();}
-  if(tab==='lancar'){preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();}
+  if(tab==='lancar'){preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();}
   updateUI();
 };
 window.saveConfig=function(){saveCfg({url:$('supabaseUrl').value.trim(),key:$('supabaseKey').value.trim(),savedAt:nowBR()});sbClient=null;setOut('configOut','Configuração salva. Teste conexão.');updateUI();};
@@ -312,6 +320,45 @@ function preencherSelects(){
   if($('lan_produto')&&produtoAtual){$('lan_produto').value=produtoAtual;}
 }
 
+
+function toNum(v){var n=Number(v);return isNaN(n)?null:n;}
+function rad(n){return n*Math.PI/180;}
+function distanciaMetros(lat1,lng1,lat2,lng2){
+  lat1=toNum(lat1);lng1=toNum(lng1);lat2=toNum(lat2);lng2=toNum(lng2);
+  if(lat1===null||lng1===null||lat2===null||lng2===null){return null;}
+  var R=6371000;
+  var dLat=rad(lat2-lat1), dLng=rad(lng2-lng1);
+  var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(rad(lat1))*Math.cos(rad(lat2))*Math.sin(dLng/2)*Math.sin(dLng/2);
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function getCochoSelecionadoObj(){
+  var b=getBase(), id=$('lan_cocho')?$('lan_cocho').value:'';
+  var arr=(b&&b.cochos)||[];
+  for(var i=0;i<arr.length;i++){if(arr[i].id===id){return arr[i];}}
+  return null;
+}
+function calcularRaioAtual(){
+  var c=getCochoSelecionadoObj();
+  var lat=$('lan_lat')?$('lan_lat').value:'', lng=$('lan_lng')?$('lan_lng').value:'';
+  if(!c){return {status:'SEM_COCHO',dist:null,raio:null,msg:'Selecione o cocho.'};}
+  var raio=Number(c.raio_aceito_m||50);
+  if(!c.gps_lat||!c.gps_lng){return {status:'COCHO_SEM_GPS',dist:null,raio:raio,msg:'Cocho sem GPS cadastrado.'};}
+  if(!lat||!lng){return {status:'SEM_GPS',dist:null,raio:raio,msg:'Raio do cocho: aguardando GPS.'};}
+  var d=distanciaMetros(c.gps_lat,c.gps_lng,lat,lng);
+  if(d===null){return {status:'GPS_INVALIDO',dist:null,raio:raio,msg:'GPS inválido.'};}
+  if(d<=raio){return {status:'DENTRO_DO_RAIO',dist:d,raio:raio,msg:'DENTRO DO RAIO: '+d.toFixed(1)+' m de '+raio+' m'};}
+  return {status:'FORA_DO_RAIO',dist:d,raio:raio,msg:'FORA DO RAIO: '+d.toFixed(1)+' m de '+raio+' m'};
+}
+function atualizarRaioAlert(){
+  var el=$('raioAlert'); if(!el){return;}
+  var r=calcularRaioAtual();
+  if(r.status==='DENTRO_DO_RAIO'){el.className='raioBox ok';}
+  else if(r.status==='FORA_DO_RAIO'){el.className='raioBox fora';}
+  else if(r.status==='COCHO_SEM_GPS'||r.status==='GPS_INVALIDO'){el.className='raioBox erro';}
+  else{el.className='raioBox neutro';}
+  el.textContent=r.msg;
+}
+
 function nomeSelecionadoSelect(id){
   var el=$(id); if(!el||el.selectedIndex<0){return '-';}
   return el.options[el.selectedIndex].text || '-';
@@ -321,7 +368,7 @@ function atualizarConferencia(){
   var prod=nomeSelecionadoSelect('lan_produto');
   var kg=$('lan_kg')?$('lan_kg').value:'';
   var gps=($('lan_lat')&&$('lan_lat').value&&$('lan_lng').value)?('COM GPS: '+$('lan_lat').value+', '+$('lan_lng').value):'SEM GPS';
-  setHTML('confBox','<b>Conferência antes de salvar:</b><br>Cocho: '+esc(cocho)+'<br>Produto: '+esc(prod)+'<br>Kg: '+esc(kg||'-')+'<br>'+esc(gps));
+  var raio=calcularRaioAtual();setHTML('confBox','<b>Conferência antes de salvar:</b><br>Cocho: '+esc(cocho)+'<br>Produto: '+esc(prod)+'<br>Kg: '+esc(kg||'-')+'<br>'+esc(gps)+'<br>Raio: '+esc(raio.msg));
 }
 function atualizarAlertaGps(){
   var el=$('gpsAlert'); if(!el){return;}
@@ -352,10 +399,10 @@ window.capturarGPS=function(btn){
   if(!navigator.geolocation){setOut('lanOut',{ok:false,erro:'GPS_NAO_SUPORTADO',gps_status:'SEM_GPS'});btnUnlock(btn);return;}
   navigator.geolocation.getCurrentPosition(function(pos){
     $('lan_lat').value=pos.coords.latitude.toFixed(7);$('lan_lng').value=pos.coords.longitude.toFixed(7);$('lan_acc').value=pos.coords.accuracy?Math.round(pos.coords.accuracy):'';
-    salvarRascunho();atualizarConferencia();atualizarAlertaGps();setOut('lanOut',{ok:true,mensagem:'GPS capturado sem limpar cocho/produto.',gps_status:'COM_GPS',lat:$('lan_lat').value,lng:$('lan_lng').value,precisao_m:$('lan_acc').value});btnUnlock(btn);
-  },function(err){salvarRascunho();atualizarConferencia();atualizarAlertaGps();setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Pode salvar como SEM_GPS nesta fase.'});btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+    salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();setOut('lanOut',{ok:true,mensagem:'GPS capturado sem limpar cocho/produto.',gps_status:'COM_GPS',lat:$('lan_lat').value,lng:$('lan_lng').value,precisao_m:$('lan_acc').value});btnUnlock(btn);
+  },function(err){salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Pode salvar como SEM_GPS nesta fase.'});btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
 };
-window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}$('lan_obs').value='LANÇAMENTO TESTE APP CAMPO';salvarRascunho();atualizarConferencia();atualizarAlertaGps();};
+window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}$('lan_obs').value='LANÇAMENTO TESTE APP CAMPO';salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();};
 
 function salvarLocalInterno(btn, permitirSemGps){
   btnLock(btn,'Salvando...');
@@ -368,7 +415,7 @@ function salvarLocalInterno(btn, permitirSemGps){
     setOut('lanOut',{ok:false,erro:'GPS_OBRIGATORIO_NO_BOTAO_UNICO',mensagem:'O GPS não foi capturado. Use Registrar sem GPS apenas se estiver autorizado.'});
     btnUnlock(btn);return;
   }
-  salvarRascunho();atualizarConferencia();atualizarAlertaGps();
+  salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
   var temGps=!!($('lan_lat').value&&$('lan_lng').value);
   var item={
     id_operacao_cliente:genOp(),
@@ -394,8 +441,11 @@ function salvarLocalInterno(btn, permitirSemGps){
     gps_lng:$('lan_lng').value?Number($('lan_lng').value):null,
     gps_precisao_m:$('lan_acc').value?Number($('lan_acc').value):null,
     status_gps:temGps?'COM_GPS':'SEM_GPS',
+    distancia_cocho_m:calcularRaioAtual().dist,
+    status_raio_local:calcularRaioAtual().status,
+    raio_aceito_m:calcularRaioAtual().raio,
     observacoes:$('lan_obs').value.trim(),
-    origem_lancamento:'APP_CAMPO_V1_1_4',
+    origem_lancamento:'APP_CAMPO_V1_1_5',
     status_sync:'PENDENTE',
     status_local:'PENDENTE',
     criado_local_em:nowBR()
@@ -422,7 +472,7 @@ window.registrarComGps=function(btn){
     $('lan_lat').value=pos.coords.latitude;
     $('lan_lng').value=pos.coords.longitude;
     $('lan_acc').value=pos.coords.accuracy||'';
-    salvarRascunho();atualizarConferencia();atualizarAlertaGps();
+    salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
     btnUnlock(btn);
     salvarLocalInterno(btn,false);
   },function(err){
@@ -466,8 +516,8 @@ function nomeProduto(id){var b=getBase(),a=b.produtos||[];for(var i=0;i<a.length
 window.exportarFila=function(){var blob=new Blob([JSON.stringify(getFila(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup_fila_app_cocho_campo_'+Date.now()+'.json';a.click();};
 window.limparSincronizados=function(){var fila=getFila().filter(function(x){return x.status_local==='PENDENTE';});setFila(fila);updateUI();renderFila();};
 window.diagnostico=function(){setOut('diagOut',{app:APP_VERSION,online:navigator.onLine,config:cfg(),session:session,base:getBase(),fila:getFila(),data_hora_brasilia:nowBR()});};
-['lan_cocho','lan_produto','lan_kg','lan_lat','lan_lng','lan_acc','lan_obs'].forEach(function(id){var el=$(id);if(el){el.addEventListener('change',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();});el.addEventListener('input',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();});}});
-loadConfig();loadSession();updateUI();renderBase();renderFila();preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();setInterval(updateUI,10000);window.addEventListener('online',updateUI);window.addEventListener('offline',updateUI);
+['lan_cocho','lan_produto','lan_kg','lan_lat','lan_lng','lan_acc','lan_obs'].forEach(function(id){var el=$(id);if(el){el.addEventListener('change',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();});el.addEventListener('input',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();});}});
+loadConfig();loadSession();updateUI();renderBase();renderFila();preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();setInterval(updateUI,10000);window.addEventListener('online',updateUI);window.addEventListener('offline',updateUI);
 })();
 </script>
 </body>
