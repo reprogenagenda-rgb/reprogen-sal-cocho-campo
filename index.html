@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<title>APP COCHO CAMPO V1.1.5 SUPABASE</title>
-<link rel="manifest" href="./manifest.json?v=1.1.5">
+<title>APP COCHO CAMPO V1.1.7 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.1.7">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
@@ -40,8 +40,8 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 </head>
 <body>
 <header>
-  <h1>APP COCHO CAMPO V1.1.5 SUPABASE</h1>
-  <div class="sub">Coletador offline • V1.1.5 • Raio antes de salvar</div>
+  <h1>APP COCHO CAMPO V1.1.7 SUPABASE</h1>
+  <div class="sub">Coletador offline • V1.1.7 • Base offline permanente</div>
   <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
 </header>
 <main>
@@ -59,7 +59,7 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 <div id="view-painel" class="view">
   <div class="card">
     <h2>Painel Campo V1.0</h2>
-    <div class="okbox">Fluxo correto: configurar Supabase → login → baixar base → lançar offline → sincronizar.</div>
+    <div class="okbox">Fluxo correto: primeiro uso baixa base; depois a base fica salva e libera lançamento mesmo sem baixar novamente.</div>
     <div class="kpirow">
       <div class="kpi"><b id="kCochos">0</b><br><span class="small">Cochos</span></div>
       <div class="kpi"><b id="kProdutos">0</b><br><span class="small">Produtos</span></div>
@@ -68,6 +68,7 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
     </div>
     <button class="blue" onclick="testSupabase(this)">Testar Supabase</button>
     <button onclick="baixarBase(this)">Baixar/Atualizar Base</button>
+    <button class="warn" onclick="usarBaseOffline(this)">Usar Base Offline Salva</button>
     <button class="warn" onclick="showTab('lancar')">Novo lançamento</button>
     <pre id="painelOut">Aguardando operação.</pre>
   </div>
@@ -153,13 +154,13 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
   </div>
 </div>
 
-<div class="footer">APP COCHO CAMPO V1.1.5 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
+<div class="footer">APP COCHO CAMPO V1.1.7 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
 </main>
 
 <script>
 (function(){
 'use strict';
-var APP_VERSION='APP COCHO CAMPO V1.1.5 SUPABASE — OFFLINE';
+var APP_VERSION='APP COCHO CAMPO V1.1.7 SUPABASE — OFFLINE';
 var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
 var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
 var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
@@ -184,6 +185,42 @@ function cfg(){try{return JSON.parse(localStorage.getItem(LS_CFG)||'{}');}catch(
 function saveCfg(o){localStorage.setItem(LS_CFG,JSON.stringify(o||{}));}
 function getBase(){try{return JSON.parse(localStorage.getItem(LS_BASE)||'{}');}catch(e){return {};}}
 function setBase(b){localStorage.setItem(LS_BASE,JSON.stringify(b||{}));}
+function baseOfflineValida(){
+  var b=getBase();
+  return !!(b&&b.propriedade&&b.propriedade.id&&(b.cochos||[]).length&&(b.produtos||[]).length);
+}
+function garantirSessaoDaBase(){
+  var b=getBase();
+  if((!session.propriedade||!session.propriedade.id) && b&&b.propriedade&&b.propriedade.id){
+    session.propriedade=b.propriedade;
+    if(b.usuario&&b.usuario.id){session.usuario=b.usuario;}
+    session.restaurada_da_base=true;
+    session.restaurada_em=nowBR();
+    saveSession();
+  }
+}
+function resumoBaseOffline(){
+  var b=getBase();
+  if(!(b&&b.propriedade&&b.propriedade.id)){return {ok:false,mensagem:'Nenhuma base offline encontrada.'};}
+  return {
+    ok:true,
+    propriedade:nomeFazendaOffline(b)||b.propriedade.nome_fazenda||b.propriedade.nome_propriedade||'Fazenda',
+    baixado_em_brasilia:b.baixado_em_brasilia||'-',
+    usuarios:(b.usuarios||[]).length,
+    produtos:(b.produtos||[]).length,
+    lotes:(b.lotes||[]).length,
+    cochos:(b.cochos||[]).length
+  };
+}
+window.usarBaseOffline=function(btn){
+  btnLock(btn,'Verificando...');
+  garantirSessaoDaBase();
+  updateUI();
+  var r=resumoBaseOffline();
+  setOut('painelOut',r);
+  setOut('baseOut',r);
+  btnUnlock(btn);
+};
 function getFila(){try{return JSON.parse(localStorage.getItem(LS_FILA)||'[]');}catch(e){return [];}}
 function setFila(a){localStorage.setItem(LS_FILA,JSON.stringify(a||[]));}
 function getRascunho(){try{return JSON.parse(localStorage.getItem(LS_RASCUNHO)||'{}');}catch(e){return {};}}
@@ -220,6 +257,7 @@ function loadConfig(){var c=cfg();$('supabaseUrl').value=c.url||DEFAULT_URL;$('s
 function loadSession(){try{session=JSON.parse(localStorage.getItem(LS_SESSION)||'{}')||{};}catch(e){session={};}}
 function saveSession(){localStorage.setItem(LS_SESSION,JSON.stringify(session||{}));}
 function updateUI(){
+  garantirSessaoDaBase();
   setTxt('netBadge',navigator.onLine?'Online':'Offline');
   $('netBadge').className='badge '+(navigator.onLine?'':'err');
   var c=cfg();setTxt('cfgBadge',(c.url&&c.key)?'Config OK':'Config pendente');$('cfgBadge').className='badge '+((c.url&&c.key)?'':'warn');
@@ -227,11 +265,20 @@ function updateUI(){
   setTxt('pendBadge',pend+' pendentes');$('pendBadge').className='badge '+(pend?'warn':'');
   setTxt('kPend',pend);setTxt('kSync',sinc);
   setTxt('kCochos',(base.cochos||[]).length||0);setTxt('kProdutos',(base.produtos||[]).length||0);
+  var rb=resumoBaseOffline();
   if(session.propriedade&&session.usuario){
-    setTxt('sessBadge',(session.propriedade.nome_fazenda||'Fazenda')+' | '+(session.usuario.nome_usuario||session.usuario.login_usuario||'Usuário'));
-    setHTML('sessionBar','<b>Sessão:</b> '+esc(session.propriedade.nome_fazenda||'-')+' • '+esc(session.usuario.nome_usuario||session.usuario.login_usuario||'-'));
+    setTxt('sessBadge',(session.propriedade.nome_fazenda||session.propriedade.nome_propriedade||'Fazenda')+' | '+(session.usuario.nome_usuario||session.usuario.login_usuario||'Usuário'));
+    setHTML('sessionBar','<b>Sessão:</b> '+esc(session.propriedade.nome_fazenda||session.propriedade.nome_propriedade||'-')+' • '+esc(session.usuario.nome_usuario||session.usuario.login_usuario||'-'));
+  }else if(rb.ok){
+    setTxt('sessBadge',rb.propriedade+' | BASE OFFLINE');
+    setHTML('sessionBar','<b>Sessão:</b> usando base offline salva. Faça login quando houver internet para atualizar permissões.');
   }else{
     setTxt('sessBadge','Sem login');setHTML('sessionBar','<b>Sessão:</b> sem login.');
+  }
+  if(rb.ok){
+    setHTML('baseOfflineBar','<b>Base offline salva:</b> '+esc(rb.propriedade)+' • Atualizada: '+esc(rb.baixado_em_brasilia)+' • Cochos: '+rb.cochos+' • Produtos: '+rb.produtos);
+  }else{
+    setHTML('baseOfflineBar','<b>Base offline:</b> não encontrada. Baixe a base pelo menos uma vez antes do uso sem sinal.');
   }
   preencherSelects();
 }
@@ -288,7 +335,7 @@ window.baixarBase=function(btn){
   withTimeout(Promise.all(tasks),45000).then(function(res){
     for(var i=0;i<res.length;i++){if(res[i].error){throw res[i].error;}}
     var b={app:'APP COCHO CAMPO BASE V1',baixado_em_brasilia:nowBR(),propriedade:session.propriedade,usuario:session.usuario,usuarios:res[0].data||[],produtos:res[1].data||[],lotes:res[2].data||[],cochos:res[3].data||[]};
-    setBase(b);renderBase();updateUI();setOut('baseOut',{ok:true,mensagem:'Base baixada para uso offline.',resumo:{usuarios:b.usuarios.length,produtos:b.produtos.length,lotes:b.lotes.length,cochos:b.cochos.length}});
+    setBase(b);renderBase();updateUI();setOut('baseOut',{ok:true,mensagem:'Base baixada para uso offline. Não será necessário baixar novamente para lançar, salvo quando houver atualização de cocho/produto/usuário.',resumo:{usuarios:b.usuarios.length,produtos:b.produtos.length,lotes:b.lotes.length,cochos:b.cochos.length}});
     setOut('painelOut',{ok:true,mensagem:'Base baixada.',resumo:{produtos:b.produtos.length,cochos:b.cochos.length}});
   }).catch(function(e){setOut('baseOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
 };
@@ -383,6 +430,12 @@ function atualizarAlertaGps(){
 }
 
 
+
+function nomeFazendaOffline(b){
+  var p=(b&&b.propriedade)||session.propriedade||{};
+  return p.nome_fazenda||p.nome_propriedade||p.nome||p.razao_social||p.apelido_fazenda||'';
+}
+
 function nomeCochoOffline(b,id){
   var arr=(b&&b.cochos)||[];
   for(var i=0;i<arr.length;i++){if(arr[i].id===id){return (arr[i].nome_cocho||'')+(arr[i].codigo_cocho?' | '+arr[i].codigo_cocho:'');}}
@@ -406,6 +459,7 @@ window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}
 
 function salvarLocalInterno(btn, permitirSemGps){
   btnLock(btn,'Salvando...');
+  garantirSessaoDaBase();
   var b=getBase(),cochoId=$('lan_cocho').value,prodId=$('lan_produto').value,kg=Number($('lan_kg').value||0);
   if(!b.propriedade){setOut('lanOut',{ok:false,erro:'BASE_OFFLINE_OBRIGATORIA'});btnUnlock(btn);return;}
   if(!cochoId){setOut('lanOut',{ok:false,erro:'COCHO_OBRIGATORIO'});btnUnlock(btn);return;}
@@ -420,20 +474,21 @@ function salvarLocalInterno(btn, permitirSemGps){
   var item={
     id_operacao_cliente:genOp(),
     propriedade_id:b.propriedade.id,
-    propriedade_nome:b.propriedade.nome_propriedade||b.propriedade.nome||'',
+    propriedade_nome:nomeFazendaOffline(b),
     chave_fazenda:b.propriedade.chave_fazenda||session.chave_fazenda||'',
     fazenda_snapshot:{
       propriedade_id:b.propriedade.id,
-      nome_propriedade:b.propriedade.nome_propriedade||b.propriedade.nome||'',
+      nome_propriedade:nomeFazendaOffline(b),
+      nome_fazenda:nomeFazendaOffline(b),
       chave_fazenda:b.propriedade.chave_fazenda||session.chave_fazenda||'',
-      operador_nome:(session.usuario&&session.usuario.nome_usuario)||'',
-      operador_login:(session.usuario&&session.usuario.login_usuario)||'',
+      operador_nome:((session.usuario&&session.usuario.nome_usuario)||(b.usuario&&b.usuario.nome_usuario)||''),
+      operador_login:((session.usuario&&session.usuario.login_usuario)||(b.usuario&&b.usuario.login_usuario)||''),
       cocho_nome:nomeCochoOffline(b,cochoId),
       produto_nome:nomeProdutoOffline(b,prodId)
     },
     cocho_id:cochoId,
     produto_id:prodId,
-    usuario_id:(session.usuario&&session.usuario.id)||null,
+    usuario_id:((session.usuario&&session.usuario.id)||(b.usuario&&b.usuario.id)||null),
     quantidade_kg:kg,
     data_hora_brasilia:nowBR(),
     data_hora_iso:new Date().toISOString(),
@@ -445,7 +500,7 @@ function salvarLocalInterno(btn, permitirSemGps){
     status_raio_local:calcularRaioAtual().status,
     raio_aceito_m:calcularRaioAtual().raio,
     observacoes:$('lan_obs').value.trim(),
-    origem_lancamento:'APP_CAMPO_V1_1_5',
+    origem_lancamento:'APP_CAMPO_V1_1_7',
     status_sync:'PENDENTE',
     status_local:'PENDENTE',
     criado_local_em:nowBR()

@@ -1,7 +1,7 @@
 {
-  "name": "APP COCHO CAMPO V1.1.5 SUPABASE",
-  "short_name": "COCHO CAMPO V1.1.5",
-  "start_url": "./index.html?v=1.1.5",
+  "name": "APP COCHO CAMPO V1.1.7 SUPABASE",
+  "short_name": "COCHO CAMPO V1.1.7",
+  "start_url": "./index.html?v=1.1.7",
   "scope": "./",
   "display": "standalone",
   "background_color": "#eef6ef",

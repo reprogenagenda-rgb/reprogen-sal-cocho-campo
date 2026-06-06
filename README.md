@@ -1,33 +1,31 @@
-# APP COCHO CAMPO V1.1.5 SUPABASE — Raio antes de salvar
+# APP COCHO CAMPO V1.1.7 SUPABASE — Base Offline Permanente
 
-## Objetivo
-Mostrar no próprio App Campo se o operador está dentro ou fora do raio do cocho selecionado antes de registrar o lançamento.
+## Decisão funcional
+Não é necessário baixar a base toda vez para lançar.
+
+## Regra implementada
+- Primeiro uso da fazenda: login + baixar base.
+- Depois que a base foi baixada: o app pode lançar usando a base offline salva.
+- Sem internet: usa a última base offline.
+- Com internet: pode atualizar base quando houver novo cocho, produto, lote ou usuário.
+- Se a sessão cair, o app restaura a fazenda a partir da base offline salva.
 
 ## O que entrou
-- Cálculo de distância no Campo usando GPS do cocho + GPS do lançamento.
-- Aviso visual:
-  - DENTRO_DO_RAIO
-  - FORA_DO_RAIO
-  - SEM_GPS
-  - COCHO_SEM_GPS
-- A conferência antes de salvar mostra o raio/distância.
-- O lançamento local guarda:
-  - distancia_cocho_m
-  - status_raio_local
-  - raio_aceito_m
-
-## Importante
-A Central V6.4.2 continua calculando oficialmente o raio depois da sincronização.
-O Campo V1.1.5 mostra o alerta antes de salvar para evitar erro no campo.
+- Botão: Usar Base Offline Salva.
+- Barra de status: Base offline salva com fazenda, data, cochos e produtos.
+- Restauração automática da sessão a partir da base offline.
+- Lançamento liberado com base offline válida.
+- Baixar base virou atualização, não obrigação diária.
 
 ## Base preservada
-- Botão único: Registrar lançamento + GPS
-- Registrar sem GPS como exceção
-- Seleção persistente de cocho/produto
-- Fazenda registrada offline
-- Fila offline
-- Sincronização
-- Central V6.4.2
+- Botão único: Registrar lançamento + GPS.
+- Raio antes de salvar.
+- Nome da fazenda no lançamento offline.
+- Snapshot da fazenda.
+- Seleção persistente.
+- Fila offline.
+- Sincronização com Supabase.
+- Central V6.4.2.
 
 ## SUPABASE
 Não precisa rodar SQL.
@@ -42,21 +40,25 @@ Substituir no repositório do Campo:
 - icons/icon-512.png
 
 Mensagem de commit:
-`Atualiza Campo Cocho V1.1.5 raio antes de salvar`
+`Atualiza Campo Cocho V1.1.7 base offline permanente`
 
 Abrir:
-`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.5-raio-antes-salvar`
+`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.1.7-base-offline-permanente`
 
 ## Teste
-1. Login.
-2. Baixar base.
-3. Selecionar cocho.
-4. Selecionar produto.
-5. Informar kg.
-6. Clicar Registrar lançamento + GPS.
-7. Antes/sobre o registro deve aparecer DENTRO_DO_RAIO ou FORA_DO_RAIO.
-8. Sincronizar.
-9. Conferir na Central V6.4.2.
+1. Com internet, faça login e baixe a base.
+2. Feche o app.
+3. Abra novamente.
+4. Toque em Usar Base Offline Salva.
+5. Desligue internet.
+6. Faça lançamento.
+7. O lançamento deve salvar pendente.
+8. Ligue internet.
+9. Sincronize.
+10. Confira na Central V6.4.2.
+
+## Critério de aprovação
+Depois de baixar a base uma vez, o operador não deve precisar baixar novamente para lançar na mesma fazenda.
 
 ## Validação técnica
 JS validado com node --check: True
