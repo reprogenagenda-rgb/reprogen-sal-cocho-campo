@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<title>APP COCHO CAMPO V1.1 SUPABASE</title>
-<link rel="manifest" href="./manifest.json?v=1.1">
+<title>APP COCHO CAMPO V1.1.1 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.1.1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
@@ -34,8 +34,8 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 </head>
 <body>
 <header>
-  <h1>APP COCHO CAMPO V1.1 SUPABASE</h1>
-  <div class="sub">Coletador offline • Conferência • Último lançamento • GPS • Sync</div>
+  <h1>APP COCHO CAMPO V1.1.1 SUPABASE</h1>
+  <div class="sub">Coletador offline • Seleção persistente • GPS • Sync</div>
   <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
 </header>
 <main>
@@ -147,18 +147,19 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
   </div>
 </div>
 
-<div class="footer">APP COCHO CAMPO V1.1 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
+<div class="footer">APP COCHO CAMPO V1.1.1 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
 </main>
 
 <script>
 (function(){
 'use strict';
-var APP_VERSION='APP COCHO CAMPO V1.1 SUPABASE — OFFLINE';
+var APP_VERSION='APP COCHO CAMPO V1.1.1 SUPABASE — OFFLINE';
 var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
 var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
 var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
 var LS_BASE='APP_COCHO_CAMPO_BASE_V1';
 var LS_FILA='APP_COCHO_CAMPO_FILA_V1';
+var LS_RASCUNHO='APP_COCHO_CAMPO_RASCUNHO_LANCAMENTO_V1';
 var sbClient=null;
 var session={propriedade:null,usuario:null};
 
@@ -179,6 +180,31 @@ function getBase(){try{return JSON.parse(localStorage.getItem(LS_BASE)||'{}');}c
 function setBase(b){localStorage.setItem(LS_BASE,JSON.stringify(b||{}));}
 function getFila(){try{return JSON.parse(localStorage.getItem(LS_FILA)||'[]');}catch(e){return [];}}
 function setFila(a){localStorage.setItem(LS_FILA,JSON.stringify(a||[]));}
+function getRascunho(){try{return JSON.parse(localStorage.getItem(LS_RASCUNHO)||'{}');}catch(e){return {};}}
+function setRascunho(o){localStorage.setItem(LS_RASCUNHO,JSON.stringify(o||{}));}
+function salvarRascunho(){
+  var o={
+    cocho_id:$('lan_cocho')?$('lan_cocho').value:'',
+    produto_id:$('lan_produto')?$('lan_produto').value:'',
+    kg:$('lan_kg')?$('lan_kg').value:'',
+    lat:$('lan_lat')?$('lan_lat').value:'',
+    lng:$('lan_lng')?$('lan_lng').value:'',
+    acc:$('lan_acc')?$('lan_acc').value:'',
+    obs:$('lan_obs')?$('lan_obs').value:''
+  };
+  setRascunho(o);
+}
+function aplicarRascunho(){
+  var o=getRascunho();
+  if(!o){return;}
+  if($('lan_cocho')&&o.cocho_id){$('lan_cocho').value=o.cocho_id;}
+  if($('lan_produto')&&o.produto_id){$('lan_produto').value=o.produto_id;}
+  if($('lan_kg')&&o.kg){$('lan_kg').value=o.kg;}
+  if($('lan_lat')&&o.lat){$('lan_lat').value=o.lat;}
+  if($('lan_lng')&&o.lng){$('lan_lng').value=o.lng;}
+  if($('lan_acc')&&o.acc){$('lan_acc').value=o.acc;}
+  if($('lan_obs')&&o.obs){$('lan_obs').value=o.obs;}
+}
 function getClient(){
   var c=cfg(),url=String(c.url||'').trim(),key=String(c.key||'').trim();
   if(!url||!key){throw new Error('CONFIG_SUPABASE_OBRIGATORIA');}
@@ -278,10 +304,18 @@ function renderBase(){
   setOut('baseOut',{base_carregada:!!b.propriedade,propriedade:b.propriedade&&b.propriedade.nome_fazenda,baixado_em:b.baixado_em_brasilia,produtos:(b.produtos||[]).length,lotes:(b.lotes||[]).length,cochos:(b.cochos||[]).length});
 }
 function preencherSelects(){
-  var b=getBase(),h1='<option value="">Selecione o cocho</option>',h2='<option value="">Selecione o produto</option>';
+  var b=getBase();
+  var cochoAtual=$('lan_cocho')?$('lan_cocho').value:'';
+  var produtoAtual=$('lan_produto')?$('lan_produto').value:'';
+  var r=getRascunho();
+  if(!cochoAtual && r.cocho_id){cochoAtual=r.cocho_id;}
+  if(!produtoAtual && r.produto_id){produtoAtual=r.produto_id;}
+  var h1='<option value="">Selecione o cocho</option>',h2='<option value="">Selecione o produto</option>';
   (b.cochos||[]).forEach(function(c){h1+='<option value="'+esc(c.id)+'">'+esc((c.nome_cocho||'')+(c.codigo_cocho?' | '+c.codigo_cocho:''))+'</option>';});
   (b.produtos||[]).forEach(function(p){h2+='<option value="'+esc(p.id)+'">'+esc((p.nome_produto||'')+' | '+(p.tipo_produto||''))+'</option>';});
   setHTML('lan_cocho',h1);setHTML('lan_produto',h2);
+  if($('lan_cocho') && cochoAtual){$('lan_cocho').value=cochoAtual;}
+  if($('lan_produto') && produtoAtual){$('lan_produto').value=produtoAtual;}
 }
 
 function itemPeloId(arr,id){for(var i=0;i<(arr||[]).length;i++){if(arr[i].id===id){return arr[i];}}return null;}
@@ -341,10 +375,10 @@ window.capturarGPS=function(btn){
   if(!navigator.geolocation){setOut('lanOut',{ok:false,erro:'GPS_NAO_SUPORTADO',gps_status:'SEM_GPS'});btnUnlock(btn);return;}
   navigator.geolocation.getCurrentPosition(function(pos){
     $('lan_lat').value=pos.coords.latitude.toFixed(7);$('lan_lng').value=pos.coords.longitude.toFixed(7);$('lan_acc').value=pos.coords.accuracy?Math.round(pos.coords.accuracy):'';
-    atualizarAlertaGps();atualizarConferencia();setOut('lanOut',{ok:true,mensagem:'GPS capturado.',gps_status:'COM_GPS',lat:$('lan_lat').value,lng:$('lan_lng').value,precisao_m:$('lan_acc').value});btnUnlock(btn);
+    salvarRascunho();atualizarAlertaGps();atualizarConferencia();setOut('lanOut',{ok:true,mensagem:'GPS capturado.',gps_status:'COM_GPS',lat:$('lan_lat').value,lng:$('lan_lng').value,precisao_m:$('lan_acc').value});btnUnlock(btn);
   },function(err){atualizarAlertaGps();setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Pode salvar como SEM_GPS nesta fase.'});btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
 };
-window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}$('lan_obs').value='LANÇAMENTO TESTE APP CAMPO';atualizarConferencia();atualizarAlertaGps();};
+window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}$('lan_obs').value='LANÇAMENTO TESTE APP CAMPO';salvarRascunho();atualizarConferencia();atualizarAlertaGps();};
 window.salvarLocal=function(btn){
   btnLock(btn,'Salvando...');
   var b=getBase(),cochoId=$('lan_cocho').value,prodId=$('lan_produto').value,kg=Number($('lan_kg').value||0);
@@ -357,7 +391,7 @@ window.salvarLocal=function(btn){
   atualizarConferencia();
   var temGps=!!($('lan_lat').value&&$('lan_lng').value);
   var item={id_operacao_cliente:genOp(),propriedade_id:b.propriedade.id,cocho_id:cochoId,produto_id:prodId,usuario_id:(session.usuario&&session.usuario.id)||null,quantidade_kg:kg,data_hora_brasilia:nowBR(),data_hora_iso:new Date().toISOString(),gps_lat:$('lan_lat').value?Number($('lan_lat').value):null,gps_lng:$('lan_lng').value?Number($('lan_lng').value):null,gps_precisao_m:$('lan_acc').value?Number($('lan_acc').value):null,status_gps:temGps?'COM_GPS':'SEM_GPS',observacoes:$('lan_obs').value.trim(),origem_lancamento:'APP_CAMPO_V1_0',status_sync:'PENDENTE',status_local:'PENDENTE',criado_local_em:nowBR()};
-  var fila=getFila();fila.unshift(item);setFila(fila);updateUI();renderFila();setOut('lanOut',{ok:true,mensagem:'Lançamento salvo offline.',pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length,lancamento:item});btnUnlock(btn);
+  var fila=getFila();fila.unshift(item);setFila(fila);setRascunho({cocho_id:cochoId,produto_id:prodId});updateUI();renderFila();setOut('lanOut',{ok:true,mensagem:'Lançamento salvo offline.',pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length,lancamento:item});btnUnlock(btn);
 };
 window.sincronizarFila=function(btn){
   btnLock(btn,'Sincronizando...');
@@ -392,8 +426,8 @@ function nomeProduto(id){var b=getBase(),a=b.produtos||[];for(var i=0;i<a.length
 window.exportarFila=function(){var blob=new Blob([JSON.stringify(getFila(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup_fila_app_cocho_campo_'+Date.now()+'.json';a.click();};
 window.limparSincronizados=function(){var fila=getFila().filter(function(x){return x.status_local==='PENDENTE';});setFila(fila);updateUI();renderFila();};
 window.diagnostico=function(){setOut('diagOut',{app:APP_VERSION,online:navigator.onLine,config:cfg(),session:session,base:getBase(),fila:getFila(),data_hora_brasilia:nowBR()});};
-['lan_cocho','lan_produto','lan_kg','lan_lat','lan_lng','lan_acc'].forEach(function(id){var el=$(id);if(el){el.addEventListener('change',function(){atualizarConferencia();atualizarAlertaGps();});el.addEventListener('input',function(){atualizarConferencia();atualizarAlertaGps();});}});
-loadConfig();loadSession();updateUI();renderBase();renderFila();atualizarConferencia();atualizarAlertaGps();setInterval(updateUI,10000);window.addEventListener('online',updateUI);window.addEventListener('offline',updateUI);
+['lan_cocho','lan_produto','lan_kg','lan_lat','lan_lng','lan_acc'].forEach(function(id){var el=$(id);if(el){el.addEventListener('change',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();});el.addEventListener('input',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();});}});
+loadConfig();loadSession();updateUI();renderBase();renderFila();preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();setInterval(updateUI,10000);window.addEventListener('online',updateUI);window.addEventListener('offline',updateUI);
 })();
 </script>
 </body>
