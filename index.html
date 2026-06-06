@@ -4,257 +4,269 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<title>APP COCHO CENTRAL V6.9 SUPABASE</title>
-<link rel="manifest" href="./manifest.json?v=6.9">
+<title>APP COCHO CAMPO V1.2 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.2">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
 header{position:sticky;top:0;z-index:10;background:linear-gradient(135deg,var(--g),#082114);color:#fff;padding:8px 10px;box-shadow:0 2px 8px rgba(0,0,0,.16)}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}h1{font-size:17px;margin:0;font-weight:900}.sub{font-size:11px;opacity:.9;margin-top:2px}
-.badges{display:flex;gap:5px;flex-wrap:wrap}.badge{display:inline-block;background:#e9fff0;color:#083b21;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800}.badge.warn{background:#fff3cd;color:#5b4300}.badge.err{background:#f8d7da;color:#842029}.badge.blue{background:#dbeafe;color:#123a75}
-main{max-width:1180px;margin:0 auto;padding:8px}nav{display:flex;gap:6px;overflow:auto;padding:7px 0}.tab{border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 10px;font-weight:900;color:var(--ink);white-space:nowrap;font-size:13px}.tab.active{background:var(--g);color:#fff;border-color:var(--g)}
+h1{font-size:17px;margin:0;font-weight:900}.sub{font-size:11px;opacity:.9;margin-top:2px}.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.badge{display:inline-block;background:#e9fff0;color:#083b21;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800}.badge.warn{background:#fff3cd;color:#5b4300}.badge.err{background:#f8d7da;color:#842029}.badge.blue{background:#dbeafe;color:#123a75}
+main{max-width:900px;margin:0 auto;padding:8px}nav{display:flex;gap:6px;overflow:auto;padding:7px 0}.tab{border:1px solid var(--line);background:#fff;border-radius:11px;padding:8px 10px;font-weight:900;color:var(--ink);white-space:nowrap;font-size:13px}.tab.active{background:var(--g);color:#fff;border-color:var(--g)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:11px;margin:8px 0;box-shadow:0 3px 12px rgba(0,0,0,.04)}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}.col-12{grid-column:span 12}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}.col-2{grid-column:span 2}.col-2{grid-column:span 2}
-@media(max-width:760px){.col-6,.col-4,.col-3,.col-2{grid-column:span 12}h1{font-size:16px}.sub{font-size:11px}.kpirow{grid-template-columns:repeat(2,1fr)!important}table{min-width:640px}.tablewrap{overflow-x:auto}button{font-size:14px}}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}.col-12{grid-column:span 12}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}
+@media(max-width:760px){.col-6,.col-4,.col-3{grid-column:span 12}h1{font-size:16px}.kpirow{grid-template-columns:repeat(2,1fr)!important}table{min-width:720px}.tablewrap{overflow-x:auto}button{font-size:14px}}
 label{display:block;font-size:12px;font-weight:900;color:#234b36;margin:4px 0}input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:14px;color:var(--ink)}textarea{min-height:80px}
 button{border:0;border-radius:12px;padding:10px 12px;font-weight:900;background:var(--g2);color:#fff;margin:4px 4px 4px 0}button.blue{background:var(--b)}button.gray{background:#6c757d}button.warn{background:#f0ad00;color:#222}button.red{background:var(--r)}button:disabled{opacity:.55}
-.small{font-size:12px;color:var(--muted)}.okbox{background:#e7f6eb;border:1px solid #b8dfc1;border-radius:12px;padding:10px;margin:8px 0}.warnbox{background:#fff3cd;border:1px solid #ffe08a;border-radius:12px;padding:10px;margin:8px 0}
+.small{font-size:12px;color:var(--muted)}.okbox{background:#e7f6eb;border:1px solid #b8dfc1;border-radius:12px;padding:10px;margin:8px 0}.warnbox{background:#fff3cd;border:1px solid #ffe08a;border-radius:12px;padding:10px;margin:8px 0}.errbox{background:#f8d7da;border:1px solid #f1aeb5;border-radius:12px;padding:10px;margin:8px 0}
 pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:auto;white-space:pre-wrap;font-size:12px;min-height:44px}table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}th,td{border-bottom:1px solid #e7efe9;padding:8px;text-align:left;font-size:13px}th{background:#edf7ef;color:#1c5135;font-weight:900}
-.hidden{display:none}.footer{text-align:center;color:#607060;font-size:12px;margin:18px 0}.sessionbar{background:#dff3e5;border:1px solid #b9dfc3;border-radius:14px;padding:10px;margin:8px 0;font-size:13px}.sessionbar b{color:#0f5132}.kpirow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}.kpi b{font-size:18px}.gpsok{color:#0f5132;font-weight:900}.gpsbad{color:#842029;font-weight:900}.metricGood{color:#0f5132;font-weight:900}.metricWarn{color:#5b4300;font-weight:900}@media(max-width:700px){.kpirow{grid-template-columns:repeat(2,1fr)}th,td{font-size:12px;padding:7px}}
+.hidden{display:none}.footer{text-align:center;color:#607060;font-size:12px;margin:18px 0}.sessionbar{background:#dff3e5;border:1px solid #b9dfc3;border-radius:14px;padding:10px;margin:8px 0;font-size:13px}.sessionbar b{color:#0f5132}.kpirow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}.kpi b{font-size:18px}.bigbtn{width:100%;padding:14px;font-size:18px}
+
+.confirmBox{background:#f6fff8;border:1px solid #b8dfc1;border-radius:14px;padding:10px;margin:8px 0}
+.confirmBox b{color:#0f5132}
+.alertGps{font-weight:900;border-radius:12px;padding:9px;margin:8px 0}
+.alertGps.ok{background:#e7f6eb;color:#0f5132;border:1px solid #b8dfc1}
+.alertGps.warn{background:#fff3cd;color:#5b4300;border:1px solid #ffe08a}
+
+.raioBox{font-weight:900;border-radius:14px;padding:11px;margin:8px 0;border:1px solid #ddd}
+.raioBox.ok{background:#e7f6eb;color:#0f5132;border-color:#b8dfc1}
+.raioBox.fora{background:#fff3cd;color:#5b4300;border-color:#ffe08a}
+.raioBox.erro{background:#f8d7da;color:#842029;border-color:#f1aeb5}
+.raioBox.neutro{background:#eef4ff;color:#1b3765;border-color:#c7d7ff}
+
+
 </style>
 </head>
 <body>
-<header><div class="top"><div><h1>APP COCHO CENTRAL V6.9 SUPABASE</h1><div class="sub">Histórico GPS • Relatório Gerencial • Consumo • Custo • Estoque • GPS</div></div><div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cloudBadge" class="badge warn">Supabase não testado</span><span id="sessBadge" class="badge blue">Sem propriedade ativa</span><span id="hourBadge" class="badge">Brasília</span></div></div></header>
+<header>
+  <h1>APP COCHO CAMPO V1.2 SUPABASE</h1>
+  <div class="sub">Coletador offline • V1.2 • Cocho provisório no campo</div>
+  <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
+</header>
 <main>
 <nav>
-<button class="tab active" data-tab="painel" onclick="showTab('painel')">Painel</button><button class="tab" data-tab="config" onclick="showTab('config')">Config Supabase</button><button class="tab" data-tab="propriedades" onclick="showTab('propriedades')">Propriedades</button><button class="tab" data-tab="usuarios" onclick="showTab('usuarios')">Usuários</button><button class="tab" data-tab="produtos" onclick="showTab('produtos')">Produtos</button><button class="tab" data-tab="estoque" onclick="showTab('estoque')">Estoque</button><button class="tab" data-tab="lotes" onclick="showTab('lotes')">Lotes</button><button class="tab" data-tab="cochos" onclick="showTab('cochos')">Cochos GPS</button><button class="tab" data-tab="lancamentos" onclick="showTab('lancamentos')">Lançamentos</button><button class="tab" data-tab="historico" onclick="showTab('historico')">Histórico</button><button class="tab" data-tab="relatorios" onclick="showTab('relatorios')">Relatórios</button><button class="tab" data-tab="fechamento" onclick="showTab('fechamento')">Fechamento</button><button class="tab" data-tab="gerencial" onclick="showTab('gerencial')">Gerencial</button><button class="tab" data-tab="campo" onclick="showTab('campo')">Base Campo</button><button class="tab" data-tab="diagnostico" onclick="showTab('diagnostico')">Diagnóstico</button>
+<button class="tab active" data-tab="painel" onclick="showTab('painel')">Painel</button>
+<button class="tab" data-tab="config" onclick="showTab('config')">Config</button>
+<button class="tab" data-tab="login" onclick="showTab('login')">Login</button>
+<button class="tab" data-tab="base" onclick="showTab('base')">Base</button>
+<button class="tab" data-tab="lancar" onclick="showTab('lancar')">Lançar</button>
+<button class="tab" data-tab="fila" onclick="showTab('fila')">Fila</button>
+<button class="tab" data-tab="diagnostico" onclick="showTab('diagnostico')">Diagnóstico</button>
 </nav>
-<div class="sessionbar" id="sessionCompact"><b>Sessão:</b> sem propriedade ativa. <button class="gray" onclick="limparSessao()" style="padding:6px 9px;font-size:12px">Limpar sessão local</button></div>
+<div class="sessionbar" id="sessionBar"><b>Sessão:</b> sem login.</div>
 
-<div id="view-painel" class="view"><div class="card"><h2>Painel V6.9 — Relatório Gerencial da Fazenda</h2><p>Mantém a base aprovada e padroniza o estoque em nuvem: entradas no Supabase, saídas por abastecimento, saldo e alerta.</p><div class="kpirow"><div class="kpi"><b id="kProps">0</b><br><span class="small">Propriedades</span></div><div class="kpi"><b id="kUsers">0</b><br><span class="small">Usuários</span></div><div class="kpi"><b id="kProd">0</b><br><span class="small">Produtos</span></div><div class="kpi"><b id="kLotes">0</b><br><span class="small">Lotes</span></div><div class="kpi"><b id="kCochos">0</b><br><span class="small">Cochos</span></div><div class="kpi"><b id="kLanc">0</b><br><span class="small">Lançamentos</span></div></div><button class="blue" onclick="testSupabase(this)">Testar Supabase</button><button onclick="listarPropriedades(this)">Listar Propriedades</button><pre id="painelOut">Aguardando teste...</pre></div></div>
-
-<div id="view-config" class="view hidden"><div class="card"><h2>Config Supabase</h2><div class="warnbox">Use apenas Project URL e Publishable Key / anon public. Nunca cole secret key ou service_role.</div><label>SUPABASE_URL</label><input id="supabaseUrl" value="https://wxnsyozjiosbdwxpodbf.supabase.co"><label>SUPABASE_PUBLISHABLE_KEY</label><textarea id="supabaseKey" placeholder="sb_publishable_..."></textarea><button onclick="saveConfig()">Salvar Config</button><button class="blue" onclick="testSupabase(this)">Testar conexão</button><button class="gray" onclick="clearConfig()">Limpar</button><pre id="configOut">Cole a publishable key completa e teste.</pre></div></div>
-
-<div id="view-propriedades" class="view hidden"><div class="card"><h2>Criar Propriedade</h2><div class="grid"><div class="col-6"><label>Nome da propriedade</label><input id="p_nome" placeholder="FAZENDA TESTE SUPABASE"></div><div class="col-6"><label>Proprietário</label><input id="p_prop" placeholder="TESTE PROPRIETÁRIO"></div><div class="col-4"><label>Município</label><input id="p_mun" value="IRITUIA"></div><div class="col-4"><label>Estado</label><input id="p_uf" value="PA"></div><div class="col-4"><label>Área ha</label><input id="p_area" type="number" step="0.01" placeholder="opcional"></div><div class="col-12"><label>Observações</label><input id="p_obs" placeholder="opcional"></div></div><button onclick="criarPropriedade(this)">Criar Propriedade</button><button class="blue" onclick="listarPropriedades(this)">Listar Propriedades</button><button class="warn" onclick="preencherTesteProp()">Preencher Teste</button><pre id="propOut">Sem operação.</pre></div><div class="card tablewrap"><h3>Propriedades</h3><div id="propTable"></div></div></div>
-
-<div id="view-usuarios" class="view hidden"><div class="card"><h2>Usuários da Propriedade Ativa</h2><div class="small">Propriedade ativa: <b id="u_prop_ativa">-</b></div><div class="grid"><div class="col-6"><label>Nome do usuário</label><input id="u_nome" placeholder="MARCELO"></div><div class="col-6"><label>Login</label><input id="u_login" placeholder="marcelo"></div><div class="col-4"><label>PIN</label><input id="u_pin" placeholder="5544"></div><div class="col-4"><label>Perfil</label><select id="u_perfil"><option>FUNCIONARIO_CAMPO</option><option>PROPRIETARIO</option><option>ADMIN_CONSULTORIA</option></select></div><div class="col-4"><label>Status</label><select id="u_status"><option>ATIVO</option><option>INATIVO</option></select></div></div><button onclick="criarUsuario(this)">Criar Usuário</button><button class="blue" onclick="listarUsuarios(this)">Listar Usuários</button><button class="warn" onclick="preencherTesteUser()">Preencher Teste</button><pre id="userOut">Sem operação.</pre></div><div class="card tablewrap"><h3>Usuários</h3><div id="userTable"></div></div></div>
-
-<div id="view-produtos" class="view hidden"><div class="card"><h2>Produtos da Propriedade Ativa</h2><div class="small">Propriedade ativa: <b id="pr_prop_ativa">-</b></div><div class="grid"><div class="col-6"><label>Nome do produto</label><input id="prod_nome" placeholder="SAL MINERAL TESTE 01"></div><div class="col-6"><label>Tipo</label><select id="prod_tipo"><option>SAL_MINERAL</option><option>SUPLEMENTO</option><option>CONCENTRADO</option><option>FORRAGEM</option><option>OUTRO</option></select></div><div class="col-4"><label>Fabricante</label><input id="prod_fab" placeholder="opcional"></div><div class="col-4"><label>Unidade padrão</label><input id="prod_un" value="SACO"></div><div class="col-2"><label>Kg por unidade</label><input id="prod_kg" type="number" step="0.001" value="30"></div>
-<div class="col-2"><label>Preço/unidade R$</label><input id="prod_preco_un" type="number" step="0.01" placeholder="ex.: 135"></div>
-<div class="col-2"><label>Preço/kg R$</label><input id="prod_preco_kg" type="number" step="0.0001" placeholder="auto/opcional"></div>
-<div class="col-2"><label>Saldo mínimo kg</label><input id="prod_min" type="number" step="0.001" value="60"></div></div><button onclick="criarProduto(this)">Criar Produto</button><button class="blue" onclick="listarProdutos(this)">Listar Produtos</button><button class="warn" onclick="preencherTesteProduto()">Preencher Teste</button><pre id="prodOut">Sem operação.</pre></div><div class="card tablewrap"><h3>Produtos</h3><div id="prodTable"></div></div></div>
-
-
-<div id="view-estoque" class="view hidden">
+<div id="view-painel" class="view">
   <div class="card">
-    <h2>Estoque do Produto</h2>
-    <div class="okbox">Controle simples: entradas manuais no estoque e saídas automáticas calculadas pelos abastecimentos já sincronizados.</div>
-    <div class="grid">
-      <div class="col-4"><label>Produto</label><select id="est_produto"><option value="">Selecione o produto</option></select></div>
-      <div class="col-2"><label>Quantidade entrada kg</label><input id="est_qtd" type="number" step="0.001" placeholder="ex.: 300"></div>
-      <div class="col-2"><label>Preço R$/kg opcional</label><input id="est_preco_kg" type="number" step="0.0001" placeholder="ex.: 4,50"></div>
-      <div class="col-2"><label>Data</label><input id="est_data" type="date"></div>
-      <div class="col-2"><label>Tipo</label><select id="est_tipo"><option>ENTRADA</option><option>AJUSTE_POSITIVO</option><option>AJUSTE_NEGATIVO</option></select></div>
-      <div class="col-12"><label>Observação</label><input id="est_obs" placeholder="nota, compra, fornecedor, ajuste..."></div>
-    </div>
-    <button onclick="registrarEntradaEstoque(this)">Registrar Entrada/Ajuste</button>
-    <button class="blue" onclick="atualizarEstoque(this)">Atualizar Estoque</button>
-    <button onclick="exportarEstoqueCSV()">Exportar CSV</button>\n    <button class="gray" onclick="limparEstoqueLocal()">Limpar fallback local</button>
-    <pre id="estOut">Sem estoque.</pre>
-  </div>
-  <div class="card">
-    <h3>Resumo Estoque</h3>
+    <h2>Painel Campo V1.0</h2>
+    <div class="okbox">Fluxo correto: primeiro uso baixa base; depois a base fica salva e libera lançamento mesmo sem baixar novamente.</div>
     <div class="kpirow">
-      <div class="kpi"><b id="estEntradas">0</b><br><span class="small">Entradas kg</span></div>
-      <div class="kpi"><b id="estSaidas">0</b><br><span class="small">Saídas kg</span></div>
-      <div class="kpi"><b id="estSaldo">0</b><br><span class="small">Saldo kg</span></div>
-      <div class="kpi"><b id="estValor">R$ 0,00</b><br><span class="small">Valor estoque</span></div>
+      <div class="kpi"><b id="kCochos">0</b><br><span class="small">Cochos</span></div>
+      <div class="kpi"><b id="kProdutos">0</b><br><span class="small">Produtos</span></div>
+      <div class="kpi"><b id="kPend">0</b><br><span class="small">Pendentes</span></div>
+      <div class="kpi"><b id="kSync">0</b><br><span class="small">Sincronizados</span></div>
     </div>
+    <button class="blue" onclick="testSupabase(this)">Testar Supabase</button>
+    <button onclick="baixarBase(this)">Baixar/Atualizar Base</button>
+    <button class="warn" onclick="usarBaseOffline(this)">Usar Base Offline Salva</button>
+    <button class="warn" onclick="showTab('lancar')">Novo lançamento</button>
+    <pre id="painelOut">Aguardando operação.</pre>
   </div>
-  <div class="card tablewrap"><h3>Saldo por Produto</h3><div id="estTable"></div></div>
 </div>
 
-
-<div id="view-lotes" class="view hidden"><div class="card"><h2>Lotes da Propriedade Ativa</h2><div class="small">Propriedade ativa: <b id="l_prop_ativa">-</b></div><div class="grid"><div class="col-6"><label>Nome do lote</label><input id="l_nome" placeholder="LOTE TESTE 01"></div><div class="col-3"><label>Categoria</label><select id="l_cat"><option>VACAS</option><option>NOVILHAS</option><option>BEZERROS</option><option>BEZERRAS</option><option>GARROTES</option><option>OUTRO</option></select></div><div class="col-3"><label>Quantidade de animais</label><input id="l_qtd" type="number" value="0"></div><div class="col-6"><label>Área/Pasto</label><input id="l_area" placeholder="PASTO 01"></div><div class="col-6"><label>Status</label><select id="l_status"><option>ATIVO</option><option>INATIVO</option></select></div><div class="col-12"><label>Observação</label><input id="l_obs" placeholder="opcional"></div></div><button onclick="criarLote(this)">Criar Lote</button><button class="blue" onclick="listarLotes(this)">Listar Lotes</button><button class="warn" onclick="preencherTesteLote()">Preencher Teste</button><pre id="loteOut">Sem operação.</pre></div><div class="card tablewrap"><h3>Lotes</h3><div id="loteTable"></div></div></div>
-
-<div id="view-cochos" class="view hidden"><div class="card"><h2>Cochos com GPS</h2><div class="small">Propriedade ativa: <b id="c_prop_ativa">-</b></div><div class="grid"><div class="col-6"><label>Nome do cocho</label><input id="c_nome" placeholder="COCHO TESTE 01"></div><div class="col-3"><label>Código</label><input id="c_codigo" placeholder="CCH-01"></div><div class="col-3"><label>Tipo</label><select id="c_tipo"><option>COCHO_SAL</option><option>COCHO_MINERAL</option><option>COCHO_PROTEINADO</option><option>COCHO_RACAO</option><option>BEBEDOURO</option><option>OUTRO</option></select></div><div class="col-6"><label>Lote vinculado</label><select id="c_lote"><option value="">Sem lote</option></select></div><div class="col-6"><label>Área/Pasto</label><input id="c_area" placeholder="PASTO 01"></div><div class="col-4"><label>Latitude</label><input id="c_lat" placeholder="-1.234567"></div><div class="col-4"><label>Longitude</label><input id="c_lng" placeholder="-47.123456"></div><div class="col-4"><label>Precisão GPS (m)</label><input id="c_acc" placeholder="opcional"></div><div class="col-6"><label>Responsável GPS</label><input id="c_resp" placeholder="MARCELO"></div><div class="col-6"><label>Status</label><select id="c_status"><option>ATIVO</option><option>INATIVO</option></select></div><div class="col-12"><label>Observação</label><input id="c_obs" placeholder="opcional"></div></div><button class="blue" onclick="capturarGPSCocho(this)">Capturar GPS atual</button><button onclick="criarCocho(this)">Criar Cocho</button><button class="blue" onclick="listarCochos(this)">Listar Cochos</button><button class="warn" onclick="preencherTesteCocho()">Preencher Teste</button><pre id="cochoOut">Sem operação.</pre></div><div class="card tablewrap"><h3>Cochos</h3><div id="cochoTable"></div></div></div>
-
-
-<div id="view-lancamentos" class="view hidden">
+<div id="view-config" class="view hidden">
   <div class="card">
-    <h2>Lançamento de Abastecimento por Cocho</h2>
-    <div class="okbox">Este é o modelo que o futuro <b>App Cocho Campo</b> vai enviar para a Central: cocho, produto/sal, kg colocado, operador, data/hora, GPS e observação.</div>
+    <h2>Config Supabase</h2>
+    <div class="warnbox">Use apenas Project URL e Publishable Key / anon public. Nunca cole secret key ou service_role.</div>
+    <label>SUPABASE_URL</label><input id="supabaseUrl" value="https://wxnsyozjiosbdwxpodbf.supabase.co">
+    <label>SUPABASE_PUBLISHABLE_KEY</label><textarea id="supabaseKey" placeholder="sb_publishable_..."></textarea>
+    <button onclick="saveConfig()">Salvar Config</button><button class="blue" onclick="testSupabase(this)">Testar conexão</button><button class="gray" onclick="clearConfig()">Limpar</button>
+    <pre id="configOut">Cole a publishable key e teste.</pre>
+  </div>
+</div>
+
+<div id="view-login" class="view hidden">
+  <div class="card">
+    <h2>Login da Fazenda</h2>
     <div class="grid">
-      <div class="col-6"><label>Cocho abastecido</label><select id="lan_cocho"><option value="">Selecione o cocho</option></select></div>
-      <div class="col-6"><label>Produto / sal / suplemento</label><select id="lan_produto"><option value="">Selecione o produto</option></select></div>
-      <div class="col-3"><label>Quantidade colocada (kg)</label><input id="lan_kg" type="number" step="0.001" placeholder="30"></div>
-      <div class="col-3"><label>Operador</label><select id="lan_operador"><option value="">Selecione</option></select></div>
-      <div class="col-3"><label>Data/hora Brasília</label><input id="lan_data_br" placeholder="automático"></div>
-      <div class="col-3"><label>ID operação cliente</label><input id="lan_op" placeholder="automático"></div>
-      <div class="col-4"><label>Latitude do lançamento</label><input id="lan_lat" placeholder="opcional"></div>
-      <div class="col-4"><label>Longitude do lançamento</label><input id="lan_lng" placeholder="opcional"></div>
+      <div class="col-12"><label>Chave da fazenda</label><input id="login_chave" placeholder="COCHO-...-2026"></div>
+      <div class="col-6"><label>Login do funcionário</label><input id="login_usuario" placeholder="marcelo"></div>
+      <div class="col-6"><label>PIN</label><input id="login_pin" placeholder="5544" inputmode="numeric"></div>
+    </div>
+    <button class="blue" onclick="validarLogin(this)">Entrar / Validar</button>
+    <button class="gray" onclick="limparSessao()">Sair</button>
+    <pre id="loginOut">Informe chave, usuário e PIN.</pre>
+  </div>
+</div>
+
+<div id="view-base" class="view hidden">
+  <div class="card">
+    <h2>Base Offline da Fazenda</h2>
+    <button class="blue" onclick="baixarBase(this)">Baixar/Atualizar Base</button>
+    <button onclick="importarBaseArquivo()">Importar JSON da Central</button>
+    <input id="baseFile" type="file" accept=".json,application/json" class="hidden" onchange="lerBaseArquivo(event)">
+    <button class="gray" onclick="limparBaseLocal()">Limpar Base Local</button>
+    <pre id="baseOut">Sem base carregada.</pre>
+  </div>
+  <div class="card tablewrap"><h3>Cochos da Base</h3><div id="baseCochos"></div></div>
+</div>
+
+<div id="view-lancar" class="view hidden">
+  <div class="card">
+    <h2>Novo Abastecimento</h2>
+    <div class="grid">
+      <div class="col-6"><label>Cocho abastecido</label><select id="lan_cocho"><option value="">Baixe a base primeiro</option></select></div>
+      <div class="col-12">
+        <div class="okbox">
+          <b>Cocho ainda não cadastrado?</b><br>
+          Use apenas quando estiver diante de um cocho real. O GPS do cocho provisório é obrigatório.
+          <button class="warn" onclick="abrirCochoProvisorio()">Novo cocho provisório neste ponto</button>
+        </div>
+      </div>
+      <div id="formCochoProvisorio" class="col-12 hidden">
+        <div class="card" style="margin:0;padding:14px">
+          <h3>Cocho provisório no campo</h3>
+          <div class="grid">
+            <div class="col-4"><label>Nome provisório</label><input id="prov_nome" placeholder="COCHO PROVISÓRIO"></div>
+            <div class="col-4"><label>Código provisório</label><input id="prov_codigo" placeholder="PROV-01"></div>
+            <div class="col-4"><label>Lote vinculado</label><select id="prov_lote"><option value="">Sem lote definido</option></select></div>
+            <div class="col-12"><label>Observação</label><input id="prov_obs" placeholder="ex.: cocho novo próximo ao curral"></div>
+          </div>
+          <button class="blue" onclick="capturarGPSCochoProvisorio(this)">Capturar GPS do cocho provisório</button>
+          <button onclick="criarCochoProvisorioLocal(this)">Criar provisório e selecionar</button>
+          <div id="provGpsBox" class="alertGps warn">GPS do cocho provisório ainda não capturado.</div>
+        </div>
+      </div>
+      <div class="col-6"><label>Produto / sal / suplemento</label><select id="lan_produto"><option value="">Baixe a base primeiro</option></select></div>
+      <div class="col-4"><label>Quantidade colocada (kg)</label><input id="lan_kg" type="number" step="0.001" placeholder="30"></div>
+      <div class="col-4"><label>Latitude</label><input id="lan_lat" placeholder="opcional"></div>
+      <div class="col-4"><label>Longitude</label><input id="lan_lng" placeholder="opcional"></div>
       <div class="col-4"><label>Precisão GPS (m)</label><input id="lan_acc" placeholder="opcional"></div>
-      <div class="col-12"><label>Observação</label><input id="lan_obs" placeholder="Ex.: cocho vazio / abastecimento normal / sobrou sal"></div>
+      <div class="col-8"><label>Observação</label><input id="lan_obs" placeholder="cocho vazio / abastecimento normal / sobrou sal"></div>
     </div>
-    <button class="blue" onclick="capturarGPSLancamento(this)">Capturar GPS do lançamento</button>
-    <button class="warn" onclick="preencherTesteLancamento()">Preencher Teste</button>
-    <button onclick="criarLancamento(this)">Salvar Lançamento</button>
-    <button class="blue" onclick="listarLancamentos(this)">Listar Lançamentos</button>
-    <pre id="lanOut">Sem operação.</pre>
+    <div id="confBox" class="confirmBox"><b>Conferência:</b> selecione cocho, produto e kg.</div>
+    <div id="gpsAlert" class="alertGps warn">GPS ainda não capturado.</div>
+    <div id="raioAlert" class="raioBox neutro">Raio do cocho: aguardando GPS.</div>
+    <button class="blue bigbtn" onclick="registrarComGps(this)">Registrar lançamento + GPS</button>
+    <button class="warn" onclick="registrarSemGpsForcado(this)">Registrar sem GPS</button>
+    <button onclick="preencherTeste()">Preencher Teste</button>
+    <button class="blue bigbtn" onclick="sincronizarFila(this)">Sincronizar Agora</button>
+    <pre id="lanOut">Sem lançamento.</pre>
   </div>
-  <div class="card tablewrap"><h3>Lançamentos recentes</h3><div id="lanTable"></div></div>
 </div>
 
-<div id="view-historico" class="view hidden">
+<div id="view-fila" class="view hidden">
   <div class="card">
-    <h2>Histórico por Cocho</h2>
-    <p class="small">Consulta quantos kg foram colocados em cada cocho específico.</p>
-    <div class="grid">
-      <div class="col-6"><label>Filtrar cocho</label><select id="hist_cocho"><option value="">Todos os cochos</option></select></div>
-      <div class="col-3"><label>Data inicial</label><input id="hist_ini" type="date"></div>
-      <div class="col-3"><label>Data final</label><input id="hist_fim" type="date"></div>
-    </div>
-    <button class="blue" onclick="consultarHistorico(this)">Consultar Histórico</button>
-    <button onclick="listarLancamentos(this)">Listar Todos</button>
-    <pre id="histOut">Sem consulta.</pre>
+    <h2>Fila Offline</h2>
+    <button class="blue" onclick="renderFila()">Atualizar Lista</button>
+    <button onclick="sincronizarFila(this)">Sincronizar Pendentes</button>
+    <button class="gray" onclick="exportarFila()">Exportar Backup JSON</button>
+    <button class="red" onclick="limparSincronizados()">Limpar Sincronizados</button>
+    <pre id="filaOut">Fila local.</pre>
   </div>
-  <div class="card">
-    <h3>Resumo</h3>
-    <div class="kpirow">
-      <div class="kpi"><b id="histTotalKg">0</b><br><span class="small">Kg total</span></div>
-      <div class="kpi"><b id="histTotalLanc">0</b><br><span class="small">Lançamentos</span></div>
-      <div class="kpi"><b id="histCochos">0</b><br><span class="small">Cochos</span></div>
-      <div class="kpi"><b id="histMedia">0</b><br><span class="small">Kg/lanç.</span></div>
-      <div class="kpi"><b id="histUltimo">-</b><br><span class="small">Último</span></div>
-      <div class="kpi"><b id="histStatus">-</b><br><span class="small">Status</span></div>
-    </div>
-  </div>
-  <div class="card tablewrap"><h3>Detalhamento</h3><div id="histTable"></div></div>
-
+  <div class="card tablewrap"><h3>Lançamentos locais</h3><div id="filaTable"></div></div>
 </div>
 
-<div id="view-relatorios" class="view hidden">
+<div id="view-diagnostico" class="view hidden">
   <div class="card">
-    <h2>Relatórios por Cocho e Consumo</h2>
-    <div class="okbox">Calcula consumo por cocho no período. O consumo kg/animal/dia usa o lote vinculado ao cocho e mostra 4 casas decimais.</div>
-    <div class="grid">
-      <div class="col-3"><label>Data inicial</label><input id="rel_ini" type="date"></div>
-      <div class="col-3"><label>Data final</label><input id="rel_fim" type="date"></div>
-      <div class="col-3"><label>Cocho</label><select id="rel_cocho"><option value="">Todos os cochos</option></select></div>
-      <div class="col-3"><label>Produto</label><select id="rel_produto"><option value="">Todos os produtos</option></select></div>
-      <div class="col-3"><label>Qtd. animais manual (opcional)</label><input id="rel_animais_manual" type="number" min="0" placeholder="ex.: 30"></div>
-    </div>
-    <button class="blue" onclick="gerarRelatorioConsumo(this)">Gerar Relatório</button>
-    <button onclick="exportarRelatorioConsumoCSV()">Exportar CSV</button>
-    <pre id="relOut">Sem relatório.</pre>
+    <h2>Diagnóstico</h2>
+    <button class="blue" onclick="diagnostico()">Gerar Diagnóstico</button>
+    <pre id="diagOut">Sem diagnóstico.</pre>
   </div>
-  <div class="card">
-    <h3>Resumo do Período</h3>
-    <div class="kpirow">
-      <div class="kpi"><b id="relKgTotal">0</b><br><span class="small">Kg total</span></div>
-      <div class="kpi"><b id="relLanc">0</b><br><span class="small">Lançamentos</span></div>
-      <div class="kpi"><b id="relCochos">0</b><br><span class="small">Cochos</span></div>
-      <div class="kpi"><b id="relAnimais">0</b><br><span class="small">Animais vinculados</span></div>
-      <div class="kpi"><b id="relDias">0</b><br><span class="small">Dias analisados</span></div>
-      <div class="kpi"><b id="relConsumoMedio">0,0000</b><br><span class="small">Kg/animal/dia</span></div>
-    </div>
-  </div>
-  <div class="card tablewrap"><h3>Consumo por Cocho</h3><div id="relTable"></div></div>
 </div>
 
-
-<div id="view-fechamento" class="view hidden">
-  <div class="card">
-    <h2>Fechamento de Consumo por Período</h2>
-    <div class="okbox">Use para fechar semana, mês ou período de serviço. O sistema calcula consumo, custo estimado e classifica alerta de consumo.</div>
-    <div class="grid">
-      <div class="col-3"><label>Data inicial</label><input id="fec_ini" type="date"></div>
-      <div class="col-3"><label>Data final</label><input id="fec_fim" type="date"></div>
-      <div class="col-3"><label>Qtd. animais manual (opcional)</label><input id="fec_animais_manual" type="number" min="0" placeholder="ex.: 30"></div>
-      <div class="col-3"><label>Preço produto R$/kg (opcional)</label><input id="fec_preco_kg" type="number" min="0" step="0.01" placeholder="ex.: 4,50"></div>
-      <div class="col-3"><label>Consumo mínimo kg/animal/dia</label><input id="fec_min" type="number" min="0" step="0.0001" placeholder="opcional"></div>
-      <div class="col-3"><label>Consumo máximo kg/animal/dia</label><input id="fec_max" type="number" min="0" step="0.0001" placeholder="opcional"></div>
-    </div>
-    <button class="blue" onclick="gerarFechamentoConsumo(this)">Gerar Fechamento</button>
-    <button onclick="exportarFechamentoCSV()">Exportar CSV</button>
-    <pre id="fecOut">Sem fechamento.</pre>
-  </div>
-
-  <div class="card">
-    <h3>Resumo do Fechamento</h3>
-    <div class="kpirow">
-      <div class="kpi"><b id="fecKg">0</b><br><span class="small">Kg total</span></div>
-      <div class="kpi"><b id="fecLanc">0</b><br><span class="small">Lançamentos</span></div>
-      <div class="kpi"><b id="fecAnimais">0</b><br><span class="small">Animais</span></div>
-      <div class="kpi"><b id="fecDias">0</b><br><span class="small">Dias</span></div>
-      <div class="kpi"><b id="fecConsumo">0,0000</b><br><span class="small">Kg/animal/dia</span></div>
-      <div class="kpi"><b id="fecCusto">R$ 0,00</b><br><span class="small">Custo total</span></div><div class="kpi"><b id="fecCustoAnimal">R$ 0,00</b><br><span class="small">R$/animal/dia</span></div>
-    </div>
-  </div>
-  <div class="card tablewrap"><h3>Detalhe do Fechamento</h3><div id="fecTable"></div></div>
-</div>
-
-
-<div id="view-gerencial" class="view hidden">
-  <div class="card">
-    <h2>Relatório Gerencial da Fazenda</h2>
-    <div class="okbox">Resumo integrado: consumo do lote, custo, estoque e auditoria GPS. A coleta é no cocho; a análise gerencial é do lote/fazenda.</div>
-    <div class="grid">
-      <div class="col-3"><label>Data inicial</label><input id="ger_ini" type="date"></div>
-      <div class="col-3"><label>Data final</label><input id="ger_fim" type="date"></div>
-      <div class="col-3"><label>Qtd. animais manual (opcional)</label><input id="ger_animais_manual" type="number" min="0" placeholder="ex.: 30"></div>
-      <div class="col-3"><label>Preço manual R$/kg (opcional)</label><input id="ger_preco_kg" type="number" min="0" step="0.0001" placeholder="ex.: 4,50"></div>
-    </div>
-    <button class="blue" onclick="gerarRelatorioGerencial(this)">Gerar Relatório Gerencial</button>
-    <button onclick="exportarRelatorioGerencialCSV()">Exportar CSV</button>
-    <pre id="gerOut">Sem relatório gerencial.</pre>
-  </div>
-  <div class="card">
-    <h3>Resumo Geral</h3>
-    <div class="kpirow">
-      <div class="kpi"><b id="gerKg">0</b><br><span class="small">Kg consumidos</span></div>
-      <div class="kpi"><b id="gerLanc">0</b><br><span class="small">Lançamentos</span></div>
-      <div class="kpi"><b id="gerAnimais">0</b><br><span class="small">Animais</span></div>
-      <div class="kpi"><b id="gerConsumo">0,0000</b><br><span class="small">Kg/animal/dia</span></div>
-      <div class="kpi"><b id="gerCusto">R$ 0,00</b><br><span class="small">Custo total</span></div>
-      <div class="kpi"><b id="gerEstoque">0</b><br><span class="small">Saldo estoque kg</span></div>
-    </div>
-  </div>
-  <div class="card"><h3>Alertas Gerenciais</h3><div id="gerAlertas" class="okbox">Gere o relatório para ver alertas.</div></div>
-  <div class="card tablewrap"><h3>Resumo por Produto</h3><div id="gerProdutoTable"></div></div>
-  <div class="card tablewrap"><h3>Resumo por Cocho / Lote</h3><div id="gerCochoTable"></div></div>
-</div>
-
-<div id="view-campo" class="view hidden"><div class="card"><h2>Base para App Campo V1.0</h2><p class="small">Mostra o que o App Campo deverá baixar antes do serviço para funcionar offline.</p><div class="sessionbar"><b>Propriedade ativa:</b> <span id="campoPropAtiva">-</span><br><b>Chave:</b> <span id="campoChave">-</span><br><b>Última atualização:</b> <span id="campoAtualizacao">-</span></div><div class="kpirow"><div class="kpi"><b id="bcUsuarios">0</b><br><span class="small">Usuários</span></div><div class="kpi"><b id="bcProdutos">0</b><br><span class="small">Produtos</span></div><div class="kpi"><b id="bcLotes">0</b><br><span class="small">Lotes</span></div><div class="kpi"><b id="bcCochos">0</b><br><span class="small">Cochos</span></div><div class="kpi"><b id="bcAreas">0</b><br><span class="small">Áreas</span></div><div class="kpi"><b id="bcStatus">-</b><br><span class="small">Status</span></div></div><button class="blue" onclick="montarBaseCampo(this)">Montar Base Campo</button><button onclick="baixarBaseCampo()">Baixar JSON da Base</button><button class="gray" onclick="limparBaseCampo()">Limpar Base Local</button><pre id="campoOut">Monte a base depois de ativar uma propriedade.</pre></div></div>
-
-<div id="view-diagnostico" class="view hidden"><div class="card"><h2>Diagnóstico</h2><button class="blue" onclick="testSupabase(this)">Testar conexão</button><button onclick="diagnostico()">Diagnóstico completo</button><button class="gray" onclick="downloadLocalState()">Baixar estado local</button><pre id="diagOut">Sem diagnóstico.</pre></div></div>
-<div class="footer">APP COCHO CENTRAL V6.9 SUPABASE — Botões Fix • HTML single-file • GitHub Pages • Supabase</div>
+<div class="footer">APP COCHO CAMPO V1.2 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
 </main>
+
 <script>
 (function(){
 'use strict';
-var APP_VERSION='APP COCHO CENTRAL V6.9 SUPABASE — BOTÕES FIX';
+var APP_VERSION='APP COCHO CAMPO V1.2 SUPABASE — OFFLINE';
 var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
-var LS_CFG='APP_COCHO_SUPABASE_CFG_V1';
-var LS_SESSION='APP_COCHO_SUPABASE_SESSION_V1';
-var BASE_CAMPO_LS='APP_COCHO_BASE_CAMPO_V1';
+var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
+var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
+var LS_BASE='APP_COCHO_CAMPO_BASE_V1';
+var LS_FILA='APP_COCHO_CAMPO_FILA_V1';
+var LS_RASCUNHO='APP_COCHO_CAMPO_RASCUNHO_V112';
 var sbClient=null;
 var session={propriedade:null,usuario:null};
 
 function $(id){return document.getElementById(id);}
-function setTxt(id,val){var el=$(id); if(el){el.textContent=val;}}
-function setHTML(id,val){var el=$(id); if(el){el.innerHTML=val;}}
-function nowBR(){try{return new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'});}catch(e){return new Date().toLocaleString();}}
+function setTxt(id,v){var el=$(id);if(el){el.textContent=v;}}
+function setHTML(id,v){var el=$(id);if(el){el.innerHTML=v;}}
 function setOut(id,obj){var el=$(id);if(el){el.textContent=(typeof obj==='string')?obj:JSON.stringify(obj,null,2);}}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
-function normalizar(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,'');}
-function genChave(nome){return 'COCHO-'+normalizar(nome).slice(0,18)+'-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+new Date().getFullYear();}
-function btnLock(btn,txt){if(btn){btn.disabled=true;btn.dataset.old=btn.textContent;btn.textContent=txt||'Enviando...';}}
+function nowBR(){try{return new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'});}catch(e){return new Date().toLocaleString();}}
+function p2(n){return (n<10?'0':'')+n;}
+function genOp(){var d=new Date();return 'OP-'+d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate())+p2(d.getHours())+p2(d.getMinutes())+p2(d.getSeconds())+'-CAMPO-'+Math.random().toString(36).slice(2,6).toUpperCase();}
+function btnLock(btn,t){if(btn){btn.disabled=true;btn.dataset.old=btn.textContent;btn.textContent=t||'Aguarde...';}}
 function btnUnlock(btn){if(btn){btn.disabled=false;btn.textContent=btn.dataset.old||btn.textContent;}}
 function withTimeout(p,ms){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej(new Error('TEMPO_EXCEDIDO'));},ms||30000);})]);}
 function cfg(){try{return JSON.parse(localStorage.getItem(LS_CFG)||'{}');}catch(e){return {};}}
 function saveCfg(o){localStorage.setItem(LS_CFG,JSON.stringify(o||{}));}
+function getBase(){try{return JSON.parse(localStorage.getItem(LS_BASE)||'{}');}catch(e){return {};}}
+function setBase(b){localStorage.setItem(LS_BASE,JSON.stringify(b||{}));}
+function baseOfflineValida(){
+  var b=getBase();
+  return !!(b&&b.propriedade&&b.propriedade.id&&(b.cochos||[]).length&&(b.produtos||[]).length);
+}
+function garantirSessaoDaBase(){
+  var b=getBase();
+  if((!session.propriedade||!session.propriedade.id) && b&&b.propriedade&&b.propriedade.id){
+    session.propriedade=b.propriedade;
+    if(b.usuario&&b.usuario.id){session.usuario=b.usuario;}
+    session.restaurada_da_base=true;
+    session.restaurada_em=nowBR();
+    saveSession();
+  }
+}
+function resumoBaseOffline(){
+  var b=getBase();
+  if(!(b&&b.propriedade&&b.propriedade.id)){return {ok:false,mensagem:'Nenhuma base offline encontrada.'};}
+  return {
+    ok:true,
+    propriedade:nomeFazendaOffline(b)||b.propriedade.nome_fazenda||b.propriedade.nome_propriedade||'Fazenda',
+    baixado_em_brasilia:b.baixado_em_brasilia||'-',
+    usuarios:(b.usuarios||[]).length,
+    produtos:(b.produtos||[]).length,
+    lotes:(b.lotes||[]).length,
+    cochos:(b.cochos||[]).length
+  };
+}
+window.usarBaseOffline=function(btn){
+  btnLock(btn,'Verificando...');
+  garantirSessaoDaBase();
+  updateUI();
+  var r=resumoBaseOffline();
+  setOut('painelOut',r);
+  setOut('baseOut',r);
+  btnUnlock(btn);
+};
+function getFila(){try{return JSON.parse(localStorage.getItem(LS_FILA)||'[]');}catch(e){return [];}}
+function setFila(a){localStorage.setItem(LS_FILA,JSON.stringify(a||[]));}
+function getRascunho(){try{return JSON.parse(localStorage.getItem(LS_RASCUNHO)||'{}');}catch(e){return {};}}
+function setRascunho(o){localStorage.setItem(LS_RASCUNHO,JSON.stringify(o||{}));}
+function salvarRascunho(){
+  setRascunho({
+    cocho_id:$('lan_cocho')?$('lan_cocho').value:'',
+    produto_id:$('lan_produto')?$('lan_produto').value:'',
+    kg:$('lan_kg')?$('lan_kg').value:'',
+    lat:$('lan_lat')?$('lan_lat').value:'',
+    lng:$('lan_lng')?$('lan_lng').value:'',
+    acc:$('lan_acc')?$('lan_acc').value:'',
+    obs:$('lan_obs')?$('lan_obs').value:''
+  });
+}
+function aplicarRascunho(){
+  var r=getRascunho();
+  if($('lan_cocho')&&r.cocho_id){$('lan_cocho').value=r.cocho_id;}
+  if($('lan_produto')&&r.produto_id){$('lan_produto').value=r.produto_id;}
+  if($('lan_kg')&&r.kg){$('lan_kg').value=r.kg;}
+  if($('lan_lat')&&r.lat){$('lan_lat').value=r.lat;}
+  if($('lan_lng')&&r.lng){$('lan_lng').value=r.lng;}
+  if($('lan_acc')&&r.acc){$('lan_acc').value=r.acc;}
+  if($('lan_obs')&&r.obs){$('lan_obs').value=r.obs;}
+}
 function getClient(){
   var c=cfg(),url=String(c.url||'').trim(),key=String(c.key||'').trim();
   if(!url||!key){throw new Error('CONFIG_SUPABASE_OBRIGATORIA');}
@@ -262,22 +274,34 @@ function getClient(){
   if(!sbClient||sbClient._u!==url||sbClient._k!==key){sbClient=window.supabase.createClient(url,key);sbClient._u=url;sbClient._k=key;}
   return sbClient;
 }
-function updateBadges(){
+function loadConfig(){var c=cfg();$('supabaseUrl').value=c.url||DEFAULT_URL;$('supabaseKey').value=c.key||'';}
+function loadSession(){try{session=JSON.parse(localStorage.getItem(LS_SESSION)||'{}')||{};}catch(e){session={};}}
+function saveSession(){localStorage.setItem(LS_SESSION,JSON.stringify(session||{}));}
+function updateUI(){
+  garantirSessaoDaBase();
   setTxt('netBadge',navigator.onLine?'Online':'Offline');
   $('netBadge').className='badge '+(navigator.onLine?'':'err');
-  setTxt('hourBadge','Brasília '+nowBR());
-  if(session.propriedade){
-    setTxt('sessBadge',session.propriedade.nome_fazenda||'Propriedade ativa');
-    setTxt('u_prop_ativa',(session.propriedade.nome_fazenda||'-')+' | '+(session.propriedade.chave_fazenda||'-'));
-    var _lab=(session.propriedade.nome_fazenda||'-')+' | '+(session.propriedade.chave_fazenda||'-'); setTxt('pr_prop_ativa',_lab); setTxt('l_prop_ativa',_lab); setTxt('c_prop_ativa',_lab);
-    setHTML('sessionCompact','<b>Sessão:</b> '+esc(session.propriedade.nome_fazenda)+' • <b>Chave:</b> '+esc(session.propriedade.chave_fazenda)+' <button class="gray" onclick="limparSessao()" style="padding:6px 9px;font-size:12px">Limpar sessão local</button>');
+  var c=cfg();setTxt('cfgBadge',(c.url&&c.key)?'Config OK':'Config pendente');$('cfgBadge').className='badge '+((c.url&&c.key)?'':'warn');
+  var base=getBase(),fila=getFila(),pend=fila.filter(function(x){return x.status_local==='PENDENTE';}).length,sinc=fila.filter(function(x){return x.status_local==='SINCRONIZADO'||x.status_local==='DUPLICADO_OK';}).length;
+  setTxt('pendBadge',pend+' pendentes');$('pendBadge').className='badge '+(pend?'warn':'');
+  setTxt('kPend',pend);setTxt('kSync',sinc);
+  setTxt('kCochos',(base.cochos||[]).length||0);setTxt('kProdutos',(base.produtos||[]).length||0);
+  var rb=resumoBaseOffline();
+  if(session.propriedade&&session.usuario){
+    setTxt('sessBadge',(session.propriedade.nome_fazenda||session.propriedade.nome_propriedade||'Fazenda')+' | '+(session.usuario.nome_usuario||session.usuario.login_usuario||'Usuário'));
+    setHTML('sessionBar','<b>Sessão:</b> '+esc(session.propriedade.nome_fazenda||session.propriedade.nome_propriedade||'-')+' • '+esc(session.usuario.nome_usuario||session.usuario.login_usuario||'-'));
+  }else if(rb.ok){
+    setTxt('sessBadge',rb.propriedade+' | BASE OFFLINE');
+    setHTML('sessionBar','<b>Sessão:</b> usando base offline salva. Faça login quando houver internet para atualizar permissões.');
   }else{
-    setTxt('sessBadge','Sem propriedade ativa');
-    setTxt('u_prop_ativa','-');
-    setTxt('pr_prop_ativa','-'); setTxt('l_prop_ativa','-'); setTxt('c_prop_ativa','-');
-    setHTML('sessionCompact','<b>Sessão:</b> sem propriedade ativa. <button class="gray" onclick="limparSessao()" style="padding:6px 9px;font-size:12px">Limpar sessão local</button>');
+    setTxt('sessBadge','Sem login');setHTML('sessionBar','<b>Sessão:</b> sem login.');
   }
-  try{renderBaseCampo(JSON.parse(localStorage.getItem(BASE_CAMPO_LS)||'{}'));}catch(e){}
+  if(rb.ok){
+    setHTML('baseOfflineBar','<b>Base offline salva:</b> '+esc(rb.propriedade)+' • Atualizada: '+esc(rb.baixado_em_brasilia)+' • Cochos: '+rb.cochos+' • Produtos: '+rb.produtos);
+  }else{
+    setHTML('baseOfflineBar','<b>Base offline:</b> não encontrada. Baixe a base pelo menos uma vez antes do uso sem sinal.');
+  }
+  preencherSelects();
 }
 window.showTab=function(tab){
   var views=document.querySelectorAll('.view'),tabs=document.querySelectorAll('.tab'),i;
@@ -285,851 +309,371 @@ window.showTab=function(tab){
   for(i=0;i<tabs.length;i++){tabs[i].classList.remove('active');}
   $('view-'+tab).classList.remove('hidden');
   document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
-  if(tab==='cochos'){listarLotesParaSelect();}
-  if(tab==='estoque'){carregarSelectEstoque();}
-  if(tab==='lancamentos'||tab==='historico'){carregarSelectsLancamento();}
-  if(tab==='relatorios'){getBaseEntidades(function(ctx){montarSelectRelatorios(ctx);});}
-  updateBadges();
+  if(tab==='base'){renderBase();}
+  if(tab==='fila'){renderFila();}
+  if(tab==='lancar'){preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();}
+  updateUI();
 };
-function loadConfig(){var c=cfg();$('supabaseUrl').value=c.url||DEFAULT_URL;$('supabaseKey').value=c.key||'';}
-window.saveConfig=function(){saveCfg({url:$('supabaseUrl').value.trim(),key:$('supabaseKey').value.trim(),savedAt:nowBR()});sbClient=null;setOut('configOut','Configuração salva. Clique em Testar conexão.');};
-window.clearConfig=function(){localStorage.removeItem(LS_CFG);sbClient=null;loadConfig();setOut('configOut','Configuração limpa.');};
+window.saveConfig=function(){saveCfg({url:$('supabaseUrl').value.trim(),key:$('supabaseKey').value.trim(),savedAt:nowBR()});sbClient=null;setOut('configOut','Configuração salva. Teste conexão.');updateUI();};
+window.clearConfig=function(){localStorage.removeItem(LS_CFG);sbClient=null;loadConfig();updateUI();setOut('configOut','Configuração limpa.');};
 window.testSupabase=function(btn){
-  var t=Date.now();btnLock(btn,'Testando...');
+  btnLock(btn,'Testando...');
   try{
+    var t=Date.now();
     withTimeout(getClient().from('propriedades').select('id').limit(1),20000).then(function(r){
       if(r.error){throw r.error;}
-      var ms=Date.now()-t;
-      setTxt('cloudBadge','Supabase OK');$('cloudBadge').className='badge';setTxt('kPing',ms+' ms');
-      var out={ok:true,app:APP_VERSION,supabase:'OK',tempo_ms:ms,data_hora_brasilia:nowBR()};
+      var out={ok:true,app:APP_VERSION,supabase:'OK',tempo_ms:Date.now()-t,data_hora_brasilia:nowBR()};
       setOut('configOut',out);setOut('painelOut',out);setOut('diagOut',out);
-    }).catch(function(e){
-      setTxt('cloudBadge','Supabase erro');$('cloudBadge').className='badge err';
-      var out={ok:false,erro:String(e.message||e)};
-      setOut('configOut',out);setOut('painelOut',out);setOut('diagOut',out);
-    }).finally(function(){btnUnlock(btn);updateBadges();});
+    }).catch(function(e){var out={ok:false,erro:String(e.message||e)};setOut('configOut',out);setOut('painelOut',out);setOut('diagOut',out);}).finally(function(){btnUnlock(btn);updateUI();});
   }catch(e){setOut('configOut',{ok:false,erro:String(e.message||e)});btnUnlock(btn);}
 };
-window.listarPropriedades=function(btn){
-  btnLock(btn,'Listando...');
-  try{
-    withTimeout(getClient().from('propriedades').select('id,chave_fazenda,nome_fazenda,proprietario,municipio,estado,status_fazenda,pin_fazenda_mascarado,created_at').order('created_at',{ascending:false}).limit(100),30000).then(function(r){
-      if(r.error){throw r.error;}
-      $('kProps').textContent=(r.data||[]).length;
-      renderProps(r.data||[]);
-      setOut('propOut',{ok:true,total:(r.data||[]).length,propriedades:r.data});
-      setOut('painelOut',{ok:true,total:(r.data||[]).length,propriedades:r.data});
-    }).catch(function(e){setOut('propOut',{ok:false,erro:String(e.message||e)});setOut('painelOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-  }catch(e){setOut('propOut',{ok:false,erro:String(e.message||e)});setOut('painelOut',{ok:false,erro:String(e.message||e)});btnUnlock(btn);}
+window.validarLogin=function(btn){
+  btnLock(btn,'Validando...');
+  var chave=$('login_chave').value.trim(),login=$('login_usuario').value.trim(),pin=$('login_pin').value.trim();
+  if(!chave||!login||!pin){setOut('loginOut',{ok:false,erro:'CHAVE_LOGIN_PIN_OBRIGATORIOS'});btnUnlock(btn);return;}
+  var sb=getClient();
+  withTimeout(sb.from('propriedades').select('*').eq('chave_fazenda',chave).limit(1).single(),30000).then(function(rp){
+    if(rp.error){throw rp.error;}
+    return sb.from('usuarios_app').select('*').eq('propriedade_id',rp.data.id).eq('login_usuario',login).eq('pin_mascarado',pin).eq('status_usuario','ATIVO').limit(1).single().then(function(ru){
+      if(ru.error){throw ru.error;}
+      session={propriedade:rp.data,usuario:ru.data,login_at:nowBR()};
+      saveSession();updateUI();
+      setOut('loginOut',{ok:true,mensagem:'Login validado.',propriedade:rp.data.nome_fazenda,usuario:ru.data.nome_usuario||ru.data.login_usuario});
+    });
+  }).catch(function(e){setOut('loginOut',{ok:false,erro:String(e.message||e),orientacao:'Confira CHAVE_FAZENDA, login e PIN.'});}).finally(function(){btnUnlock(btn);});
 };
-function renderProps(rows){
-  var h='<table><tr><th>Propriedade</th><th>Proprietário</th><th>Município</th><th>Chave</th><th>Status</th><th>Ação</th></tr>';
-  rows.forEach(function(x,idx){
-    h+='<tr><td>'+esc(x.nome_fazenda)+'</td><td>'+esc(x.proprietario)+'</td><td>'+esc(x.municipio)+'/'+esc(x.estado)+'</td><td>'+esc(x.chave_fazenda)+'</td><td>'+esc(x.status_fazenda)+'</td><td><button onclick="setPropAtivaIdx('+idx+')">Ativar</button></td></tr>';
-  });
-  $('propTable').innerHTML=h+'</table>';
-  window._props=rows;
-}
-window.setPropAtivaIdx=function(idx){
-  var x=(window._props||[])[idx];
-  if(x){session.propriedade=x;localStorage.setItem(LS_SESSION,JSON.stringify(session));updateBadges();setOut('propOut',{ok:true,mensagem:'Propriedade ativa definida.',propriedade:x});}
-};
-window.criarPropriedade=function(btn){
-  btnLock(btn,'Criando...');
-  var nome=$('p_nome').value.trim();
-  if(!nome){setOut('propOut',{ok:false,erro:'NOME_OBRIGATORIO'});btnUnlock(btn);return;}
-  var d={chave_fazenda:genChave(nome),nome_fazenda:nome,proprietario:$('p_prop').value.trim(),municipio:$('p_mun').value.trim()||'IRITUIA',estado:$('p_uf').value.trim()||'PA',area_ha:$('p_area').value?Number($('p_area').value):null,observacoes:$('p_obs').value.trim(),status_fazenda:'ATIVA',pin_fazenda_mascarado:'4***'};
-  withTimeout(getClient().from('propriedades').insert(d).select('id,chave_fazenda,nome_fazenda,proprietario,municipio,estado,status_fazenda,pin_fazenda_mascarado').single(),30000).then(function(r){
-    if(r.error){throw r.error;}
-    session.propriedade=r.data;localStorage.setItem(LS_SESSION,JSON.stringify(session));updateBadges();setOut('propOut',{ok:true,mensagem:'Propriedade criada.',propriedade:r.data});listarPropriedades();
-  }).catch(function(e){setOut('propOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-function propRequired(out){if(!session.propriedade||!session.propriedade.id){setOut(out,{ok:false,erro:'PROPRIEDADE_ATIVA_OBRIGATORIA'});return false;}return true;}
-window.criarUsuario=function(btn){
-  if(!propRequired('userOut')){return;}btnLock(btn,'Criando...');
-  var d={propriedade_id:session.propriedade.id,chave_fazenda:session.propriedade.chave_fazenda,nome_usuario:$('u_nome').value.trim(),login_usuario:$('u_login').value.trim(),pin_mascarado:$('u_pin').value.trim(),perfil_usuario:$('u_perfil').value,status_usuario:$('u_status').value};
-  withTimeout(getClient().from('usuarios_app').insert(d).select('id,nome_usuario,login_usuario,perfil_usuario,status_usuario,pin_mascarado').single(),30000).then(function(r){if(r.error){throw r.error;}setOut('userOut',{ok:true,mensagem:'Usuário criado.',usuario:r.data});listarUsuarios();}).catch(function(e){var m=String(e.message||e),dup=m.indexOf('duplicate')>=0||m.indexOf('unique')>=0;setOut('userOut',{ok:false,duplicado:dup,erro:dup?'LOGIN_DUPLICADO_NA_PROPRIEDADE':m,mensagem:dup?'Já existe usuário ativo com este login nesta propriedade.':m});}).finally(function(){btnUnlock(btn);});
-};
-window.listarUsuarios=function(btn){
-  if(!propRequired('userOut')){return;}btnLock(btn,'Listando...');
-  withTimeout(getClient().from('usuarios_app').select('id,nome_usuario,login_usuario,perfil_usuario,pin_mascarado,status_usuario,created_at').eq('propriedade_id',session.propriedade.id).order('created_at',{ascending:true}),30000).then(function(r){
-    if(r.error){throw r.error;}$('kUsers').textContent=(r.data||[]).length;var h='<table><tr><th>Nome</th><th>Login</th><th>Perfil</th><th>PIN</th><th>Status</th></tr>';(r.data||[]).forEach(function(x){h+='<tr><td>'+esc(x.nome_usuario)+'</td><td>'+esc(x.login_usuario)+'</td><td>'+esc(x.perfil_usuario)+'</td><td>'+esc(x.pin_mascarado)+'</td><td>'+esc(x.status_usuario)+'</td></tr>';});$('userTable').innerHTML=h+'</table>';setOut('userOut',{ok:true,total:(r.data||[]).length,usuarios:r.data});
-  }).catch(function(e){setOut('userOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-
-
-var LS_ESTOQUE_LOCAL='APP_COCHO_CENTRAL_ESTOQUE_LOCAL_V68';
-var _estoqueRows=[];
-function getEstoqueLocal(){try{return JSON.parse(localStorage.getItem(LS_ESTOQUE_LOCAL)||'[]');}catch(e){return [];}}
-function setEstoqueLocal(a){localStorage.setItem(LS_ESTOQUE_LOCAL,JSON.stringify(a||[]));}
-function carregarSelectEstoque(){
-  if(!session.propriedade||!session.propriedade.id){return;}
-  getClient().from('produtos').select('*').eq('propriedade_id',session.propriedade.id).order('nome_produto',{ascending:true}).then(function(r){
-    if(r.error){return;}
-    var h='<option value="">Selecione o produto</option>';
-    (r.data||[]).forEach(function(p){h+='<option value="'+esc(p.id)+'">'+esc(nomeProdutoObj(p))+'</option>';});
-    if($('est_produto')){$('est_produto').innerHTML=h;}
-  });
-}
-function hojeISO(){var d=new Date();return d.toISOString().slice(0,10);}
-function movEstoqueValor(m){return Number(m.quantidade_kg||m.qtd_kg||m.quantidade||0);}
-function movEstoqueSinal(m){
-  var t=String(m.tipo_movimento||m.tipo||'ENTRADA').toUpperCase();
-  if(t.indexOf('NEGATIVO')>=0||t==='SAIDA'||t==='SAÍDA'){return -1;}
-  return 1;
-}
-function normalizarMovEstoque(m){
-  return {
-    id:m.id||m.id_operacao_cliente||'LOCAL_'+Math.random().toString(36).slice(2),
-    propriedade_id:m.propriedade_id,
-    produto_id:m.produto_id,
-    tipo_movimento:m.tipo_movimento||m.tipo||'ENTRADA',
-    quantidade_kg:movEstoqueValor(m),
-    preco_kg:Number(m.preco_kg||m.valor_kg||0),
-    data_movimento:m.data_movimento||m.data||m.created_at||'',
-    observacoes:m.observacoes||m.obs||'',
-    origem:m.origem||'SUPABASE'
-  };
-}
-
-function payloadMovEstoqueCloud(item){
-  return {
-    propriedade_id:item.propriedade_id,
-    produto_id:item.produto_id,
-    tipo_movimento:item.tipo_movimento,
-    quantidade_kg:item.quantidade_kg,
-    preco_kg:item.preco_kg,
-    data_movimento:item.data_movimento,
-    observacoes:item.observacoes,
-    origem:item.origem,
-    id_operacao_cliente:item.id_operacao_cliente
-  };
-}
-
-window.registrarEntradaEstoque=function(btn){
-  if(!propRequired('estOut')){return;}
-  var produto=$('est_produto').value, qtd=Number($('est_qtd').value||0), preco=Number(String($('est_preco_kg').value||'0').replace(',','.'))||0;
-  if(!produto){setOut('estOut',{ok:false,erro:'PRODUTO_OBRIGATORIO'});return;}
-  if(!qtd||qtd<=0){setOut('estOut',{ok:false,erro:'QUANTIDADE_OBRIGATORIA'});return;}
-  btnLock(btn,'Registrando...');
-  var item={
-    propriedade_id:session.propriedade.id,
-    produto_id:produto,
-    tipo_movimento:$('est_tipo').value||'ENTRADA',
-    quantidade_kg:qtd,
-    preco_kg:preco,
-    data_movimento:$('est_data').value||hojeISO(),
-    observacoes:$('est_obs').value.trim(),
-    origem:'CENTRAL_V6_8',
-    id_operacao_cliente:'EST-'+Date.now()
-  };
-  getClient().from('movimentacoes_estoque').insert(payloadMovEstoqueCloud(item)).select('*').single().then(function(r){
-    if(r.error){throw r.error;}
-    setOut('estOut',{ok:true,mensagem:'Movimentação salva no Supabase.',destino:'CLOUD_SUPABASE',movimentacao:r.data});
-    atualizarEstoque();
-  }).catch(function(e){
-    var loc=getEstoqueLocal(); item.origem='LOCAL_FALLBACK'; item.erro_supabase=String(e.message||e); loc.unshift(item); setEstoqueLocal(loc);
-    setOut('estOut',{ok:true,alerta:'SALVO_LOCAL_FALLBACK',mensagem:'Tabela/coluna de estoque não aceitou gravação. Movimento salvo localmente nesta Central.',erro_supabase:item.erro_supabase,movimentacao:item});
-    atualizarEstoque();
-  }).finally(function(){btnUnlock(btn);});
-};
-function buscarMovimentacoesEstoque(pid){
-  return getClient().from('movimentacoes_estoque').select('*').eq('propriedade_id',pid).limit(3000).then(function(r){
-    if(r.error){return {data:[],erro:String(r.error.message||r.error)};}
-    return {data:r.data||[],erro:null};
-  }).catch(function(e){return {data:[],erro:String(e.message||e)};});
-}
-window.atualizarEstoque=function(btn){
-  if(!propRequired('estOut')){return;}
-  if(btn){btnLock(btn,'Atualizando...');}
+window.limparSessao=function(){session={};localStorage.removeItem(LS_SESSION);updateUI();setOut('loginOut',{ok:true,mensagem:'Sessão limpa.'});};
+window.baixarBase=function(btn){
+  if(!session.propriedade||!session.propriedade.id){setOut('baseOut',{ok:false,erro:'LOGIN_OBRIGATORIO'});return;}
+  btnLock(btn,'Baixando...');
   var sb=getClient(),pid=session.propriedade.id;
-  Promise.all([
-    sb.from('produtos').select('*').eq('propriedade_id',pid),
-    sb.from('lancamentos_cocho').select('*').eq('propriedade_id',pid).limit(5000),
-    buscarMovimentacoesEstoque(pid)
-  ]).then(function(res){
-    if(res[0].error){throw res[0].error;}
-    if(res[1].error){throw res[1].error;}
-    var produtos=res[0].data||[], lanc=res[1].data||[], movCloud=(res[2].data||[]).map(normalizarMovEstoque);
-    var movLocal=getEstoqueLocal().filter(function(x){return x.propriedade_id===pid;}).map(normalizarMovEstoque);
-    var movs=movCloud.concat(movLocal);
-    var prodMap=mapaPorId(produtos), grupos={};
-    produtos.forEach(function(p){grupos[p.id]={produto_id:p.id,produto:nomeProdutoObj(p),entradas:0,ajustes_neg:0,saidas:0,saldo:0,preco_kg:precoKgProduto(p),minimo:Number(p.saldo_minimo_kg||0),valor:0,alerta:'OK'};});
-    movs.forEach(function(m){
-      if(!grupos[m.produto_id]){grupos[m.produto_id]={produto_id:m.produto_id,produto:m.produto_id,entradas:0,ajustes_neg:0,saidas:0,saldo:0,preco_kg:Number(m.preco_kg||0),minimo:0,valor:0,alerta:'OK'};}
-      var g=grupos[m.produto_id], val=Number(m.quantidade_kg||0), sinal=movEstoqueSinal(m);
-      if(sinal>=0){g.entradas+=val;}else{g.ajustes_neg+=val;}
-      if(Number(m.preco_kg||0)>0){g.preco_kg=Number(m.preco_kg);}
-    });
-    lanc.forEach(function(x){
-      var pidp=x.produto_id||'SEM_PRODUTO';
-      if(!grupos[pidp]){grupos[pidp]={produto_id:pidp,produto:pidp,entradas:0,ajustes_neg:0,saidas:0,saldo:0,preco_kg:0,minimo:0,valor:0,alerta:'OK'};}
-      grupos[pidp].saidas+=Number(x.quantidade_kg||0);
-    });
-    var rows=[],totEnt=0,totSai=0,totSaldo=0,totValor=0;
-    Object.keys(grupos).forEach(function(k){
-      var g=grupos[k];
-      g.saldo=g.entradas-g.ajustes_neg-g.saidas;
-      g.valor=g.saldo*(g.preco_kg||0);
-      g.alerta=(g.saldo<=0?'ZERADO':(g.minimo>0&&g.saldo<=g.minimo?'BAIXO':'OK'));
-      rows.push(g); totEnt+=g.entradas; totSai+=g.saidas; totSaldo+=g.saldo; totValor+=g.valor;
-    });
-    rows.sort(function(a,b){return a.produto.localeCompare(b.produto);});
-    _estoqueRows=rows;
-    setTxt('estEntradas',fmt3(totEnt)); setTxt('estSaidas',fmt3(totSai)); setTxt('estSaldo',fmt3(totSaldo)); setTxt('estValor',moneyBR(totValor));
-    renderEstoque(rows);
-    setOut('estOut',{ok:true,entradas_kg:totEnt,saidas_kg:totSai,saldo_kg:totSaldo,valor_estoque:totValor,movimentos_cloud:movCloud.length,movimentos_local:movLocal.length,alerta_supabase_movimentacoes:res[2].erro||null});
-  }).catch(function(e){setOut('estOut',{ok:false,erro:String(e.message||e)});}).finally(function(){if(btn){btnUnlock(btn);}});
+  var tasks=[
+    sb.from('usuarios_app').select('id,nome_usuario,login_usuario,perfil_usuario,status_usuario').eq('propriedade_id',pid),
+    sb.from('produtos').select('id,nome_produto,tipo_produto,unidade_padrao,kg_por_unidade,status_produto').eq('propriedade_id',pid),
+    sb.from('lotes').select('*').eq('propriedade_id',pid),
+    sb.from('cochos').select('*').eq('propriedade_id',pid)
+  ];
+  withTimeout(Promise.all(tasks),45000).then(function(res){
+    for(var i=0;i<res.length;i++){if(res[i].error){throw res[i].error;}}
+    var b={app:'APP COCHO CAMPO BASE V1',baixado_em_brasilia:nowBR(),propriedade:session.propriedade,usuario:session.usuario,usuarios:res[0].data||[],produtos:res[1].data||[],lotes:res[2].data||[],cochos:res[3].data||[]};
+    setBase(b);renderBase();updateUI();setOut('baseOut',{ok:true,mensagem:'Base baixada para uso offline. Não será necessário baixar novamente para lançar, salvo quando houver atualização de cocho/produto/usuário.',resumo:{usuarios:b.usuarios.length,produtos:b.produtos.length,lotes:b.lotes.length,cochos:b.cochos.length}});
+    setOut('painelOut',{ok:true,mensagem:'Base baixada.',resumo:{produtos:b.produtos.length,cochos:b.cochos.length}});
+  }).catch(function(e){setOut('baseOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
 };
-function renderEstoque(rows){
-  var h='<table><tr><th>Produto</th><th>Entradas kg</th><th>Saídas kg</th><th>Ajustes - kg</th><th>Saldo kg</th><th>R$/kg</th><th>Valor</th><th>Mínimo</th><th>Alerta</th></tr>';
-  rows.forEach(function(x){
-    h+='<tr><td>'+esc(x.produto)+'</td><td>'+esc(fmt3(x.entradas))+'</td><td>'+esc(fmt3(x.saidas))+'</td><td>'+esc(fmt3(x.ajustes_neg))+'</td><td><b>'+esc(fmt3(x.saldo))+'</b></td><td>'+esc(fmt4(x.preco_kg))+'</td><td>'+esc(moneyBR(x.valor))+'</td><td>'+esc(fmt3(x.minimo))+'</td><td><b class="'+classeAlerta(x.alerta==='OK'?'OK':'ALTO')+'">'+esc(x.alerta)+'</b></td></tr>';
-  });
-  setHTML('estTable',h+'</table>');
+window.importarBaseArquivo=function(){$('baseFile').click();};
+window.lerBaseArquivo=function(ev){
+  var f=ev.target.files[0]; if(!f){return;}
+  var rd=new FileReader();
+  rd.onload=function(){try{var b=JSON.parse(rd.result);setBase(b);if(b.propriedade){session.propriedade=b.propriedade;}if(b.usuario){session.usuario=b.usuario;}saveSession();renderBase();updateUI();setOut('baseOut',{ok:true,mensagem:'Base importada.',resumo:{produtos:(b.produtos||[]).length,cochos:(b.cochos||[]).length}});}catch(e){setOut('baseOut',{ok:false,erro:String(e.message||e)});}};
+  rd.readAsText(f);
+};
+window.limparBaseLocal=function(){localStorage.removeItem(LS_BASE);renderBase();updateUI();setOut('baseOut',{ok:true,mensagem:'Base local limpa.'});};
+function renderBase(){
+  var b=getBase();
+  var h='<table><tr><th>Cocho</th><th>Código</th><th>Tipo</th><th>GPS</th><th>Status</th></tr>';
+  (b.cochos||[]).forEach(function(c){h+='<tr><td>'+esc(c.nome_cocho)+'</td><td>'+esc(c.codigo_cocho)+'</td><td>'+esc(c.tipo_cocho)+'</td><td>'+esc((c.gps_lat||'')+', '+(c.gps_lng||''))+'</td><td>'+esc(c.status_cocho)+'</td></tr>';});
+  setHTML('baseCochos',h+'</table>');
+  setOut('baseOut',{base_carregada:!!b.propriedade,propriedade:b.propriedade&&b.propriedade.nome_fazenda,baixado_em:b.baixado_em_brasilia,produtos:(b.produtos||[]).length,lotes:(b.lotes||[]).length,cochos:(b.cochos||[]).length});
+}
+function preencherSelects(){
+  var b=getBase();
+  var r=getRascunho();
+  var cochoAtual=($('lan_cocho')&&$('lan_cocho').value)||r.cocho_id||'';
+  var produtoAtual=($('lan_produto')&&$('lan_produto').value)||r.produto_id||'';
+  var h1='<option value="">Selecione o cocho</option>',h2='<option value="">Selecione o produto</option>';
+  (b.cochos||[]).forEach(function(c){h1+='<option value="'+esc(c.id)+'">'+esc((c.nome_cocho||'')+(c.codigo_cocho?' | '+c.codigo_cocho:''))+'</option>';});
+  (b.produtos||[]).forEach(function(p){h2+='<option value="'+esc(p.id)+'">'+esc((p.nome_produto||'')+' | '+(p.tipo_produto||''))+'</option>';});
+  setHTML('lan_cocho',h1);setHTML('lan_produto',h2);
+  if($('lan_cocho')&&cochoAtual){$('lan_cocho').value=cochoAtual;}
+  if($('lan_produto')&&produtoAtual){$('lan_produto').value=produtoAtual;}
+;preencherLotesProvisorio();
 }
 
-window.limparEstoqueLocal=function(){
-  if(!confirm('Limpar movimentações de estoque salvas apenas localmente nesta Central? Não apaga Supabase.')){return;}
-  setEstoqueLocal([]);
-  setOut('estOut',{ok:true,mensagem:'Fallback local de estoque limpo.'});
-  atualizarEstoque();
-};
 
-window.exportarEstoqueCSV=function(){
-  if(!_estoqueRows||!_estoqueRows.length){setOut('estOut',{ok:false,erro:'ATUALIZAR_ESTOQUE_ANTES'});return;}
-  var head=['Produto','Entradas kg','Saidas kg','Ajustes negativos kg','Saldo kg','Preco kg','Valor estoque','Minimo kg','Alerta'];
-  var linhas=[head.map(csvCell).join(';')];
-  _estoqueRows.forEach(function(x){linhas.push([x.produto,fmt3(x.entradas),fmt3(x.saidas),fmt3(x.ajustes_neg),fmt3(x.saldo),fmt4(x.preco_kg),moneyBR(x.valor),fmt3(x.minimo),x.alerta].map(csvCell).join(';'));});
-  var blob=new Blob([linhas.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');
-  a.href=URL.createObjectURL(blob); a.download='estoque_produtos_cocho_v6_8.csv'; a.click();
-};
-
-function precoKgProduto(p){
-  if(!p){return 0;}
-  var direto=Number(p.preco_kg||p.preco_por_kg||p.valor_kg||0);
-  if(direto>0){return direto;}
-  var un=Number(p.preco_unidade||p.valor_unidade||p.preco_saco||0);
-  var kg=Number(p.kg_por_unidade||0);
-  if(un>0&&kg>0){return un/kg;}
-  return 0;
+function toNum(v){var n=Number(v);return isNaN(n)?null:n;}
+function rad(n){return n*Math.PI/180;}
+function distanciaMetros(lat1,lng1,lat2,lng2){
+  lat1=toNum(lat1);lng1=toNum(lng1);lat2=toNum(lat2);lng2=toNum(lng2);
+  if(lat1===null||lng1===null||lat2===null||lng2===null){return null;}
+  var R=6371000;
+  var dLat=rad(lat2-lat1), dLng=rad(lng2-lng1);
+  var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(rad(lat1))*Math.cos(rad(lat2))*Math.sin(dLng/2)*Math.sin(dLng/2);
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
-function lerPrecoProdutoForm(){
-  var kg=Number($('prod_kg').value||0);
-  var precoUn=Number(String(($('prod_preco_un')&&$('prod_preco_un').value)||'0').replace(',','.'))||0;
-  var precoKg=Number(String(($('prod_preco_kg')&&$('prod_preco_kg').value)||'0').replace(',','.'))||0;
-  if(!precoKg && precoUn>0 && kg>0){precoKg=precoUn/kg;}
-  return {preco_unidade:precoUn,preco_kg:precoKg};
+function getCochoSelecionadoObj(){
+  var b=getBase(), id=$('lan_cocho')?$('lan_cocho').value:'';
+  var arr=(b&&b.cochos)||[];
+  for(var i=0;i<arr.length;i++){if(arr[i].id===id){return arr[i];}}
+  return null;
+}
+function calcularRaioAtual(){
+  var c=getCochoSelecionadoObj();
+  var lat=$('lan_lat')?$('lan_lat').value:'', lng=$('lan_lng')?$('lan_lng').value:'';
+  if(!c){return {status:'SEM_COCHO',dist:null,raio:null,msg:'Selecione o cocho.'};}
+  var raio=Number(c.raio_aceito_m||50);
+  if(!c.gps_lat||!c.gps_lng){return {status:'COCHO_SEM_GPS',dist:null,raio:raio,msg:'Cocho sem GPS cadastrado.'};}
+  if(!lat||!lng){return {status:'SEM_GPS',dist:null,raio:raio,msg:'Raio do cocho: aguardando GPS.'};}
+  var d=distanciaMetros(c.gps_lat,c.gps_lng,lat,lng);
+  if(d===null){return {status:'GPS_INVALIDO',dist:null,raio:raio,msg:'GPS inválido.'};}
+  if(d<=raio){return {status:'DENTRO_DO_RAIO',dist:d,raio:raio,msg:'DENTRO DO RAIO: '+d.toFixed(1)+' m de '+raio+' m'};}
+  return {status:'FORA_DO_RAIO',dist:d,raio:raio,msg:'FORA DO RAIO: '+d.toFixed(1)+' m de '+raio+' m'};
+}
+function atualizarRaioAlert(){
+  var el=$('raioAlert'); if(!el){return;}
+  var r=calcularRaioAtual();
+  if(r.status==='DENTRO_DO_RAIO'){el.className='raioBox ok';}
+  else if(r.status==='FORA_DO_RAIO'){el.className='raioBox fora';}
+  else if(r.status==='COCHO_SEM_GPS'||r.status==='GPS_INVALIDO'){el.className='raioBox erro';}
+  else{el.className='raioBox neutro';}
+  el.textContent=r.msg;
 }
 
-window.criarProduto=function(btn){
-  if(!propRequired('prodOut')){return;}btnLock(btn,'Criando...');
-  var pr=lerPrecoProdutoForm();var d={propriedade_id:session.propriedade.id,nome_produto:$('prod_nome').value.trim(),tipo_produto:$('prod_tipo').value,fabricante:$('prod_fab').value.trim(),unidade_padrao:$('prod_un').value.trim()||'SACO',kg_por_unidade:Number($('prod_kg').value||0),preco_unidade:pr.preco_unidade,preco_kg:pr.preco_kg,saldo_minimo_kg:Number($('prod_min').value||0),status_produto:'ATIVO'};
-  withTimeout(getClient().from('produtos').insert(d).select('id,nome_produto,tipo_produto,unidade_padrao,kg_por_unidade,saldo_minimo_kg,status_produto').single(),30000).then(function(r){if(r.error){throw r.error;}setOut('prodOut',{ok:true,mensagem:'Produto criado.',produto:r.data});listarProdutos();}).catch(function(e){
-    var m=String(e.message||e),dup=m.indexOf('duplicate')>=0||m.indexOf('unique')>=0;
-    if(m.indexOf('preco_unidade')>=0||m.indexOf('preco_kg')>=0||m.indexOf('column')>=0){
-      delete d.preco_unidade; delete d.preco_kg;
-      return withTimeout(getClient().from('produtos').insert(d).select('id,nome_produto,tipo_produto,unidade_padrao,kg_por_unidade,saldo_minimo_kg,status_produto').single(),30000).then(function(r2){
-        if(r2.error){throw r2.error;}
-        setOut('prodOut',{ok:true,alerta:'COLUNAS_PRECO_AUSENTES_NO_SUPABASE',mensagem:'Produto criado sem salvar preço no banco. Use preço manual no fechamento ou rode SQL futuro para preço.',produto:r2.data});
-        listarProdutos();
-      });
-    }
-    setOut('prodOut',{ok:false,duplicado:dup,erro:dup?'PRODUTO_DUPLICADO':m,mensagem:dup?'Produto já existe nesta propriedade.':m});
-  }).finally(function(){btnUnlock(btn);});
-};
-window.listarProdutos=function(btn){
-  if(!propRequired('prodOut')){return;}btnLock(btn,'Listando...');
-  withTimeout(getClient().from('produtos').select('*').eq('propriedade_id',session.propriedade.id).order('created_at',{ascending:false}),30000).then(function(r){
-    if(r.error){throw r.error;}$('kProd').textContent=(r.data||[]).length;var h='<table><tr><th>Produto</th><th>Tipo</th><th>Unidade</th><th>Kg/un</th><th>R$/kg</th><th>Mínimo kg</th><th>Status</th></tr>';(r.data||[]).forEach(function(x){h+='<tr><td>'+esc(x.nome_produto)+'</td><td>'+esc(x.tipo_produto)+'</td><td>'+esc(x.unidade_padrao)+'</td><td>'+esc(x.kg_por_unidade)+'</td><td>'+esc(precoKgProduto(x).toFixed(4).replace('.',','))+'</td><td>'+esc(x.saldo_minimo_kg)+'</td><td>'+esc(x.status_produto)+'</td></tr>';});$('prodTable').innerHTML=h+'</table>';setOut('prodOut',{ok:true,total:(r.data||[]).length,produtos:r.data});
-  }).catch(function(e){setOut('prodOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-
-window.criarLote=function(btn){
-  if(!propRequired('loteOut')){return;} btnLock(btn,'Criando...');
-  var d={propriedade_id:session.propriedade.id,nome_lote:$('l_nome').value.trim(),categoria_lote:$('l_cat').value,quantidade_animais:Number($('l_qtd').value||0),area_pasto:$('l_area').value.trim(),status_lote:$('l_status').value,observacoes:$('l_obs').value.trim()};
-  if(!d.nome_lote){setOut('loteOut',{ok:false,erro:'NOME_LOTE_OBRIGATORIO'});btnUnlock(btn);return;}
-  withTimeout(getClient().from('lotes').insert(d).select('*').single(),30000).then(function(r){
-    if(r.error){throw r.error;} setOut('loteOut',{ok:true,mensagem:'Lote criado.',lote:r.data}); listarLotes(); listarLotesParaSelect();
-  }).catch(function(e){setOut('loteOut',{ok:false,erro:String(e.message||e),orientacao:'Se aparecer coluna inexistente, rode o SQL opcional da V6.2.'});}).finally(function(){btnUnlock(btn);});
-};
-window.listarLotes=function(btn){
-  if(!propRequired('loteOut')){return;} btnLock(btn,'Listando...');
-  withTimeout(getClient().from('lotes').select('*').eq('propriedade_id',session.propriedade.id).order('created_at',{ascending:false}),30000).then(function(r){
-    if(r.error){throw r.error;} window._lotes=r.data||[]; if($('kLotes')){$('kLotes').textContent=window._lotes.length;} renderLotes(window._lotes); setOut('loteOut',{ok:true,total:window._lotes.length,lotes:window._lotes}); listarLotesParaSelect();
-  }).catch(function(e){setOut('loteOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-function renderLotes(rows){var h='<table><tr><th>Lote</th><th>Categoria</th><th>Qtd</th><th>Área/Pasto</th><th>Status</th><th>Obs</th></tr>';rows.forEach(function(x){h+='<tr><td>'+esc(x.nome_lote)+'</td><td>'+esc(x.categoria_lote)+'</td><td>'+esc(x.quantidade_animais)+'</td><td>'+esc(x.area_pasto)+'</td><td>'+esc(x.status_lote)+'</td><td>'+esc(x.observacoes)+'</td></tr>';});$('loteTable').innerHTML=h+'</table>';}
-function listarLotesParaSelect(){
-  if(!session.propriedade||!session.propriedade.id||!$('c_lote')){return;}
-  getClient().from('lotes').select('id,nome_lote,status_lote').eq('propriedade_id',session.propriedade.id).order('nome_lote',{ascending:true}).then(function(r){
-    if(r.error){return;} window._lotes=r.data||[]; var h='<option value="">Sem lote</option>'; window._lotes.forEach(function(x){h+='<option value="'+esc(x.id)+'">'+esc(x.nome_lote)+'</option>';}); $('c_lote').innerHTML=h; if($('kLotes')){$('kLotes').textContent=window._lotes.length;}
-  });
+function nomeSelecionadoSelect(id){
+  var el=$(id); if(!el||el.selectedIndex<0){return '-';}
+  return el.options[el.selectedIndex].text || '-';
 }
-window.capturarGPSCocho=function(btn){
+function atualizarConferencia(){
+  var cocho=nomeSelecionadoSelect('lan_cocho');
+  var prod=nomeSelecionadoSelect('lan_produto');
+  var kg=$('lan_kg')?$('lan_kg').value:'';
+  var gps=($('lan_lat')&&$('lan_lat').value&&$('lan_lng').value)?('COM GPS: '+$('lan_lat').value+', '+$('lan_lng').value):'SEM GPS';
+  var raio=calcularRaioAtual();setHTML('confBox','<b>Conferência antes de salvar:</b><br>Cocho: '+esc(cocho)+(cochoSelecionadoEhProvisorio()?'<br><b>⚠️ COCHO PROVISÓRIO — Central deve confirmar</b>':'')+'<br>Produto: '+esc(prod)+'<br>Kg: '+esc(kg||'-')+'<br>'+esc(gps)+'<br>Raio: '+esc(raio.msg));
+}
+function atualizarAlertaGps(){
+  var el=$('gpsAlert'); if(!el){return;}
+  if($('lan_lat').value&&$('lan_lng').value){
+    var acc=Number($('lan_acc').value||0);
+    el.className='alertGps '+(acc>100?'warn':'ok');
+    el.textContent=acc>100?'GPS capturado, mas precisão fraca: '+acc+' m':'GPS capturado. Precisão: '+(acc||'-')+' m';
+  }else{
+    el.className='alertGps warn';
+    el.textContent='GPS ainda não capturado. Pode salvar como SEM_GPS, mas o ideal é capturar.';
+  }
+}
+
+
+
+
+function listaCochosProvisorios(){
+  var b=getBase();
+  return (b.cochos_provisorios||[]);
+}
+function salvarCochoProvisorioNaBase(c){
+  var b=getBase();
+  b.cochos_provisorios=b.cochos_provisorios||[];
+  b.cochos=b.cochos||[];
+  b.cochos_provisorios.push(c);
+  b.cochos.push(c);
+  setBase(b);
+}
+window.abrirCochoProvisorio=function(){
+  var el=$('formCochoProvisorio');
+  if(el){el.classList.remove('hidden');}
+  preencherLotesProvisorio();
+  var nome='COCHO PROVISÓRIO '+(listaCochosProvisorios().length+1);
+  if($('prov_nome')&&!$('prov_nome').value){$('prov_nome').value=nome;}
+  if($('prov_codigo')&&!$('prov_codigo').value){$('prov_codigo').value='PROV-'+Date.now().toString().slice(-5);}
+};
+function preencherLotesProvisorio(){
+  var b=getBase(),h='<option value="">Sem lote definido</option>';
+  (b.lotes||[]).forEach(function(l){h+='<option value="'+esc(l.id)+'">'+esc(l.nome_lote||l.nome||l.id)+'</option>';});
+  if($('prov_lote')){$('prov_lote').innerHTML=h;}
+}
+window.capturarGPSCochoProvisorio=function(btn){
+  if(!navigator.geolocation){setHTML('provGpsBox','GPS indisponível neste aparelho.');return;}
   btnLock(btn,'Capturando...');
-  if(!navigator.geolocation){setOut('cochoOut',{ok:false,erro:'GPS_NAO_SUPORTADO'});btnUnlock(btn);return;}
   navigator.geolocation.getCurrentPosition(function(pos){
-    $('c_lat').value=pos.coords.latitude.toFixed(7); $('c_lng').value=pos.coords.longitude.toFixed(7); $('c_acc').value=pos.coords.accuracy?Math.round(pos.coords.accuracy):'';
-    setOut('cochoOut',{ok:true,mensagem:'GPS capturado.',latitude:$('c_lat').value,longitude:$('c_lng').value,precisao_m:$('c_acc').value,data_hora_brasilia:nowBR()}); btnUnlock(btn);
-  },function(err){setOut('cochoOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Permita localização no navegador ou digite latitude/longitude manualmente.'}); btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+    window._gps_cocho_prov={lat:pos.coords.latitude,lng:pos.coords.longitude,acc:pos.coords.accuracy};
+    setHTML('provGpsBox','<b>GPS do cocho provisório capturado:</b><br>'+pos.coords.latitude+', '+pos.coords.longitude+'<br>Precisão: '+pos.coords.accuracy+' m');
+    btnUnlock(btn);
+  },function(err){
+    setHTML('provGpsBox','Erro ao capturar GPS: '+esc(err.message||err.code));
+    btnUnlock(btn);
+  },{enableHighAccuracy:true,timeout:25000,maximumAge:0});
 };
-window.criarCocho=function(btn){
-  if(!propRequired('cochoOut')){return;} btnLock(btn,'Criando...'); var lat=$('c_lat').value.trim(),lng=$('c_lng').value.trim();
-  var d={propriedade_id:session.propriedade.id,nome_cocho:$('c_nome').value.trim(),codigo_cocho:$('c_codigo').value.trim(),tipo_cocho:$('c_tipo').value,lote_id:$('c_lote').value||null,area_pasto:$('c_area').value.trim(),gps_lat:lat?Number(lat):null,gps_lng:lng?Number(lng):null,gps_precisao_m:$('c_acc').value?Number($('c_acc').value):null,gps_data_hora:new Date().toISOString(),responsavel_gps:$('c_resp').value.trim(),status_cocho:$('c_status').value,observacoes:$('c_obs').value.trim(),raio_aceito_m:50};
-  if(!d.nome_cocho){setOut('cochoOut',{ok:false,erro:'NOME_COCHO_OBRIGATORIO'});btnUnlock(btn);return;} if(d.gps_lat===null||d.gps_lng===null){setOut('cochoOut',{ok:false,erro:'GPS_OBRIGATORIO_OU_DIGITAR_COORDENADAS'});btnUnlock(btn);return;}
-  withTimeout(getClient().from('cochos').insert(d).select('*').single(),30000).then(function(r){if(r.error){throw r.error;} setOut('cochoOut',{ok:true,mensagem:'Cocho criado com GPS.',cocho:r.data}); listarCochos();}).catch(function(e){setOut('cochoOut',{ok:false,erro:String(e.message||e),orientacao:'Se aparecer coluna inexistente, rode o SQL opcional da V6.2.'});}).finally(function(){btnUnlock(btn);});
+window.criarCochoProvisorioLocal=function(btn){
+  btnLock(btn,'Criando...');
+  var gps=window._gps_cocho_prov;
+  if(!gps){setOut('lanOut',{ok:false,erro:'GPS_DO_COCHO_PROVISORIO_OBRIGATORIO'});btnUnlock(btn);return;}
+  var b=getBase();
+  garantirSessaoDaBase();
+  var id='PROV-COCHO-'+Date.now()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+  var c={
+    id:id,
+    propriedade_id:(session.propriedade&&session.propriedade.id)||(b.propriedade&&b.propriedade.id)||null,
+    nome_cocho:($('prov_nome').value.trim()||'COCHO PROVISÓRIO'),
+    codigo_cocho:($('prov_codigo').value.trim()||('PROV-'+Date.now().toString().slice(-5))),
+    tipo_cocho:'COCHO_PROVISORIO',
+    lote_id:$('prov_lote').value||null,
+    gps_lat:gps.lat,
+    gps_lng:gps.lng,
+    gps_precisao_m:gps.acc,
+    gps_data_hora:new Date().toISOString(),
+    status_cocho:'PROVISORIO_PENDENTE_CONFIRMACAO',
+    status_cadastro:'COCHO_PROVISORIO',
+    origem_cadastro:'APP_CAMPO_V1_2',
+    observacoes:$('prov_obs').value.trim(),
+    raio_aceito_m:50
+  };
+  salvarCochoProvisorioNaBase(c);
+  preencherSelects();
+  if($('lan_cocho')){$('lan_cocho').value=id;}
+  salvarSelecaoPersistente();
+  atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
+  setOut('lanOut',{ok:true,mensagem:'Cocho provisório criado e selecionado. A Central deverá confirmar depois.',cocho_provisorio:c});
+  btnUnlock(btn);
 };
-window.listarCochos=function(btn){
-  if(!propRequired('cochoOut')){return;} btnLock(btn,'Listando...');
-  withTimeout(getClient().from('cochos').select('*').eq('propriedade_id',session.propriedade.id).order('created_at',{ascending:false}),30000).then(function(r){if(r.error){throw r.error;} window._cochos=r.data||[]; if($('kCochos')){$('kCochos').textContent=window._cochos.length;} renderCochos(window._cochos); setOut('cochoOut',{ok:true,total:window._cochos.length,cochos:window._cochos});}).catch(function(e){setOut('cochoOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-function renderCochos(rows){var h='<table><tr><th>Cocho</th><th>Código</th><th>Tipo</th><th>GPS</th><th>Precisão</th><th>Raio</th><th>Status</th></tr>';rows.forEach(function(x){var gps=(x.gps_lat&&x.gps_lng)?('<span class="gpsok">'+esc(x.gps_lat)+', '+esc(x.gps_lng)+'</span>'):'<span class="gpsbad">SEM GPS</span>';h+='<tr><td>'+esc(x.nome_cocho)+'</td><td>'+esc(x.codigo_cocho)+'</td><td>'+esc(x.tipo_cocho)+'</td><td>'+gps+'</td><td>'+esc(x.gps_precisao_m||'')+'</td><td>'+esc(x.raio_aceito_m||50)+' m</td><td>'+esc(x.status_cocho)+'</td></tr>';});$('cochoTable').innerHTML=h+'</table>';}
-
-
-function genOperacaoCliente(){
-  var d=new Date();
-  function p(n){return (n<10?'0':'')+n;}
-  return 'OP-'+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+p(d.getHours())+p(d.getMinutes())+p(d.getSeconds())+'-COCHO-'+Math.random().toString(36).slice(2,6).toUpperCase();
+function cochoSelecionadoEhProvisorio(){
+  var c=getCochoSelecionadoObj();
+  return !!(c&&(c.status_cadastro==='COCHO_PROVISORIO'||c.status_cocho==='PROVISORIO_PENDENTE_CONFIRMACAO'||String(c.id||'').indexOf('PROV-COCHO-')===0));
 }
-function carregarSelectsLancamento(){
-  if(!session.propriedade||!session.propriedade.id){return;}
-  var sb=getClient(),pid=session.propriedade.id;
-  sb.from('cochos').select('id,nome_cocho,codigo_cocho,status_cocho,gps_lat,gps_lng').eq('propriedade_id',pid).order('nome_cocho',{ascending:true}).then(function(r){
-    if(r.error){return;}
-    window._cochosLanc=r.data||[];
-    var h='<option value="">Selecione o cocho</option>';
-    var hh='<option value="">Todos os cochos</option>';
-    window._cochosLanc.forEach(function(x){
-      var nome=(x.nome_cocho||'')+(x.codigo_cocho?' | '+x.codigo_cocho:'');
-      h+='<option value="'+esc(x.id)+'">'+esc(nome)+'</option>';
-      hh+='<option value="'+esc(x.id)+'">'+esc(nome)+'</option>';
-    });
-    setHTML('lan_cocho',h);
-    setHTML('hist_cocho',hh);
-  });
-  sb.from('produtos').select('id,nome_produto,tipo_produto,status_produto').eq('propriedade_id',pid).order('nome_produto',{ascending:true}).then(function(r){
-    if(r.error){return;}
-    var h='<option value="">Selecione o produto</option>';
-    (r.data||[]).forEach(function(x){h+='<option value="'+esc(x.id)+'">'+esc(x.nome_produto)+' | '+esc(x.tipo_produto)+'</option>';});
-    setHTML('lan_produto',h);
-  });
-  sb.from('usuarios_app').select('id,nome_usuario,login_usuario,status_usuario').eq('propriedade_id',pid).order('nome_usuario',{ascending:true}).then(function(r){
-    if(r.error){return;}
-    var h='<option value="">Selecione</option>';
-    (r.data||[]).forEach(function(x){h+='<option value="'+esc(x.id)+'">'+esc(x.nome_usuario)+' | '+esc(x.login_usuario)+'</option>';});
-    setHTML('lan_operador',h);
-  });
+
+function nomeFazendaOffline(b){
+  var p=(b&&b.propriedade)||session.propriedade||{};
+  return p.nome_fazenda||p.nome_propriedade||p.nome||p.razao_social||p.apelido_fazenda||'';
 }
-window.capturarGPSLancamento=function(btn){
+
+function nomeCochoOffline(b,id){
+  var arr=(b&&b.cochos)||[];
+  for(var i=0;i<arr.length;i++){if(arr[i].id===id){return (arr[i].nome_cocho||'')+(arr[i].codigo_cocho?' | '+arr[i].codigo_cocho:'');}}
+  return '';
+}
+function nomeProdutoOffline(b,id){
+  var arr=(b&&b.produtos)||[];
+  for(var i=0;i<arr.length;i++){if(arr[i].id===id){return (arr[i].nome_produto||'')+(arr[i].tipo_produto?' | '+arr[i].tipo_produto:'');}}
+  return '';
+}
+
+window.capturarGPS=function(btn){
   btnLock(btn,'Capturando...');
   if(!navigator.geolocation){setOut('lanOut',{ok:false,erro:'GPS_NAO_SUPORTADO',gps_status:'SEM_GPS'});btnUnlock(btn);return;}
   navigator.geolocation.getCurrentPosition(function(pos){
-    $('lan_lat').value=pos.coords.latitude.toFixed(7);
-    $('lan_lng').value=pos.coords.longitude.toFixed(7);
-    $('lan_acc').value=pos.coords.accuracy?Math.round(pos.coords.accuracy):'';
-    $('lan_data_br').value=nowBR();
-    if(!$('lan_op').value){$('lan_op').value=genOperacaoCliente();}
-    setOut('lanOut',{ok:true,mensagem:'GPS do lançamento capturado.',gps_status:'COM_GPS',latitude:$('lan_lat').value,longitude:$('lan_lng').value,precisao_m:$('lan_acc').value});
-    btnUnlock(btn);
-  },function(err){
-    setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,gps_status:'GPS_NEGADO_OU_INDISPONIVEL',orientacao:'O lançamento poderá ser salvo sem GPS nesta fase inicial.'});
-    btnUnlock(btn);
-  },{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+    $('lan_lat').value=pos.coords.latitude.toFixed(7);$('lan_lng').value=pos.coords.longitude.toFixed(7);$('lan_acc').value=pos.coords.accuracy?Math.round(pos.coords.accuracy):'';
+    salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();setOut('lanOut',{ok:true,mensagem:'GPS capturado sem limpar cocho/produto.',gps_status:'COM_GPS',lat:$('lan_lat').value,lng:$('lan_lng').value,precisao_m:$('lan_acc').value});btnUnlock(btn);
+  },function(err){salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Pode salvar como SEM_GPS nesta fase.'});btnUnlock(btn);},{enableHighAccuracy:true,timeout:20000,maximumAge:0});
 };
-window.preencherTesteLancamento=function(){
-  carregarSelectsLancamento();
-  $('lan_kg').value='30';
-  $('lan_data_br').value=nowBR();
-  $('lan_op').value=genOperacaoCliente();
-  $('lan_obs').value='LANÇAMENTO TESTE DE ABASTECIMENTO DO COCHO';
-};
-window.criarLancamento=function(btn){
-  if(!propRequired('lanOut')){return;}
+window.preencherTeste=function(){if(!$('lan_kg').value){$('lan_kg').value='30';}$('lan_obs').value='LANÇAMENTO TESTE APP CAMPO';salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();};
+
+function salvarLocalInterno(btn, permitirSemGps){
   btnLock(btn,'Salvando...');
-  var cochoId=$('lan_cocho').value, prodId=$('lan_produto').value, kg=Number($('lan_kg').value||0);
+  garantirSessaoDaBase();
+  var b=getBase(),cochoId=$('lan_cocho').value,prodId=$('lan_produto').value,kg=Number($('lan_kg').value||0);
+  if(!b.propriedade){setOut('lanOut',{ok:false,erro:'BASE_OFFLINE_OBRIGATORIA'});btnUnlock(btn);return;}
   if(!cochoId){setOut('lanOut',{ok:false,erro:'COCHO_OBRIGATORIO'});btnUnlock(btn);return;}
   if(!prodId){setOut('lanOut',{ok:false,erro:'PRODUTO_OBRIGATORIO'});btnUnlock(btn);return;}
   if(!kg||kg<=0){setOut('lanOut',{ok:false,erro:'KG_OBRIGATORIO'});btnUnlock(btn);return;}
-  if(!$('lan_op').value){$('lan_op').value=genOperacaoCliente();}
-  if(!$('lan_data_br').value){$('lan_data_br').value=nowBR();}
+  if(!permitirSemGps && !($('lan_lat').value&&$('lan_lng').value)){
+    setOut('lanOut',{ok:false,erro:'GPS_OBRIGATORIO_NO_BOTAO_UNICO',mensagem:'O GPS não foi capturado. Use Registrar sem GPS apenas se estiver autorizado.'});
+    btnUnlock(btn);return;
+  }
+  salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
   var temGps=!!($('lan_lat').value&&$('lan_lng').value);
-  var d={
-    propriedade_id:session.propriedade.id,
+  var item={
+    id_operacao_cliente:genOp(),
+    propriedade_id:b.propriedade.id,
+    propriedade_nome:nomeFazendaOffline(b),
+    chave_fazenda:b.propriedade.chave_fazenda||session.chave_fazenda||'',
+    fazenda_snapshot:{
+      propriedade_id:b.propriedade.id,
+      nome_propriedade:nomeFazendaOffline(b),
+      nome_fazenda:nomeFazendaOffline(b),
+      chave_fazenda:b.propriedade.chave_fazenda||session.chave_fazenda||'',
+      operador_nome:((session.usuario&&session.usuario.nome_usuario)||(b.usuario&&b.usuario.nome_usuario)||''),
+      operador_login:((session.usuario&&session.usuario.login_usuario)||(b.usuario&&b.usuario.login_usuario)||''),
+      cocho_nome:nomeCochoOffline(b,cochoId),
+      produto_nome:nomeProdutoOffline(b,prodId)
+    },
     cocho_id:cochoId,
     produto_id:prodId,
-    usuario_id:$('lan_operador').value||null,
+    usuario_id:((session.usuario&&session.usuario.id)||(b.usuario&&b.usuario.id)||null),
     quantidade_kg:kg,
-    data_hora_brasilia:$('lan_data_br').value,
+    data_hora_brasilia:nowBR(),
     data_hora_iso:new Date().toISOString(),
     gps_lat:$('lan_lat').value?Number($('lan_lat').value):null,
     gps_lng:$('lan_lng').value?Number($('lan_lng').value):null,
     gps_precisao_m:$('lan_acc').value?Number($('lan_acc').value):null,
     status_gps:temGps?'COM_GPS':'SEM_GPS',
+    cocho_provisorio:cochoSelecionadoEhProvisorio(),
+    cocho_status_cadastro:cochoSelecionadoEhProvisorio()?'COCHO_PROVISORIO':'COCHO_OFICIAL',
+    cocho_provisorio_snapshot:cochoSelecionadoEhProvisorio()?getCochoSelecionadoObj():null,
+    requer_confirmacao_central:cochoSelecionadoEhProvisorio(),
+    distancia_cocho_m:calcularRaioAtual().dist,
+    status_raio_local:calcularRaioAtual().status,
+    raio_aceito_m:calcularRaioAtual().raio,
     observacoes:$('lan_obs').value.trim(),
-    id_operacao_cliente:$('lan_op').value.trim(),
-    origem_lancamento:'CENTRAL_V6_4_1_TESTE',
-    status_sync:'SINCRONIZADO'
+    origem_lancamento:'APP_CAMPO_V1_2',
+    status_sync:'PENDENTE',
+    status_local:'PENDENTE',
+    criado_local_em:nowBR()
   };
-  withTimeout(getClient().from('lancamentos_cocho').insert(d).select('*').single(),30000).then(function(r){
-    if(r.error){throw r.error;}
-    setOut('lanOut',{ok:true,mensagem:'Lançamento salvo no histórico do cocho.',lancamento:r.data});
-    listarLancamentos();
-  }).catch(function(e){
-    var m=String(e.message||e),dup=m.indexOf('duplicate')>=0||m.indexOf('unique')>=0;
-    setOut('lanOut',{ok:false,duplicado:dup,erro:dup?'OPERACAO_DUPLICADA':m,mensagem:dup?'Este lançamento já foi recebido anteriormente.':m,orientacao:'Se aparecer coluna inexistente, rode o SQL opcional da V6.4.1.'});
-  }).finally(function(){btnUnlock(btn);});
+  var fila=getFila();
+  fila.unshift(item);
+  setFila(fila);
+  setRascunho({cocho_id:cochoId,produto_id:prodId});
+  updateUI();preencherSelects();aplicarRascunho();renderFila();
+  setOut('lanOut',{ok:true,mensagem:'Lançamento registrado offline.',pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length,lancamento:item});
+  btnUnlock(btn);
+}
+window.registrarSemGpsForcado=function(btn){
+  salvarLocalInterno(btn,true);
 };
-window.listarLancamentos=function(btn){
-  if(!propRequired('lanOut')){return;}
-  btnLock(btn,'Listando...');
-  withTimeout(getClient().from('lancamentos_cocho').select('*').eq('propriedade_id',session.propriedade.id).order('created_at',{ascending:false}).limit(100),30000).then(function(r){
-    if(r.error){throw r.error;}
-    var rows=r.data||[];
-    setTxt('kLanc',rows.length);
-    getBaseEntidades(function(ctx){renderLancamentos(rows,'lanTable',ctx);});
-    setOut('lanOut',{ok:true,total:rows.length,lancamentos:rows});
-  }).catch(function(e){setOut('lanOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-function getBaseEntidades(callback){
-  var pid=session.propriedade&&session.propriedade.id;
-  if(!pid){callback({cochos:[],produtos:[],usuarios:[]});return;}
-  var sb=getClient();
-  Promise.all([
-    sb.from('cochos').select('*').eq('propriedade_id',pid),
-    sb.from('produtos').select('*').eq('propriedade_id',pid),
-    sb.from('usuarios_app').select('*').eq('propriedade_id',pid)
-  ]).then(function(res){
-    callback({
-      cochos:(res[0]&&!res[0].error)?(res[0].data||[]):[],
-      produtos:(res[1]&&!res[1].error)?(res[1].data||[]):[],
-      usuarios:(res[2]&&!res[2].error)?(res[2].data||[]):[]
-    });
-  }).catch(function(){callback({cochos:[],produtos:[],usuarios:[]});});
-}
-function mapaPorId(arr){var m={};(arr||[]).forEach(function(x){m[x.id]=x;});return m;}
-function nomeCochoObj(c){return c?((c.nome_cocho||'')+(c.codigo_cocho?' | '+c.codigo_cocho:'')):'-';}
-function nomeProdutoObj(p){return p?((p.nome_produto||'')+(p.tipo_produto?' | '+p.tipo_produto:'')):'-';}
-function nomeUsuarioObj(u){return u?((u.nome_usuario||'')+(u.login_usuario?' | '+u.login_usuario:'')):'-';}
-function rad(n){return n*Math.PI/180;}
-function distanciaMetros(lat1,lng1,lat2,lng2){
-  lat1=Number(lat1);lng1=Number(lng1);lat2=Number(lat2);lng2=Number(lng2);
-  if(!lat1||!lng1||!lat2||!lng2){return null;}
-  var R=6371000;
-  var dLat=rad(lat2-lat1), dLng=rad(lng2-lng1);
-  var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(rad(lat1))*Math.cos(rad(lat2))*Math.sin(dLng/2)*Math.sin(dLng/2);
-  var c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-  return R*c;
-}
-function classificarGpsLancamento(x,cocho){
-  var raio=(cocho&&cocho.raio_aceito_m)?Number(cocho.raio_aceito_m):50;
-  if(!x.gps_lat||!x.gps_lng){return {status:'SEM_GPS',dist:null,raio:raio};}
-  if(x.gps_precisao_m && Number(x.gps_precisao_m)>100){return {status:'GPS_IMPRECISO',dist:null,raio:raio};}
-  if(!cocho||!cocho.gps_lat||!cocho.gps_lng){return {status:'COCHO_SEM_GPS',dist:null,raio:raio};}
-  var d=distanciaMetros(cocho.gps_lat,cocho.gps_lng,x.gps_lat,x.gps_lng);
-  if(d===null){return {status:'SEM_GPS',dist:null,raio:raio};}
-  return {status:(d<=raio?'DENTRO_DO_RAIO':'FORA_DO_RAIO'),dist:d,raio:raio};
-}
-function renderLancamentos(rows,target,ctx){
-  ctx=ctx||{cochos:[],produtos:[],usuarios:[]};
-  var cochos=mapaPorId(ctx.cochos), produtos=mapaPorId(ctx.produtos), usuarios=mapaPorId(ctx.usuarios);
-  var h='<table><tr><th>Data</th><th>Cocho</th><th>Produto</th><th>Operador</th><th>Kg</th><th>GPS</th><th>Distância</th><th>Status raio</th><th>Operação</th><th>Obs</th></tr>';
-  rows.forEach(function(x){
-    var c=cochos[x.cocho_id], p=produtos[x.produto_id], u=usuarios[x.usuario_id];
-    var gps=(x.gps_lat&&x.gps_lng)?(x.gps_lat+', '+x.gps_lng):'SEM GPS';
-    var cls=classificarGpsLancamento(x,c);
-    var dist=cls.dist===null?'-':(cls.dist.toFixed(1)+' m');
-    h+='<tr><td>'+esc(x.data_hora_brasilia||x.created_at||'')+'</td><td>'+esc(nomeCochoObj(c)||x.cocho_id||'')+'</td><td>'+esc(nomeProdutoObj(p)||x.produto_id||'')+'</td><td>'+esc(nomeUsuarioObj(u)||x.usuario_id||'')+'</td><td>'+esc(x.quantidade_kg||0)+'</td><td>'+esc(gps)+'</td><td>'+esc(dist)+'</td><td>'+esc(cls.status)+'</td><td>'+esc(x.id_operacao_cliente||'')+'</td><td>'+esc(x.observacoes||'')+'</td></tr>';
-  });
-  setHTML(target,h+'</table>');
-}
-window.consultarHistorico=function(btn){
-  if(!propRequired('histOut')){return;}
-  btnLock(btn,'Consultando...');
-  var q=getClient().from('lancamentos_cocho').select('*').eq('propriedade_id',session.propriedade.id).order('created_at',{ascending:false}).limit(500);
-  if($('hist_cocho').value){q=q.eq('cocho_id',$('hist_cocho').value);}
-  if($('hist_ini').value){q=q.gte('created_at',$('hist_ini').value+'T00:00:00');}
-  if($('hist_fim').value){q=q.lte('created_at',$('hist_fim').value+'T23:59:59');}
-  withTimeout(q,30000).then(function(r){
-    if(r.error){throw r.error;}
-    var rows=r.data||[];
-    getBaseEntidades(function(ctx){
-      var total=0,ids={},ultimo='-',dentro=0,fora=0,sem=0,impreciso=0,cochoSemGps=0;
-      var cochosMap=mapaPorId(ctx.cochos);
-      rows.forEach(function(x){
-        total+=Number(x.quantidade_kg||0);
-        if(x.cocho_id){ids[x.cocho_id]=true;}
-        var cls=classificarGpsLancamento(x,cochosMap[x.cocho_id]);
-        if(cls.status==='DENTRO_DO_RAIO'){dentro++;}
-        else if(cls.status==='FORA_DO_RAIO'){fora++;}
-        else if(cls.status==='GPS_IMPRECISO'){impreciso++;}
-        else if(cls.status==='COCHO_SEM_GPS'){cochoSemGps++;}
-        else {sem++;}
-      });
-      if(rows.length){ultimo=rows[0].data_hora_brasilia||rows[0].created_at||'-';}
-      setTxt('histTotalKg',total.toFixed(3).replace('.',','));
-      setTxt('histTotalLanc',rows.length);
-      setTxt('histCochos',Object.keys(ids).length);
-      setTxt('histMedia',rows.length?(total/rows.length).toFixed(3).replace('.',','):'0');
-      setTxt('histUltimo',ultimo);
-      setTxt('histStatus','OK');
-      renderLancamentos(rows,'histTable',ctx);
-      setOut('histOut',{ok:true,total_lancamentos:rows.length,total_kg:total,cochos:Object.keys(ids).length,gps:{dentro_do_raio:dentro,fora_do_raio:fora,sem_gps:sem,gps_impreciso:impreciso,cocho_sem_gps:cochoSemGps}});
-    });
-  }).catch(function(e){setOut('histOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-
-
-var _relatorioConsumoRows=[];
-function numeroAnimaisLote(l){
-  if(!l){return 0;}
-  var campos=['quantidade_animais','qtd_animais','numero_animais','animais','quantidade','qtd'];
-  for(var i=0;i<campos.length;i++){var n=Number(l[campos[i]]||0); if(n>0){return n;}}
-  return 0;
-}
-
-function idLoteDoCocho(c){
-  if(!c){return '';}
-  return c.lote_id||c.id_lote||c.lote_atual_id||c.lote_vinculado_id||c.lote||'';
-}
-function loteDoCocho(c,lotes){
-  var lid=idLoteDoCocho(c);
-  var map=mapaPorId(lotes||[]);
-  if(lid && map[lid]){return {lote:map[lid],origem:'VINCULO_COCHO_LOTE'};}
-  if((lotes||[]).length===1){return {lote:lotes[0],origem:'FALLBACK_LOTE_UNICO'};}
-  return {lote:null,origem:'SEM_LOTE_VINCULADO'};
-}
-
-function dtLanc(x){
-  var v=x.data_hora_iso||x.created_at||x.data_hora_brasilia||'';
-  var d=new Date(v);
-  if(!isNaN(d.getTime())){return d;}
-  return null;
-}
-function diasEntreDatas(ini,fim,rows){
-  if(ini&&fim){
-    var d1=new Date(ini+'T00:00:00'), d2=new Date(fim+'T00:00:00');
-    var n=Math.floor((d2-d1)/86400000)+1;
-    return n>0?n:1;
+window.registrarComGps=function(btn){
+  btnLock(btn,'GPS + Salvando...');
+  if(!navigator.geolocation){
+    btnUnlock(btn);
+    setOut('lanOut',{ok:false,erro:'GPS_INDISPONIVEL',mensagem:'GPS indisponível. Use Registrar sem GPS somente se necessário.'});
+    return;
   }
-  var min=null,max=null;
-  (rows||[]).forEach(function(x){var d=dtLanc(x); if(d){if(!min||d<min){min=d;} if(!max||d>max){max=d;}}});
-  if(min&&max){return Math.max(1,Math.floor((max-min)/86400000)+1);}
-  return 1;
-}
-function montarSelectRelatorios(ctx){
-  var hc='<option value="">Todos os cochos</option>';
-  (ctx.cochos||[]).forEach(function(c){hc+='<option value="'+esc(c.id)+'">'+esc(nomeCochoObj(c))+'</option>';});
-  if($('rel_cocho')&&!$('rel_cocho').dataset.loaded){$('rel_cocho').innerHTML=hc;$('rel_cocho').dataset.loaded='1';}
-  var hp='<option value="">Todos os produtos</option>';
-  (ctx.produtos||[]).forEach(function(p){hp+='<option value="'+esc(p.id)+'">'+esc(nomeProdutoObj(p))+'</option>';});
-  if($('rel_produto')&&!$('rel_produto').dataset.loaded){$('rel_produto').innerHTML=hp;$('rel_produto').dataset.loaded='1';}
-}
-function fmt4(n){return Number(n||0).toFixed(4).replace('.',',');}
-function fmt3(n){return Number(n||0).toFixed(3).replace('.',',');}
-function csvCell(v){v=(v===null||v===undefined)?'':String(v);return '"'+v.replace(/"/g,'""')+'"';}
-window.gerarRelatorioConsumo=function(btn){
-  if(!propRequired('relOut')){return;}
-  btnLock(btn,'Gerando...');
-  var sb=getClient(),pid=session.propriedade.id;
-  Promise.all([
-    sb.from('cochos').select('*').eq('propriedade_id',pid),
-    sb.from('produtos').select('*').eq('propriedade_id',pid),
-    sb.from('usuarios_app').select('*').eq('propriedade_id',pid),
-    sb.from('lotes').select('*').eq('propriedade_id',pid)
-  ]).then(function(ent){
-    var ctx={cochos:[],produtos:[],usuarios:[],lotes:[]};
-    ctx.cochos=(ent[0]&&!ent[0].error)?(ent[0].data||[]):[];
-    ctx.produtos=(ent[1]&&!ent[1].error)?(ent[1].data||[]):[];
-    ctx.usuarios=(ent[2]&&!ent[2].error)?(ent[2].data||[]):[];
-    ctx.lotes=(ent[3]&&!ent[3].error)?(ent[3].data||[]):[];
-    montarSelectRelatorios(ctx);
-    var q=sb.from('lancamentos_cocho').select('*').eq('propriedade_id',pid).order('created_at',{ascending:false}).limit(2000);
-    if($('rel_ini').value){q=q.gte('created_at',$('rel_ini').value+'T00:00:00');}
-    if($('rel_fim').value){q=q.lte('created_at',$('rel_fim').value+'T23:59:59');}
-    if($('rel_cocho').value){q=q.eq('cocho_id',$('rel_cocho').value);}
-    if($('rel_produto').value){q=q.eq('produto_id',$('rel_produto').value);}
-    return withTimeout(q,45000).then(function(r){
-      if(r.error){throw r.error;}
-      var rows=r.data||[], cochos=mapaPorId(ctx.cochos), produtos=mapaPorId(ctx.produtos), lotes=mapaPorId(ctx.lotes);
-      var dias=diasEntreDatas($('rel_ini').value,$('rel_fim').value,rows);
-      var grupos={};
-      rows.forEach(function(x){
-        var k=x.cocho_id||'SEM_COCHO';
-        if(!grupos[k]){grupos[k]={cocho_id:k,kg:0,lanc:0,produtos:{},dentro:0,fora:0,sem:0,impreciso:0,cocho_sem_gps:0};}
-        var g=grupos[k], c=cochos[x.cocho_id], cls=classificarGpsLancamento(x,c);
-        g.kg+=Number(x.quantidade_kg||0); g.lanc++;
-        if(x.produto_id){g.produtos[x.produto_id]=true;}
-        if(cls.status==='DENTRO_DO_RAIO'){g.dentro++;}
-        else if(cls.status==='FORA_DO_RAIO'){g.fora++;}
-        else if(cls.status==='GPS_IMPRECISO'){g.impreciso++;}
-        else if(cls.status==='COCHO_SEM_GPS'){g.cocho_sem_gps++;}
-        else{g.sem++;}
+  navigator.geolocation.getCurrentPosition(function(pos){
+    $('lan_lat').value=pos.coords.latitude;
+    $('lan_lng').value=pos.coords.longitude;
+    $('lan_acc').value=pos.coords.accuracy||'';
+    salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
+    btnUnlock(btn);
+    salvarLocalInterno(btn,false);
+  },function(err){
+    btnUnlock(btn);
+    atualizarAlertaGps();
+    setOut('lanOut',{ok:false,erro:'GPS_FALHOU',codigo:err.code,mensagem:err.message,orientacao:'Não salvou automaticamente. Use Registrar sem GPS somente se estiver autorizado.'});
+  },{enableHighAccuracy:true,timeout:15000,maximumAge:0});
+};
+
+window.salvarLocal=function(btn){salvarLocalInterno(btn,true);};
+window.sincronizarFila=function(btn){
+  btnLock(btn,'Sincronizando...');
+  var fila=getFila(),pend=fila.filter(function(x){return x.status_local==='PENDENTE';});
+  if(!pend.length){setOut('filaOut',{ok:true,mensagem:'Não há pendentes.'});btnUnlock(btn);return;}
+  var sb;
+  try{sb=getClient();}catch(e){setOut('filaOut',{ok:false,erro:String(e.message||e)});btnUnlock(btn);return;}
+  var seq=Promise.resolve(),ok=0,erros=[];
+  pend.forEach(function(item){
+    seq=seq.then(function(){
+      var payload={propriedade_id:item.propriedade_id,cocho_id:item.cocho_id,produto_id:item.produto_id,usuario_id:item.usuario_id,quantidade_kg:item.quantidade_kg,data_hora_brasilia:item.data_hora_brasilia,data_hora_iso:item.data_hora_iso,gps_lat:item.gps_lat,gps_lng:item.gps_lng,gps_precisao_m:item.gps_precisao_m,status_gps:item.status_gps,observacoes:item.observacoes,id_operacao_cliente:item.id_operacao_cliente,origem_lancamento:item.origem_lancamento,status_sync:'SINCRONIZADO'};
+      return sb.from('lancamentos_cocho').insert(payload).select('id').single().then(function(r){
+        if(r.error){throw r.error;}
+        item.status_local='SINCRONIZADO';item.status_sync='SINCRONIZADO';item.supabase_id=r.data.id;item.sincronizado_em=nowBR();ok++;
+      }).catch(function(e){
+        var m=String(e.message||e);
+        if(m.indexOf('duplicate')>=0||m.indexOf('unique')>=0){item.status_local='DUPLICADO_OK';item.status_sync='SINCRONIZADO';ok++;}
+        else{item.erro_sync=m;erros.push({operacao:item.id_operacao_cliente,erro:m});}
       });
-      var out=[],totalKg=0,totalLanc=0,totalAnimais=0,cochosCount=0;
-      Object.keys(grupos).forEach(function(k){
-        var g=grupos[k], c=cochos[g.cocho_id], loteres=loteDoCocho(c,ctx.lotes), lote=loteres.lote, animaisManual=Number(($('rel_animais_manual')&&$('rel_animais_manual').value)||0), animais=animaisManual>0?animaisManual:numeroAnimaisLote(lote);
-        var consumo=(animais>0&&dias>0)?(g.kg/animais/dias):0;
-        totalKg+=g.kg; totalLanc+=g.lanc; cochosCount++; totalAnimais+=animais;
-        var prods=Object.keys(g.produtos).map(function(pid){return nomeProdutoObj(produtos[pid]);}).join(' / ');
-        out.push({cocho:nomeCochoObj(c),lote:lote?(lote.nome_lote||''):'',origem_lote:loteres.origem,animais:animais,animais_origem:(animaisManual>0?'MANUAL':(lote?'LOTE':'NAO_INFORMADO')),dias:dias,kg_total:g.kg,lancamentos:g.lanc,media_kg_lanc:g.lanc?(g.kg/g.lanc):0,kg_animal_dia:consumo,produtos:prods,dentro:g.dentro,fora:g.fora,sem_gps:g.sem,gps_impreciso:g.impreciso,cocho_sem_gps:g.cocho_sem_gps});
-      });
-      out.sort(function(a,b){return b.kg_total-a.kg_total;});
-      _relatorioConsumoRows=out;
-      var consumoMedio=(totalAnimais>0&&dias>0)?(totalKg/totalAnimais/dias):0;
-      setTxt('relKgTotal',fmt3(totalKg)); setTxt('relLanc',totalLanc); setTxt('relCochos',cochosCount); setTxt('relAnimais',totalAnimais); setTxt('relDias',dias); setTxt('relConsumoMedio',fmt4(consumoMedio));
-      renderRelatorioConsumo(out);
-      setOut('relOut',{ok:true,total_lancamentos:totalLanc,total_kg:totalKg,cochos:cochosCount,animais_vinculados:totalAnimais,dias_analisados:dias,kg_animal_dia:Number(consumoMedio.toFixed(4)),observacao:'Consumo usa animais do lote vinculado ao cocho. Se houver apenas 1 lote, usa fallback lote único. Também é possível informar Qtd. animais manual.'});
     });
-  }).catch(function(e){setOut('relOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-function renderRelatorioConsumo(rows){
-  var h='<table><tr><th>Cocho</th><th>Lote</th><th>Animais</th><th>Origem</th><th>Dias</th><th>Kg total</th><th>Lanç.</th><th>Kg/lanç.</th><th>Kg/animal/dia</th><th>Produtos</th><th>GPS raio</th></tr>';
-  rows.forEach(function(x){
-    var gps='Dentro: '+x.dentro+' | Fora: '+x.fora+' | Sem: '+x.sem_gps+' | Impreciso: '+x.gps_impreciso;
-    h+='<tr><td>'+esc(x.cocho)+'</td><td>'+esc(x.lote||'-')+'</td><td>'+esc(x.animais)+'</td><td>'+esc(x.animais_origem+' / '+x.origem_lote)+'</td><td>'+esc(x.dias)+'</td><td>'+esc(fmt3(x.kg_total))+'</td><td>'+esc(x.lancamentos)+'</td><td>'+esc(fmt3(x.media_kg_lanc))+'</td><td><b>'+esc(fmt4(x.kg_animal_dia))+'</b></td><td>'+esc(x.produtos||'-')+'</td><td>'+esc(gps)+'</td></tr>';
   });
-  setHTML('relTable',h+'</table>');
-}
-window.exportarRelatorioConsumoCSV=function(){
-  if(!_relatorioConsumoRows||!_relatorioConsumoRows.length){setOut('relOut',{ok:false,erro:'GERAR_RELATORIO_ANTES'});return;}
-  var head=['Cocho','Lote','Animais','Origem animais','Origem lote','Dias','Kg total','Lançamentos','Kg por lançamento','Kg animal dia','Produtos','Dentro raio','Fora raio','Sem GPS','GPS impreciso','Cocho sem GPS'];
-  var linhas=[head.map(csvCell).join(';')];
-  _relatorioConsumoRows.forEach(function(x){
-    linhas.push([x.cocho,x.lote,x.animais,x.animais_origem,x.origem_lote,x.dias,fmt3(x.kg_total),x.lancamentos,fmt3(x.media_kg_lanc),fmt4(x.kg_animal_dia),x.produtos,x.dentro,x.fora,x.sem_gps,x.gps_impreciso,x.cocho_sem_gps].map(csvCell).join(';'));
-  });
-  var blob=new Blob([linhas.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');
-  a.href=URL.createObjectURL(blob); a.download='relatorio_consumo_cocho_v6_5.csv'; a.click();
+  seq.then(function(){setFila(fila);updateUI();renderFila();setOut('filaOut',{ok:erros.length===0,sincronizados:ok,erros:erros});}).finally(function(){btnUnlock(btn);});
 };
-
-
-var _fechamentoRows=[];
-function moneyBR(n){
-  n=Number(n||0);
-  return 'R$ '+n.toFixed(2).replace('.',',');
-}
-function alertaConsumo(valor,min,max){
-  valor=Number(valor||0); min=Number(min||0); max=Number(max||0);
-  if(min>0 && valor<min){return 'BAIXO';}
-  if(max>0 && valor>max){return 'ALTO';}
-  return 'OK';
-}
-function classeAlerta(a){
-  if(a==='OK'){return 'metricGood';}
-  if(a==='ALTO'||a==='BAIXO'){return 'metricWarn';}
-  return '';
-}
-window.gerarFechamentoConsumo=function(btn){
-  if(!propRequired('fecOut')){return;}
-  btnLock(btn,'Fechando...');
-  var sb=getClient(), pid=session.propriedade.id;
-  Promise.all([
-    sb.from('cochos').select('*').eq('propriedade_id',pid),
-    sb.from('produtos').select('*').eq('propriedade_id',pid),
-    sb.from('lotes').select('*').eq('propriedade_id',pid),
-    sb.from('lancamentos_cocho').select('*').eq('propriedade_id',pid).order('created_at',{ascending:false}).limit(3000)
-  ]).then(function(res){
-    for(var i=0;i<res.length;i++){if(res[i].error){throw res[i].error;}}
-    var cochos=res[0].data||[], produtos=res[1].data||[], lotes=res[2].data||[], rows=res[3].data||[];
-    var ini=$('fec_ini').value, fim=$('fec_fim').value;
-    if(ini){rows=rows.filter(function(x){return String(x.created_at||x.data_hora_iso||'')>=ini+'T00:00:00';});}
-    if(fim){rows=rows.filter(function(x){return String(x.created_at||x.data_hora_iso||'')<=fim+'T23:59:59';});}
-    var dias=diasEntreDatas(ini,fim,rows);
-    var cochoMap=mapaPorId(cochos), prodMap=mapaPorId(produtos);
-    var animaisManual=Number($('fec_animais_manual').value||0);
-    var precoKgManual=Number(String($('fec_preco_kg').value||'0').replace(',','.'))||0;
-    var min=Number(String($('fec_min').value||'0').replace(',','.'))||0;
-    var max=Number(String($('fec_max').value||'0').replace(',','.'))||0;
-    var grupos={};
-    rows.forEach(function(x){
-      var pidProd=x.produto_id||'SEM_PRODUTO';
-      if(!grupos[pidProd]){grupos[pidProd]={produto_id:pidProd,kg:0,lanc:0,cochos:{},fora:0,dentro:0,sem:0};}
-      var g=grupos[pidProd], c=cochoMap[x.cocho_id], cls=classificarGpsLancamento(x,c);
-      g.kg+=Number(x.quantidade_kg||0); g.lanc++;
-      if(x.cocho_id){g.cochos[x.cocho_id]=true;}
-      if(cls.status==='DENTRO_DO_RAIO'){g.dentro++;} else if(cls.status==='FORA_DO_RAIO'){g.fora++;} else {g.sem++;}
-    });
-    var totalKg=0,totalLanc=0,totalAnimais=0;
-    var loteUsado=null, origemAnimais='NAO_INFORMADO';
-    if(animaisManual>0){totalAnimais=animaisManual; origemAnimais='MANUAL';}
-    else if(lotes.length===1){loteUsado=lotes[0]; totalAnimais=numeroAnimaisLote(loteUsado); origemAnimais='FALLBACK_LOTE_UNICO';}
-    else{
-      // tenta somar lotes únicos vinculados aos cochos lançados
-      var usados={};
-      cochos.forEach(function(c){var lr=loteDoCocho(c,lotes); if(lr.lote&&lr.lote.id){usados[lr.lote.id]=lr.lote;}});
-      Object.keys(usados).forEach(function(k){totalAnimais+=numeroAnimaisLote(usados[k]);});
-      origemAnimais=totalAnimais>0?'LOTES_VINCULADOS':'NAO_INFORMADO';
-    }
-    var out=[];
-    Object.keys(grupos).forEach(function(k){
-      var g=grupos[k], consumo=(totalAnimais>0&&dias>0)?(g.kg/totalAnimais/dias):0;
-      var pk=precoKgManual>0?precoKgManual:precoKgProduto(prodMap[g.produto_id]); var custo=pk>0?g.kg*pk:0;
-      var al=alertaConsumo(consumo,min,max);
-      totalKg+=g.kg; totalLanc+=g.lanc;
-      out.push({produto:nomeProdutoObj(prodMap[g.produto_id]),kg:g.kg,lancamentos:g.lanc,cochos:Object.keys(g.cochos).length,animais:totalAnimais,dias:dias,kg_animal_dia:consumo,custo:custo,alerta:al,dentro:g.dentro,fora:g.fora,sem:g.sem});
-    });
-    out.sort(function(a,b){return b.kg-a.kg;});
-    _fechamentoRows=out;
-    var consumoGeral=(totalAnimais>0&&dias>0)?(totalKg/totalAnimais/dias):0;
-    var custoTotal=0; out.forEach(function(x){custoTotal+=Number(x.custo||0);});
-    var custoAnimalDia=(totalAnimais>0&&dias>0)?(custoTotal/totalAnimais/dias):0;
-    setTxt('fecKg',fmt3(totalKg));
-    setTxt('fecLanc',totalLanc);
-    setTxt('fecAnimais',totalAnimais);
-    setTxt('fecDias',dias);
-    setTxt('fecConsumo',fmt4(consumoGeral));
-    setTxt('fecCusto',moneyBR(custoTotal)); setTxt('fecCustoAnimal',moneyBR(custoAnimalDia));
-    renderFechamento(out);
-    setOut('fecOut',{ok:true,total_kg:totalKg,total_lancamentos:totalLanc,animais:totalAnimais,origem_animais:origemAnimais,dias:dias,kg_animal_dia:Number(consumoGeral.toFixed(4)),custo_total:Number(custoTotal.toFixed(2)),custo_animal_dia:Number(custoAnimalDia.toFixed(2)),alerta:alertaConsumo(consumoGeral,min,max)});
-  }).catch(function(e){setOut('fecOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
+window.renderFila=function(){
+  var fila=getFila();
+  var h='<table><tr><th>Status</th><th>Data</th><th>Cocho</th><th>Produto</th><th>Kg</th><th>GPS</th><th>Operação</th></tr>';
+  fila.forEach(function(x){h+='<tr><td>'+esc(x.status_local)+'</td><td>'+esc(x.data_hora_brasilia)+'</td><td>'+esc(nomeCocho(x.cocho_id))+'</td><td>'+esc(nomeProduto(x.produto_id))+'</td><td>'+esc(x.quantidade_kg)+'</td><td>'+esc(x.status_gps)+'</td><td>'+esc(x.id_operacao_cliente)+'</td></tr>';});
+  setHTML('filaTable',h+'</table>');setOut('filaOut',{total:fila.length,pendentes:fila.filter(function(x){return x.status_local==='PENDENTE';}).length});
 };
-function renderFechamento(rows){
-  var h='<table><tr><th>Produto</th><th>Kg</th><th>Lanç.</th><th>Cochos</th><th>Animais</th><th>Dias</th><th>Kg/animal/dia</th><th>Custo</th><th>R$/animal/dia</th><th>Alerta</th><th>GPS</th></tr>';
-  rows.forEach(function(x){
-    h+='<tr><td>'+esc(x.produto||'-')+'</td><td>'+esc(fmt3(x.kg))+'</td><td>'+esc(x.lancamentos)+'</td><td>'+esc(x.cochos)+'</td><td>'+esc(x.animais)+'</td><td>'+esc(x.dias)+'</td><td><b>'+esc(fmt4(x.kg_animal_dia))+'</b></td><td>'+esc(moneyBR(x.custo))+'</td><td><b class="'+classeAlerta(x.alerta)+'">'+esc(x.alerta)+'</b></td><td>'+esc('Dentro: '+x.dentro+' | Fora: '+x.fora+' | Sem: '+x.sem)+'</td></tr>';
-  });
-  setHTML('fecTable',h+'</table>');
-}
-window.exportarFechamentoCSV=function(){
-  if(!_fechamentoRows||!_fechamentoRows.length){setOut('fecOut',{ok:false,erro:'GERAR_FECHAMENTO_ANTES'});return;}
-  var head=['Produto','Kg','Lancamentos','Cochos','Animais','Dias','Kg animal dia','Custo','R$ animal dia','Alerta','Dentro raio','Fora raio','Sem GPS'];
-  var linhas=[head.map(csvCell).join(';')];
-  _fechamentoRows.forEach(function(x){
-    linhas.push([x.produto,fmt3(x.kg),x.lancamentos,x.cochos,x.animais,x.dias,fmt4(x.kg_animal_dia),moneyBR(x.custo),moneyBR((x.animais>0&&x.dias>0)?(x.custo/x.animais/x.dias):0),x.alerta,x.dentro,x.fora,x.sem].map(csvCell).join(';'));
-  });
-  var blob=new Blob([linhas.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');
-  a.href=URL.createObjectURL(blob); a.download='fechamento_consumo_cocho_v6_6.csv'; a.click();
-};
-
-
-var _gerencialRowsProduto=[];
-var _gerencialRowsCocho=[];
-function precoProdutoOuManual(p,manual){
-  manual=Number(manual||0);
-  if(manual>0){return manual;}
-  return precoKgProduto(p)||0;
-}
-function animaisGerencial(lotes,manual){
-  manual=Number(manual||0);
-  if(manual>0){return {animais:manual,origem:'MANUAL'};}
-  if((lotes||[]).length===1){return {animais:numeroAnimaisLote(lotes[0]),origem:'FALLBACK_LOTE_UNICO'};}
-  var total=0;(lotes||[]).forEach(function(l){total+=numeroAnimaisLote(l);});
-  return {animais:total,origem:total>0?'SOMA_LOTES':'NAO_INFORMADO'};
-}
-function alertaGerencialHTML(dados){
-  var a=[];
-  if(dados.totalKg<=0){a.push('Sem consumo no período.');}
-  if(dados.animais<=0){a.push('Quantidade de animais não encontrada. Informe manualmente ou corrija o lote.');}
-  if(dados.gpsFora>0){a.push('Existem '+dados.gpsFora+' lançamentos fora do raio do cocho.');}
-  if(dados.gpsSem>0){a.push('Existem '+dados.gpsSem+' lançamentos sem GPS/sem validação de raio.');}
-  if(dados.saldoEstoque<0){a.push('Estoque negativo: consumo maior que entradas registradas.');}
-  else if(dados.saldoEstoque===0){a.push('Estoque zerado ou não registrado.');}
-  if(dados.custoTotal<=0){a.push('Custo zerado: preço do produto não informado ou não salvo.');}
-  if(!a.length){a.push('Sem alertas críticos no período.');}
-  return '<ul><li>'+a.map(esc).join('</li><li>')+'</li></ul>';
-}
-window.gerarRelatorioGerencial=function(btn){
-  if(!propRequired('gerOut')){return;}
-  btnLock(btn,'Gerando...');
-  var sb=getClient(),pid=session.propriedade.id;
-  Promise.all([
-    sb.from('cochos').select('*').eq('propriedade_id',pid),
-    sb.from('produtos').select('*').eq('propriedade_id',pid),
-    sb.from('lotes').select('*').eq('propriedade_id',pid),
-    sb.from('lancamentos_cocho').select('*').eq('propriedade_id',pid).order('created_at',{ascending:false}).limit(5000),
-    buscarMovimentacoesEstoque(pid)
-  ]).then(function(res){
-    if(res[0].error){throw res[0].error;}
-    if(res[1].error){throw res[1].error;}
-    if(res[2].error){throw res[2].error;}
-    if(res[3].error){throw res[3].error;}
-    var cochos=res[0].data||[],produtos=res[1].data||[],lotes=res[2].data||[],lanc=res[3].data||[],movCloud=(res[4].data||[]).map(normalizarMovEstoque);
-    var ini=$('ger_ini').value,fim=$('ger_fim').value;
-    if(ini){lanc=lanc.filter(function(x){return String(x.created_at||x.data_hora_iso||'')>=ini+'T00:00:00';});}
-    if(fim){lanc=lanc.filter(function(x){return String(x.created_at||x.data_hora_iso||'')<=fim+'T23:59:59';});}
-    var dias=diasEntreDatas(ini,fim,lanc);
-    var animaisInfo=animaisGerencial(lotes,Number($('ger_animais_manual').value||0)),animais=animaisInfo.animais;
-    var precoManual=Number(String($('ger_preco_kg').value||'0').replace(',','.'))||0;
-    var cochoMap=mapaPorId(cochos),prodMap=mapaPorId(produtos);
-    var totalKg=0,totalLanc=lanc.length,totalCusto=0,gpsDentro=0,gpsFora=0,gpsSem=0,porProd={},porCocho={};
-    lanc.forEach(function(x){
-      var kg=Number(x.quantidade_kg||0),p=prodMap[x.produto_id],c=cochoMap[x.cocho_id],cls=classificarGpsLancamento(x,c),pk=precoProdutoOuManual(p,precoManual),custo=kg*pk;
-      totalKg+=kg;totalCusto+=custo;
-      if(cls.status==='DENTRO_DO_RAIO'){gpsDentro++;}else if(cls.status==='FORA_DO_RAIO'){gpsFora++;}else{gpsSem++;}
-      var kprod=x.produto_id||'SEM_PRODUTO';
-      if(!porProd[kprod]){porProd[kprod]={produto:nomeProdutoObj(p),kg:0,lanc:0,custo:0,preco_kg:pk};}
-      porProd[kprod].kg+=kg;porProd[kprod].lanc++;porProd[kprod].custo+=custo;
-      var kc=x.cocho_id||'SEM_COCHO';
-      if(!porCocho[kc]){
-        var lr=loteDoCocho(c,lotes);
-        porCocho[kc]={cocho:nomeCochoObj(c),lote:lr.lote?(lr.lote.nome_lote||''):'',origem_lote:lr.origem,kg:0,lanc:0,dentro:0,fora:0,sem:0};
-      }
-      porCocho[kc].kg+=kg;porCocho[kc].lanc++;
-      if(cls.status==='DENTRO_DO_RAIO'){porCocho[kc].dentro++;}else if(cls.status==='FORA_DO_RAIO'){porCocho[kc].fora++;}else{porCocho[kc].sem++;}
-    });
-    var entradas=0,ajustesNeg=0;
-    movCloud.forEach(function(m){var val=Number(m.quantidade_kg||0);if(movEstoqueSinal(m)>=0){entradas+=val;}else{ajustesNeg+=val;}});
-    var saldoEstoque=entradas-ajustesNeg-totalKg;
-    var consumo=(animais>0&&dias>0)?(totalKg/animais/dias):0,custoAnimalDia=(animais>0&&dias>0)?(totalCusto/animais/dias):0;
-    var rowsProd=Object.keys(porProd).map(function(k){var x=porProd[k];return {produto:x.produto,kg:x.kg,lanc:x.lanc,custo:x.custo,preco_kg:x.preco_kg,kg_animal_dia:(animais>0&&dias>0)?(x.kg/animais/dias):0,custo_animal_dia:(animais>0&&dias>0)?(x.custo/animais/dias):0};});
-    rowsProd.sort(function(a,b){return b.kg-a.kg;});
-    var rowsCocho=Object.keys(porCocho).map(function(k){return porCocho[k];});rowsCocho.sort(function(a,b){return b.kg-a.kg;});
-    _gerencialRowsProduto=rowsProd;_gerencialRowsCocho=rowsCocho;
-    setTxt('gerKg',fmt3(totalKg));setTxt('gerLanc',totalLanc);setTxt('gerAnimais',animais);setTxt('gerConsumo',fmt4(consumo));setTxt('gerCusto',moneyBR(totalCusto));setTxt('gerEstoque',fmt3(saldoEstoque));
-    setHTML('gerAlertas',alertaGerencialHTML({totalKg:totalKg,animais:animais,gpsFora:gpsFora,gpsSem:gpsSem,saldoEstoque:saldoEstoque,custoTotal:totalCusto}));
-    renderGerencialProduto(rowsProd);renderGerencialCocho(rowsCocho);
-    setOut('gerOut',{ok:true,kg_total:totalKg,lancamentos:totalLanc,animais:animais,origem_animais:animaisInfo.origem,dias:dias,kg_animal_dia:Number(consumo.toFixed(4)),custo_total:Number(totalCusto.toFixed(2)),custo_animal_dia:Number(custoAnimalDia.toFixed(2)),estoque:{entradas_kg:entradas,saidas_kg:totalKg,saldo_kg:saldoEstoque,movimentos_cloud:movCloud.length},gps:{dentro:gpsDentro,fora:gpsFora,sem:gpsSem}});
-  }).catch(function(e){setOut('gerOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-function renderGerencialProduto(rows){
-  var h='<table><tr><th>Produto</th><th>Kg</th><th>Lanç.</th><th>R$/kg</th><th>Custo</th><th>Kg/animal/dia</th><th>R$/animal/dia</th></tr>';
-  rows.forEach(function(x){h+='<tr><td>'+esc(x.produto||'-')+'</td><td>'+esc(fmt3(x.kg))+'</td><td>'+esc(x.lanc)+'</td><td>'+esc(fmt4(x.preco_kg))+'</td><td>'+esc(moneyBR(x.custo))+'</td><td>'+esc(fmt4(x.kg_animal_dia))+'</td><td>'+esc(moneyBR(x.custo_animal_dia))+'</td></tr>';});
-  setHTML('gerProdutoTable',h+'</table>');
-}
-function renderGerencialCocho(rows){
-  var h='<table><tr><th>Cocho</th><th>Lote</th><th>Origem lote</th><th>Kg</th><th>Lanç.</th><th>GPS</th></tr>';
-  rows.forEach(function(x){h+='<tr><td>'+esc(x.cocho||'-')+'</td><td>'+esc(x.lote||'-')+'</td><td>'+esc(x.origem_lote||'-')+'</td><td>'+esc(fmt3(x.kg))+'</td><td>'+esc(x.lanc)+'</td><td>'+esc('Dentro: '+x.dentro+' | Fora: '+x.fora+' | Sem: '+x.sem)+'</td></tr>';});
-  setHTML('gerCochoTable',h+'</table>');
-}
-window.exportarRelatorioGerencialCSV=function(){
-  if((!_gerencialRowsProduto||!_gerencialRowsProduto.length)&&(!_gerencialRowsCocho||!_gerencialRowsCocho.length)){setOut('gerOut',{ok:false,erro:'GERAR_RELATORIO_ANTES'});return;}
-  var linhas=[['TIPO','Nome','Kg','Lancamentos','Custo','Kg animal dia','R$ animal dia','GPS/Lote'].map(csvCell).join(';')];
-  (_gerencialRowsProduto||[]).forEach(function(x){linhas.push(['PRODUTO',x.produto,fmt3(x.kg),x.lanc,moneyBR(x.custo),fmt4(x.kg_animal_dia),moneyBR(x.custo_animal_dia),''].map(csvCell).join(';'));});
-  (_gerencialRowsCocho||[]).forEach(function(x){linhas.push(['COCHO',x.cocho,fmt3(x.kg),x.lanc,'','','','Lote: '+(x.lote||'-')+' | GPS Fora: '+x.fora].map(csvCell).join(';'));});
-  var blob=new Blob([linhas.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relatorio_gerencial_fazenda_v6_9.csv';a.click();
-};
-
-function renderBaseCampo(b){
-  b=b||{};
-  setTxt('campoPropAtiva',(b.propriedade&&b.propriedade.nome_fazenda)||((session.propriedade&&session.propriedade.nome_fazenda)||'-'));
-  setTxt('campoChave',(b.propriedade&&b.propriedade.chave_fazenda)||((session.propriedade&&session.propriedade.chave_fazenda)||'-'));
-  setTxt('campoAtualizacao',b.gerado_em_brasilia||'-');
-  setTxt('bcUsuarios',(b.usuarios||[]).length||0);
-  setTxt('bcProdutos',(b.produtos||[]).length||0);
-  setTxt('bcLotes',(b.lotes||[]).length||0);
-  setTxt('bcCochos',(b.cochos||[]).length||0);
-  setTxt('bcAreas',(b.areas_fazenda||[]).length||0);
-  setTxt('bcStatus',b.propriedade?'OK':'-');
-  setTxt('kBase',b.propriedade?'OK':'-');
-}
-window.montarBaseCampo=function(btn){
-  if(!propRequired('campoOut')){return;}btnLock(btn,'Montando...');
-  var pid=session.propriedade.id,sb=getClient();
-  var tasks=[sb.from('usuarios_app').select('id,nome_usuario,login_usuario,perfil_usuario,status_usuario').eq('propriedade_id',pid),sb.from('produtos').select('id,nome_produto,tipo_produto,unidade_padrao,kg_por_unidade,saldo_minimo_kg,status_produto').eq('propriedade_id',pid),sb.from('lotes').select('*').eq('propriedade_id',pid),sb.from('cochos').select('*').eq('propriedade_id',pid),sb.from('areas_fazenda').select('*').eq('propriedade_id',pid)];
-  withTimeout(Promise.all(tasks),45000).then(function(res){for(var i=0;i<res.length;i++){if(res[i].error){throw res[i].error;}}var base={app:'APP COCHO CAMPO BASE V1',origem:'CENTRAL V6.2 SUPABASE',gerado_em_brasilia:nowBR(),propriedade:session.propriedade,usuarios:res[0].data||[],produtos:res[1].data||[],lotes:res[2].data||[],cochos:res[3].data||[],areas_fazenda:res[4].data||[]};localStorage.setItem(BASE_CAMPO_LS,JSON.stringify(base));renderBaseCampo(base);if($('kLotes')){$('kLotes').textContent=base.lotes.length;} if($('kCochos')){$('kCochos').textContent=base.cochos.length;} setOut('campoOut',{ok:true,mensagem:'Base Campo montada.',resumo:{usuarios:base.usuarios.length,produtos:base.produtos.length,lotes:base.lotes.length,cochos:base.cochos.length,areas:base.areas_fazenda.length}});}).catch(function(e){setOut('campoOut',{ok:false,erro:String(e.message||e)});}).finally(function(){btnUnlock(btn);});
-};
-window.baixarBaseCampo=function(){var raw=localStorage.getItem(BASE_CAMPO_LS);if(!raw){setOut('campoOut',{ok:false,erro:'BASE_CAMPO_NAO_MONTADA'});return;}var blob=new Blob([raw],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='base_campo_'+(((session.propriedade||{}).chave_fazenda)||'sem_fazenda')+'.json';a.click();};
-window.limparBaseCampo=function(){localStorage.removeItem(BASE_CAMPO_LS);renderBaseCampo({});setOut('campoOut',{ok:true,mensagem:'Base Campo local limpa.'});};
-window.limparSessao=function(){session={propriedade:null,usuario:null};localStorage.removeItem(LS_SESSION);updateBadges();setOut('painelOut',{ok:true,mensagem:'Sessão local limpa.'});};
-window.preencherTesteProp=function(){$('p_nome').value='FAZENDA TESTE SUPABASE 01';$('p_prop').value='TESTE SUPABASE';$('p_mun').value='IRITUIA';$('p_uf').value='PA';};
-window.preencherTesteUser=function(){$('u_nome').value='MARCELO';$('u_login').value='marcelo';$('u_pin').value='5544';$('u_perfil').value='FUNCIONARIO_CAMPO';};
-window.preencherTesteProduto=function(){$('prod_nome').value='SAL MINERAL TESTE 01';$('prod_tipo').value='SAL_MINERAL';$('prod_un').value='SACO';$('prod_kg').value='30';$('prod_min').value='60';};
-window.preencherTesteLote=function(){$('l_nome').value='LOTE TESTE 01';$('l_cat').value='VACAS';$('l_qtd').value='30';$('l_area').value='PASTO TESTE 01';$('l_status').value='ATIVO';};
-window.preencherTesteCocho=function(){$('c_nome').value='COCHO TESTE 01';$('c_codigo').value='CCH-01';$('c_tipo').value='COCHO_SAL';$('c_area').value='PASTO TESTE 01';$('c_resp').value='MARCELO';$('c_status').value='ATIVO';};
-window.diagnostico=function(){setOut('diagOut',{app:APP_VERSION,config:cfg(),session:session,data_hora_brasilia:nowBR()});};
-window.downloadLocalState=function(){var data={config:cfg(),session:session,base_campo:JSON.parse(localStorage.getItem(BASE_CAMPO_LS)||'{}'),app:APP_VERSION};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='app_cocho_v6_5_estado_local.json';a.click();};
-function loadSession(){try{session=JSON.parse(localStorage.getItem(LS_SESSION)||'{}')||{};}catch(e){session={};}}
-loadConfig();loadSession();updateBadges();setInterval(updateBadges,10000);window.addEventListener('online',updateBadges);window.addEventListener('offline',updateBadges);
+function nomeCocho(id){var b=getBase(),a=b.cochos||[];for(var i=0;i<a.length;i++){if(a[i].id===id){return (a[i].nome_cocho||'')+(a[i].codigo_cocho?' | '+a[i].codigo_cocho:'');}}return id||'';}
+function nomeProduto(id){var b=getBase(),a=b.produtos||[];for(var i=0;i<a.length;i++){if(a[i].id===id){return a[i].nome_produto||id;}}return id||'';}
+window.exportarFila=function(){var blob=new Blob([JSON.stringify(getFila(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup_fila_app_cocho_campo_'+Date.now()+'.json';a.click();};
+window.limparSincronizados=function(){var fila=getFila().filter(function(x){return x.status_local==='PENDENTE';});setFila(fila);updateUI();renderFila();};
+window.diagnostico=function(){setOut('diagOut',{app:APP_VERSION,online:navigator.onLine,config:cfg(),session:session,base:getBase(),fila:getFila(),data_hora_brasilia:nowBR()});};
+['lan_cocho','lan_produto','lan_kg','lan_lat','lan_lng','lan_acc','lan_obs'].forEach(function(id){var el=$(id);if(el){el.addEventListener('change',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();});el.addEventListener('input',function(){salvarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();});}});
+loadConfig();loadSession();updateUI();renderBase();renderFila();preencherSelects();aplicarRascunho();atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();setInterval(updateUI,10000);window.addEventListener('online',updateUI);window.addEventListener('offline',updateUI);
 })();
 </script>
 </body>
