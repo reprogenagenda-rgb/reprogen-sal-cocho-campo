@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<title>APP COCHO CAMPO V1.2.2 SUPABASE</title>
-<link rel="manifest" href="./manifest.json?v=1.2.2">
+<title>APP COCHO CAMPO V1.2.3 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.2.3">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
@@ -40,8 +40,8 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 </head>
 <body>
 <header>
-  <h1>APP COCHO CAMPO V1.2.2 SUPABASE</h1>
-  <div class="sub">Coletador offline • V1.2.2 • Cocho próximo/antiduplicidade</div>
+  <h1>APP COCHO CAMPO V1.2.3 SUPABASE</h1>
+  <div class="sub">Coletador offline • V1.2.3 • Sync provisório UUID fix</div>
   <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
 </header>
 <main>
@@ -162,13 +162,13 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
   </div>
 </div>
 
-<div class="footer">APP COCHO CAMPO V1.2.2 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
+<div class="footer">APP COCHO CAMPO V1.2.3 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
 </main>
 
 <script>
 (function(){
 'use strict';
-var APP_VERSION='APP COCHO CAMPO V1.2.2 SUPABASE — OFFLINE';
+var APP_VERSION='APP COCHO CAMPO V1.2.3 SUPABASE — OFFLINE';
 var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
 var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
 var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
@@ -479,7 +479,7 @@ function criarProvisorioAutomatico(gps, alerta){
     gps_data_hora:new Date().toISOString(),
     status_cocho:'PROVISORIO_PENDENTE_CONFIRMACAO',
     status_cadastro:'COCHO_PROVISORIO',
-    origem_cadastro:'APP_CAMPO_V1_2_2',
+    origem_cadastro:'APP_CAMPO_V1_2_3',
     observacoes:alerta||'Criado automaticamente no campo.',
     raio_aceito_m:50,
     criado_com_alerta_cocho_proximo:!!(gps.cocho_proximo_id),
@@ -587,7 +587,7 @@ window.criarCochoProvisorioLocal=function(btn){
       gps_data_hora:new Date().toISOString(),
       status_cocho:'PROVISORIO_PENDENTE_CONFIRMACAO',
       status_cadastro:'COCHO_PROVISORIO',
-      origem_cadastro:'APP_CAMPO_V1_2_2',
+      origem_cadastro:'APP_CAMPO_V1_2_3',
       observacoes:($('prov_obs')&&$('prov_obs').value.trim())||'',
       raio_aceito_m:50
     };
@@ -719,6 +719,69 @@ window.registrarComGps=function(btn){
 };
 
 window.salvarLocal=function(btn){salvarLocalInterno(btn,true);};
+
+function isUuidVal(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(v||''));}
+function getCochoLocalPorId(id){
+  var b=getBase(), arr=b.cochos||[];
+  for(var i=0;i<arr.length;i++){if(String(arr[i].id)===String(id)){return arr[i];}}
+  return null;
+}
+function isCochoProvisorioLocalId(id){return String(id||'').indexOf('PROV-COCHO-')===0;}
+function nomeCodCocho(c){
+  return (c&&((c.nome_cocho||'')+(c.codigo_cocho?' | '+c.codigo_cocho:'')))||'COCHO PROVISÓRIO';
+}
+function garantirCochoProvisorioNoCloud(sb,item){
+  if(!isCochoProvisorioLocalId(item.cocho_id)){return Promise.resolve(item.cocho_id);}
+  if(item.cocho_id_cloud && isUuidVal(item.cocho_id_cloud)){return Promise.resolve(item.cocho_id_cloud);}
+  var c=getCochoLocalPorId(item.cocho_id)||item.cocho_provisorio_snapshot||{};
+  var payload={
+    propriedade_id:item.propriedade_id,
+    nome_cocho:c.nome_cocho||'COCHO PROVISÓRIO',
+    codigo_cocho:c.codigo_cocho||('PROV-'+Date.now().toString().slice(-5)),
+    tipo_cocho:'COCHO_PROVISORIO',
+    lote_id:c.lote_id||null,
+    area_pasto:'',
+    gps_lat:Number(c.gps_lat||item.gps_lat||0)||null,
+    gps_lng:Number(c.gps_lng||item.gps_lng||0)||null,
+    gps_precisao_m:Number(c.gps_precisao_m||item.gps_precisao_m||0)||null,
+    gps_data_hora:c.gps_data_hora||item.data_hora_iso||new Date().toISOString(),
+    responsavel_gps:item.operador_nome||item.usuario_id||'APP_CAMPO',
+    status_cocho:'PROVISORIO_PENDENTE_CONFIRMACAO',
+    observacoes:'Cocho provisório criado pelo App Campo. ID local: '+item.cocho_id,
+    raio_aceito_m:Number(c.raio_aceito_m||50)
+  };
+  return sb.from('cochos').insert(payload).select('id,nome_cocho,codigo_cocho').single().then(function(r){
+    if(r.error){throw r.error;}
+    item.cocho_id_cloud=r.data.id;
+    item.cocho_id_local_original=item.cocho_id;
+    item.cocho_nome_cloud=nomeCodCocho(r.data);
+    return r.data.id;
+  });
+}
+function montarPayloadLancamento(item,cochoCloudId){
+  var obs=item.observacoes||'';
+  if(isCochoProvisorioLocalId(item.cocho_id)){
+    obs=(obs?obs+' | ':'')+'COCHO_PROVISORIO_ORIGEM='+item.cocho_id;
+  }
+  return {
+    propriedade_id:item.propriedade_id,
+    cocho_id:cochoCloudId,
+    produto_id:item.produto_id,
+    usuario_id:item.usuario_id,
+    quantidade_kg:item.quantidade_kg,
+    data_hora_brasilia:item.data_hora_brasilia,
+    data_hora_iso:item.data_hora_iso,
+    gps_lat:item.gps_lat,
+    gps_lng:item.gps_lng,
+    gps_precisao_m:item.gps_precisao_m,
+    status_gps:item.status_gps,
+    observacoes:obs,
+    id_operacao_cliente:item.id_operacao_cliente,
+    origem_lancamento:item.origem_lancamento,
+    status_sync:'SINCRONIZADO'
+  };
+}
+
 window.sincronizarFila=function(btn){
   btnLock(btn,'Sincronizando...');
   var fila=getFila(),pend=fila.filter(function(x){return x.status_local==='PENDENTE';});
@@ -728,10 +791,12 @@ window.sincronizarFila=function(btn){
   var seq=Promise.resolve(),ok=0,erros=[];
   pend.forEach(function(item){
     seq=seq.then(function(){
-      var payload={propriedade_id:item.propriedade_id,cocho_id:item.cocho_id,produto_id:item.produto_id,usuario_id:item.usuario_id,quantidade_kg:item.quantidade_kg,data_hora_brasilia:item.data_hora_brasilia,data_hora_iso:item.data_hora_iso,gps_lat:item.gps_lat,gps_lng:item.gps_lng,gps_precisao_m:item.gps_precisao_m,status_gps:item.status_gps,observacoes:item.observacoes,id_operacao_cliente:item.id_operacao_cliente,origem_lancamento:item.origem_lancamento,status_sync:'SINCRONIZADO'};
-      return sb.from('lancamentos_cocho').insert(payload).select('id').single().then(function(r){
+      return garantirCochoProvisorioNoCloud(sb,item).then(function(cochoCloudId){
+        var payload=montarPayloadLancamento(item,cochoCloudId);
+        return sb.from('lancamentos_cocho').insert(payload).select('id').single();
+      }).then(function(r){
         if(r.error){throw r.error;}
-        item.status_local='SINCRONIZADO';item.status_sync='SINCRONIZADO';item.supabase_id=r.data.id;item.sincronizado_em=nowBR();ok++;
+        item.status_local='SINCRONIZADO';item.status_sync='SINCRONIZADO';item.supabase_id=r.data.id;item.sincronizado_em=nowBR();if(item.cocho_id_cloud){item.cocho_sync_info='PROVISORIO_CRIADO_NO_CLOUD';}ok++;
       }).catch(function(e){
         var m=String(e.message||e);
         if(m.indexOf('duplicate')>=0||m.indexOf('unique')>=0){item.status_local='DUPLICADO_OK';item.status_sync='SINCRONIZADO';ok++;}

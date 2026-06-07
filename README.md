@@ -1,31 +1,18 @@
-# APP COCHO CAMPO V1.2.2 SUPABASE — Cocho Próximo / Antiduplicidade
+# APP COCHO CAMPO V1.2.3 SUPABASE — Sync Provisório UUID Fix
 
-## Objetivo
-Simplificar a interface para o vaqueiro e evitar duplicidade de cochos.
+## Correção
+O erro era:
+`invalid input syntax for type uuid: "PROV-COCHO-..."`
 
-## Regra
-Antes de criar cocho provisório, o app captura o GPS e compara com os cochos cadastrados na base offline.
+## Causa
+O Campo tentava enviar o ID local provisório no campo `cocho_id`, mas no Supabase `cocho_id` é UUID.
 
-## Distâncias
-- Até 30 m: bloqueia criação de provisório e sugere usar cocho existente.
-- 31 a 50 m: alerta forte; pode usar existente ou criar provisório mesmo assim com auditoria.
-- Acima de 50 m: cria cocho provisório automático.
-
-## Interface simplificada
-O vaqueiro não preenche nome, código nem lote do cocho provisório.
-Ele apenas toca:
-**Cocho novo neste ponto**
-
-O app decide:
-- usar cocho existente;
-- alertar cocho próximo;
-- criar provisório automático.
-
-## Sinalizações salvas
-- cocho_provisorio = true
-- cocho_status_cadastro = COCHO_PROVISORIO
-- requer_confirmacao_central = true
-- cocho_proximo_id e distancia_cocho_proximo_m quando houver alerta
+## Correção técnica
+Antes de sincronizar o lançamento:
+1. Se o cocho for provisório (`PROV-COCHO-...`), o Campo cria primeiro um registro na tabela `cochos`.
+2. O Supabase retorna um UUID verdadeiro.
+3. O lançamento é sincronizado usando esse UUID.
+4. O ID provisório local fica registrado na observação.
 
 ## GitHub
 Substituir no repositório do Campo:
@@ -36,20 +23,19 @@ Substituir no repositório do Campo:
 - icons/icon-192.png
 - icons/icon-512.png
 
-Mensagem de commit:
-`Atualiza Campo Cocho V1.2.2 antiduplicidade`
+Commit:
+`Corrige Campo Cocho V1.2.3 sync provisorio uuid`
 
 Abrir:
-`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.2.2-cocho-proximo-antiduplicidade`
+`https://reprogenagenda-rgb.github.io/reprogen-sal-cocho-campo/index.html?v=1.2.3-sync-provisorio-uuid-fix`
 
 ## Teste
-1. Abrir Campo V1.2.2.
-2. Usar base offline.
-3. Ir em Lançar.
-4. Tocar Cocho novo neste ponto.
-5. Se estiver perto de cocho existente até 30 m, deve bloquear e sugerir usar existente.
-6. Se não houver cocho próximo, deve criar provisório automático.
-7. Registrar lançamento + GPS.
+1. Abrir Campo V1.2.3.
+2. Manter o lançamento pendente atual.
+3. Clicar Sincronizar Pendentes.
+4. Esperado: pendentes 0.
+5. Abrir Central V7.1.1.
+6. Ir em Cochos Provisórios ou Cochos GPS.
+7. O cocho provisório deve aparecer no Supabase/Central.
 
-## Validação técnica
-JS validado com node --check: False
+JS validado: True
