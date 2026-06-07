@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f5132">
-<title>APP COCHO CAMPO V1.2 SUPABASE</title>
-<link rel="manifest" href="./manifest.json?v=1.2">
+<title>APP COCHO CAMPO V1.2.2 SUPABASE</title>
+<link rel="manifest" href="./manifest.json?v=1.2.2">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--g:#0f5132;--g2:#198754;--bg:#eef6ef;--card:#fff;--line:#cfe3d2;--ink:#10291c;--r:#dc3545;--b:#0d6efd;--am:#ffc107;--muted:#607060}
@@ -40,8 +40,8 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
 </head>
 <body>
 <header>
-  <h1>APP COCHO CAMPO V1.2 SUPABASE</h1>
-  <div class="sub">Coletador offline • V1.2 • Cocho provisório no campo</div>
+  <h1>APP COCHO CAMPO V1.2.2 SUPABASE</h1>
+  <div class="sub">Coletador offline • V1.2.2 • Cocho próximo/antiduplicidade</div>
   <div class="badges"><span id="netBadge" class="badge">Online?</span><span id="cfgBadge" class="badge warn">Config pendente</span><span id="sessBadge" class="badge blue">Sem login</span><span id="pendBadge" class="badge warn">0 pendentes</span></div>
 </header>
 <main>
@@ -118,23 +118,10 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
       <div class="col-6"><label>Cocho abastecido</label><select id="lan_cocho"><option value="">Baixe a base primeiro</option></select></div>
       <div class="col-12">
         <div class="okbox">
-          <b>Cocho ainda não cadastrado?</b><br>
-          Use apenas quando estiver diante de um cocho real. O GPS do cocho provisório é obrigatório.
-          <button class="warn" onclick="abrirCochoProvisorio()">Novo cocho provisório neste ponto</button>
-        </div>
-      </div>
-      <div id="formCochoProvisorio" class="col-12 hidden">
-        <div class="card" style="margin:0;padding:14px">
-          <h3>Cocho provisório no campo</h3>
-          <div class="grid">
-            <div class="col-4"><label>Nome provisório</label><input id="prov_nome" placeholder="COCHO PROVISÓRIO"></div>
-            <div class="col-4"><label>Código provisório</label><input id="prov_codigo" placeholder="PROV-01"></div>
-            <div class="col-4"><label>Lote vinculado</label><select id="prov_lote"><option value="">Sem lote definido</option></select></div>
-            <div class="col-12"><label>Observação</label><input id="prov_obs" placeholder="ex.: cocho novo próximo ao curral"></div>
-          </div>
-          <button class="blue" onclick="capturarGPSCochoProvisorio(this)">Capturar GPS do cocho provisório</button>
-          <button onclick="criarCochoProvisorioLocal(this)">Criar provisório e selecionar</button>
-          <div id="provGpsBox" class="alertGps warn">GPS do cocho provisório ainda não capturado.</div>
+          <b>Cocho não cadastrado?</b><br>
+          O app vai procurar cochos cadastrados próximos antes de permitir criar um provisório.
+          <button class="warn" onclick="verificarCochoNovoNestePonto(this)">Cocho novo neste ponto</button>
+          <div id="cochoProxBox" class="alertGps neutro" style="margin-top:8px">Sem verificação de cocho próximo.</div>
         </div>
       </div>
       <div class="col-6"><label>Produto / sal / suplemento</label><select id="lan_produto"><option value="">Baixe a base primeiro</option></select></div>
@@ -175,13 +162,13 @@ pre{background:#07120d;color:#d9ffe4;border-radius:12px;padding:12px;overflow:au
   </div>
 </div>
 
-<div class="footer">APP COCHO CAMPO V1.2 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
+<div class="footer">APP COCHO CAMPO V1.2.2 SUPABASE — Offline-first • GitHub Pages • Supabase</div>
 </main>
 
 <script>
 (function(){
 'use strict';
-var APP_VERSION='APP COCHO CAMPO V1.2 SUPABASE — OFFLINE';
+var APP_VERSION='APP COCHO CAMPO V1.2.2 SUPABASE — OFFLINE';
 var DEFAULT_URL='https://wxnsyozjiosbdwxpodbf.supabase.co';
 var LS_CFG='APP_COCHO_CAMPO_CFG_V1';
 var LS_SESSION='APP_COCHO_CAMPO_SESSION_V1';
@@ -373,7 +360,7 @@ function renderBase(){
   var h='<table><tr><th>Cocho</th><th>Código</th><th>Tipo</th><th>GPS</th><th>Status</th></tr>';
   (b.cochos||[]).forEach(function(c){h+='<tr><td>'+esc(c.nome_cocho)+'</td><td>'+esc(c.codigo_cocho)+'</td><td>'+esc(c.tipo_cocho)+'</td><td>'+esc((c.gps_lat||'')+', '+(c.gps_lng||''))+'</td><td>'+esc(c.status_cocho)+'</td></tr>';});
   setHTML('baseCochos',h+'</table>');
-  setOut('baseOut',{base_carregada:!!b.propriedade,propriedade:b.propriedade&&b.propriedade.nome_fazenda,baixado_em:b.baixado_em_brasilia,produtos:(b.produtos||[]).length,lotes:(b.lotes||[]).length,cochos:(b.cochos||[]).length});
+  setOut('baseOut',{base_carregada:!!b.propriedade,propriedade:b.propriedade&&b.propriedade.nome_fazenda,baixado_em:b.baixado_em_brasilia,produtos:(b.produtos||[]).length,lotes:(b.lotes||[]).length,cochos:(b.cochos||[]).length,cochos_provisorios:(b.cochos_provisorios||[]).length});
 }
 function preencherSelects(){
   var b=getBase();
@@ -454,6 +441,89 @@ function atualizarAlertaGps(){
 
 
 
+
+function cochosOficiaisComGps(){
+  var b=getBase(), arr=(b.cochos||[]);
+  return arr.filter(function(c){
+    var prov=(c.status_cadastro==='COCHO_PROVISORIO'||c.status_cocho==='PROVISORIO_PENDENTE_CONFIRMACAO'||String(c.id||'').indexOf('PROV-COCHO-')===0);
+    return !prov && c.gps_lat && c.gps_lng;
+  });
+}
+function cochosProximosDoPonto(lat,lng){
+  var arr=cochosOficiaisComGps().map(function(c){
+    return {cocho:c,dist:distanciaMetros(lat,lng,c.gps_lat,c.gps_lng)};
+  }).filter(function(x){return x.dist!==null;});
+  arr.sort(function(a,b){return a.dist-b.dist;});
+  return arr;
+}
+function selecionarCochoExistente(id){
+  if($('lan_cocho')){$('lan_cocho').value=id;}
+  salvarSelecaoPersistente();
+  atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
+  setHTML('cochoProxBox','<b>Cocho existente selecionado.</b> Faça o lançamento normalmente.');
+}
+function criarProvisorioAutomatico(gps, alerta){
+  var b=getBase();
+  garantirSessaoDaBase();
+  var id='PROV-COCHO-'+Date.now()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+  var c={
+    id:id,
+    propriedade_id:(session.propriedade&&session.propriedade.id)||(b.propriedade&&b.propriedade.id)||null,
+    nome_cocho:'COCHO PROVISÓRIO',
+    codigo_cocho:'PROV-'+Date.now().toString().slice(-5),
+    tipo_cocho:'COCHO_PROVISORIO',
+    lote_id:null,
+    gps_lat:gps.lat,
+    gps_lng:gps.lng,
+    gps_precisao_m:gps.acc,
+    gps_data_hora:new Date().toISOString(),
+    status_cocho:'PROVISORIO_PENDENTE_CONFIRMACAO',
+    status_cadastro:'COCHO_PROVISORIO',
+    origem_cadastro:'APP_CAMPO_V1_2_2',
+    observacoes:alerta||'Criado automaticamente no campo.',
+    raio_aceito_m:50,
+    criado_com_alerta_cocho_proximo:!!(gps.cocho_proximo_id),
+    cocho_proximo_id:gps.cocho_proximo_id||null,
+    distancia_cocho_proximo_m:gps.distancia_cocho_proximo_m||null
+  };
+  salvarCochoProvisorioNaBase(c);
+  preencherSelects();
+  if($('lan_cocho')){$('lan_cocho').value=id;}
+  salvarSelecaoPersistente();
+  atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
+  setOut('lanOut',{ok:true,mensagem:'Cocho provisório criado automaticamente e selecionado. A Central deverá confirmar depois.',cocho_provisorio:c});
+}
+window.criarProvisorioMesmoAssim=function(){
+  var gps=window._gps_cocho_novo;
+  if(!gps){setHTML('cochoProxBox','Capture/verifique o GPS primeiro.');return;}
+  criarProvisorioAutomatico(gps,'Criado mesmo com cocho próximo. Confirmar na Central.');
+  setHTML('cochoProxBox','<b>Cocho provisório criado com alerta de proximidade.</b> A Central deverá confirmar.');
+};
+window.verificarCochoNovoNestePonto=function(btn){
+  btnLock(btn,'Verificando...');
+  if(!navigator.geolocation){setHTML('cochoProxBox','GPS indisponível neste aparelho.');btnUnlock(btn);return;}
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var gps={lat:pos.coords.latitude,lng:pos.coords.longitude,acc:pos.coords.accuracy};
+    window._gps_cocho_novo=gps;
+    var prox=cochosProximosDoPonto(gps.lat,gps.lng);
+    var melhor=prox.length?prox[0]:null;
+    if(melhor && melhor.dist<=30){
+      setHTML('cochoProxBox','<b>Bloqueado: já existe cocho cadastrado neste local.</b><br>'+esc(melhor.cocho.nome_cocho||'Cocho')+' | '+esc(melhor.cocho.codigo_cocho||'')+'<br>Distância: '+melhor.dist.toFixed(1)+' m<br><button onclick="selecionarCochoExistente(&quot;'+esc(melhor.cocho.id)+'&quot;)">Usar este cocho</button>');
+      setOut('lanOut',{ok:false,erro:'COCHO_EXISTENTE_NO_LOCAL',cocho:melhor.cocho,distancia_m:Number(melhor.dist.toFixed(1)),acao:'usar_cocho_existente'});
+    }else if(melhor && melhor.dist<=50){
+      gps.cocho_proximo_id=melhor.cocho.id; gps.distancia_cocho_proximo_m=Number(melhor.dist.toFixed(1));
+      setHTML('cochoProxBox','<b>Atenção: existe cocho próximo.</b><br>'+esc(melhor.cocho.nome_cocho||'Cocho')+' | '+esc(melhor.cocho.codigo_cocho||'')+'<br>Distância: '+melhor.dist.toFixed(1)+' m<br><button onclick="selecionarCochoExistente(&quot;'+esc(melhor.cocho.id)+'&quot;)">Usar cocho existente</button> <button class="warn" onclick="criarProvisorioMesmoAssim()">Criar provisório mesmo assim</button>');
+    }else{
+      criarProvisorioAutomatico(gps,'Nenhum cocho cadastrado próximo encontrado.');
+      setHTML('cochoProxBox','<b>Nenhum cocho próximo encontrado.</b><br>Cocho provisório criado automaticamente e selecionado.');
+    }
+    btnUnlock(btn);
+  },function(err){
+    setHTML('cochoProxBox','Erro ao capturar GPS: '+esc(err.message||err.code));
+    btnUnlock(btn);
+  },{enableHighAccuracy:true,timeout:25000,maximumAge:0});
+};
+
 function listaCochosProvisorios(){
   var b=getBase();
   return (b.cochos_provisorios||[]);
@@ -491,36 +561,46 @@ window.capturarGPSCochoProvisorio=function(btn){
     btnUnlock(btn);
   },{enableHighAccuracy:true,timeout:25000,maximumAge:0});
 };
+function salvarSelecaoPersistente(){
+  if(typeof salvarRascunho==='function'){salvarRascunho();}
+}
 window.criarCochoProvisorioLocal=function(btn){
   btnLock(btn,'Criando...');
-  var gps=window._gps_cocho_prov;
-  if(!gps){setOut('lanOut',{ok:false,erro:'GPS_DO_COCHO_PROVISORIO_OBRIGATORIO'});btnUnlock(btn);return;}
-  var b=getBase();
-  garantirSessaoDaBase();
-  var id='PROV-COCHO-'+Date.now()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
-  var c={
-    id:id,
-    propriedade_id:(session.propriedade&&session.propriedade.id)||(b.propriedade&&b.propriedade.id)||null,
-    nome_cocho:($('prov_nome').value.trim()||'COCHO PROVISÓRIO'),
-    codigo_cocho:($('prov_codigo').value.trim()||('PROV-'+Date.now().toString().slice(-5))),
-    tipo_cocho:'COCHO_PROVISORIO',
-    lote_id:$('prov_lote').value||null,
-    gps_lat:gps.lat,
-    gps_lng:gps.lng,
-    gps_precisao_m:gps.acc,
-    gps_data_hora:new Date().toISOString(),
-    status_cocho:'PROVISORIO_PENDENTE_CONFIRMACAO',
-    status_cadastro:'COCHO_PROVISORIO',
-    origem_cadastro:'APP_CAMPO_V1_2',
-    observacoes:$('prov_obs').value.trim(),
-    raio_aceito_m:50
-  };
-  salvarCochoProvisorioNaBase(c);
-  preencherSelects();
-  if($('lan_cocho')){$('lan_cocho').value=id;}
-  salvarSelecaoPersistente();
-  atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
-  setOut('lanOut',{ok:true,mensagem:'Cocho provisório criado e selecionado. A Central deverá confirmar depois.',cocho_provisorio:c});
+  try{
+    var gps=window._gps_cocho_prov;
+    if(!gps){setOut('lanOut',{ok:false,erro:'GPS_DO_COCHO_PROVISORIO_OBRIGATORIO'});btnUnlock(btn);return;}
+    var b=getBase();
+    garantirSessaoDaBase();
+    var id='PROV-COCHO-'+Date.now()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+    var nome=($('prov_nome')&&$('prov_nome').value.trim())||'COCHO PROVISÓRIO';
+    var codigo=($('prov_codigo')&&$('prov_codigo').value.trim())||('PROV-'+Date.now().toString().slice(-5));
+    var c={
+      id:id,
+      propriedade_id:(session.propriedade&&session.propriedade.id)||(b.propriedade&&b.propriedade.id)||null,
+      nome_cocho:nome,
+      codigo_cocho:codigo,
+      tipo_cocho:'COCHO_PROVISORIO',
+      lote_id:($('prov_lote')&&$('prov_lote').value)||null,
+      gps_lat:gps.lat,
+      gps_lng:gps.lng,
+      gps_precisao_m:gps.acc,
+      gps_data_hora:new Date().toISOString(),
+      status_cocho:'PROVISORIO_PENDENTE_CONFIRMACAO',
+      status_cadastro:'COCHO_PROVISORIO',
+      origem_cadastro:'APP_CAMPO_V1_2_2',
+      observacoes:($('prov_obs')&&$('prov_obs').value.trim())||'',
+      raio_aceito_m:50
+    };
+    salvarCochoProvisorioNaBase(c);
+    preencherSelects();
+    if($('lan_cocho')){$('lan_cocho').value=id;}
+    salvarSelecaoPersistente();
+    atualizarConferencia();atualizarAlertaGps();atualizarRaioAlert();
+    setOut('lanOut',{ok:true,mensagem:'Cocho provisório criado e selecionado. A Central deverá confirmar depois.',cocho_provisorio:c});
+    var el=$('formCochoProvisorio'); if(el){el.classList.add('hidden');}
+  }catch(e){
+    setOut('lanOut',{ok:false,erro:'ERRO_AO_CRIAR_COCHO_PROVISORIO',detalhe:String(e.message||e)});
+  }
   btnUnlock(btn);
 };
 function cochoSelecionadoEhProvisorio(){
